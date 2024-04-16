@@ -1,56 +1,92 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:lango_application/firebase_options.dart';
 import 'theme/custom_theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+ await Firebase.initializeApp(
+   options: DefaultFirebaseOptions.currentPlatform,
+ );
+ 
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: CustomTheme.customTheme,
       title: 'Lango',
-      home: Scaffold(
-        backgroundColor: Color(0xFFFEF9EF),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Image(image: AssetImage('../assets/logos/lango_logo.png'),
-              width: 450,
-              height: 450,),
-              const SizedBox(height: 50,),
-              ElevatedButton(
-                onPressed: () {},
-                child: SizedBox(
-                  width: 255,
-                  child: Text('GET STARTED', textAlign: TextAlign.center, style: TextStyle(fontFamily: 'inter', fontSize: 18, fontWeight: FontWeight.bold),),
+      home: Builder(
+        builder: (context) => Scaffold(
+          backgroundColor: const Color(0xFFFEF9EF),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Image(
+                  image: AssetImage('assets/logos/lango_logo.png'),
+                  width: 450,
+                  height: 450,
                 ),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: Color(0xFFFEE440),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
+                const SizedBox(
+                  height: 50,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()));
+                  },
+                  child: SizedBox(
+                    width: 255,
+                    child: Text(
+                      'GET STARTED',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'inter',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                  onPressed: () {}, child: Text('ALREADY HAVE AN ACCOUNT', style: TextStyle(fontFamily: 'inter', fontSize: 18, fontWeight: FontWeight.normal),),
                   style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black, backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                    side: BorderSide(color: Color(0xFFE8E8E8), width: 1.0),
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color(0xFFFEE440),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 5.0),
                   ),
                 ),
-                  )
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  },
+                  child: Text(
+                    'ALREADY HAVE AN ACCOUNT',
+                    style: TextStyle(
+                        fontFamily: 'inter',
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      side: const BorderSide(
+                          color: Color(0xFFE8E8E8), width: 1.0),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -58,81 +94,310 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+// class LoginPage extends StatelessWidget {
+//   const LoginPage({super.key});
 
-  final String title;
+// @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//         home:  Scaffold(
+//       body: Container(
+//         padding: const EdgeInsets.all(20.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: [
+//             _inputField(context),
+//             _signup(context),
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+//             const Image(
+//               image: AssetImage('assets/logos/lango_logo.png'),
+//               width: 265,
+//               height: 265,
+//             ),
+//             const SizedBox(
+//               height: 50,
+//             ),
+//             SizedBox(height: 20.0),
+//           ],
+//         ),
+//       ),
+//     )
+//     );
+//   }
+// }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
+   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            height: MediaQuery.of(context).size.height - 50,
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    const Image(
+                  image: AssetImage('assets/logos/lango_logo.png'),
+                  width: 265,
+                  height: 265,
+                ),
+                    const SizedBox(height: 60.0),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(
+                          hintText: "Username",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.purple.withOpacity(0.1),
+                          filled: true,
+                          prefixIcon: const Icon(Icons.person)),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: BorderSide.none),
+                        fillColor: Colors.purple.withOpacity(0.1),
+                        filled: true,
+                        prefixIcon: const Icon(Icons.key),
+                      ),
+                      obscureText: true,
+                    ),
+
+                    const SizedBox(height: 20),
+                  ],
+                ),
+                Container(
+                    padding: const EdgeInsets.only(top: 3, left: 3),
+
+                    child: ElevatedButton(
+                      onPressed: () {
+                      },
+                      child: const Text(
+                        "SIGN IN",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        shape: const StadiumBorder(),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        backgroundColor: Colors.purple,
+                      ),
+                    )
+                ),
+
+                const Center(child: Text("OR")),
+
+                Container(
+                  height: 45,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(
+                      color: Colors.purple,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: const Offset(0, 1), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    onPressed: () {},
+                    iconSize: 40,
+                    icon: Image.asset('assets/icons/google.png'),
+                  ),
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("Don't have an account?"),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => SignUpPage()));
+                        },
+                        child: const Text("sign up", style: TextStyle(color: Colors.purple),)
+                    )
+                  ],
+                )
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
+
+   @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            height: MediaQuery.of(context).size.height - 50,
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    const Image(
+                  image: AssetImage('assets/icons/lango_icon.png'),
+                  width: 155,
+                  height: 155,
+                ),
+                    const SizedBox(height: 60.0),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(
+                          hintText: "Username",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.purple.withOpacity(0.1),
+                          filled: true,
+                          prefixIcon: const Icon(Icons.person)),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      decoration: InputDecoration(
+                          hintText: "Email",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.purple.withOpacity(0.1),
+                          filled: true,
+                          prefixIcon: const Icon(Icons.email)),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: BorderSide.none),
+                        fillColor: Colors.purple.withOpacity(0.1),
+                        filled: true,
+                        prefixIcon: const Icon(Icons.key),
+                      ),
+                      obscureText: true,
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: BorderSide.none),
+                        fillColor: Colors.purple.withOpacity(0.1),
+                        filled: true,
+                        prefixIcon: const Icon(Icons.key),
+                      ),
+                      obscureText: true,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                
+                Container(
+                    padding: const EdgeInsets.only(top: 3, left: 3),
+
+                    child: ElevatedButton(
+                      onPressed: () {
+                      },
+                      child: const Text(
+                        "SIGN UP",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        shape: const StadiumBorder(),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        backgroundColor: Colors.purple,
+                      ),
+                    )
+                ),
+
+                const Center(child: Text("OR")),
+
+                Container(
+                  height: 45,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(
+                      color: Colors.purple,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: const Offset(0, 1), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    onPressed: () {},
+                    iconSize: 40,
+                    icon: Image.asset('assets/icons/google.png'),
+                  ),
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("Already have an account?"),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => LoginPage()));
+                        },
+                        child: const Text("login", style: TextStyle(color: Colors.purple),)
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

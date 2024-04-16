@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "930771409692",
+    "project_id": "lango-application",
+    "storage_bucket": "lango-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930771409692:android:e7a790253cb8d3e6f6f8d9",
+        "android_client_info": {
+          "package_name": "com.example.lango"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930771409692-48jut8mfcrtaefcksc0qo25jtori6a8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApBW8dMmod7NwSF-2KmhO8w0S_luf8rUU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930771409692-48jut8mfcrtaefcksc0qo25jtori6a8b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "930771409692-1np6i98gjcnolb74485guunnis0eqqm7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lango"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930771409692:android:b3ca470789e41febf6f8d9",
+        "android_client_info": {
+          "package_name": "com.example.lango_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930771409692-48jut8mfcrtaefcksc0qo25jtori6a8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApBW8dMmod7NwSF-2KmhO8w0S_luf8rUU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930771409692-48jut8mfcrtaefcksc0qo25jtori6a8b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "930771409692-1np6i98gjcnolb74485guunnis0eqqm7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lango"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
