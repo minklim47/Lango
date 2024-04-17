@@ -217,9 +217,33 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
+   @override
+  _EmailPasswordSignupState createState() => _EmailPasswordSignupState();
+}
+
+class _EmailPasswordSignupState extends State<SignUpPage> {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+  
+  void signUpUser() async {
+    context.read<FirebaseAuthMethods>().signUpWithEmail(
+          email: emailController.text,
+          password: passwordController.text,
+          context: context,
+        );
+  }
    @override
   Widget build(BuildContext context) {
     return MaterialApp(
