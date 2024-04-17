@@ -8,10 +8,11 @@ class CustomTheme {
   }
 
   static final ThemeData _customTheme = ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.yellow, brightness: Brightness.light),
+    // colorScheme: ColorScheme.fromSeed(
+    //     seedColor: AppColors.yellow, brightness: Brightness.light),
+    useMaterial3: true,
     fontFamily: "Inter",
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: AppColors.cream,
     primaryColor: AppColors.yellow,
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
