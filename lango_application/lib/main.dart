@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:lango_application/firebase_options.dart';
 import 'theme/custom_theme.dart';
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
  await Firebase.initializeApp(
    options: DefaultFirebaseOptions.currentPlatform,
  );
- 
+  
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -93,40 +93,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class LoginPage extends StatelessWidget {
-//   const LoginPage({super.key});
-
-// @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//         home:  Scaffold(
-//       body: Container(
-//         padding: const EdgeInsets.all(20.0),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             _inputField(context),
-//             _signup(context),
-
-//             const Image(
-//               image: AssetImage('assets/logos/lango_logo.png'),
-//               width: 265,
-//               height: 265,
-//             ),
-//             const SizedBox(
-//               height: 50,
-//             ),
-//             SizedBox(height: 20.0),
-//           ],
-//         ),
-//       ),
-//     )
-//     );
-//   }
-// }
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
