@@ -1,18 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lango_application/firebase_options.dart';
 import 'package:lango_application/services/firebase_auth_methods.dart';
+import 'package:lango_application/utils/showSnackbar.dart';
 import 'theme/custom_theme.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
- await Firebase.initializeApp(
-   options: DefaultFirebaseOptions.currentPlatform,
- );
-  
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -99,8 +102,26 @@ class MyApp extends StatelessWidget {
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-   @override
+  // void loginUser() {
+  //   FirebaseAuthMethods(FirebaseAuth.instance).loginWithEmail(
+  //       email: emailController.text,
+  //       password: passwordController.text,
+  //       context: context);
+  // }
+  
+  @override
   Widget build(BuildContext context) {
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
+    void signInUser() async {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: usernameController.text, password: passwordController.text);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));    // Adding route page later
+      } on FirebaseAuthException catch (e) {
+        showSnackBar(context, e.message!);
+      }
+    }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -116,50 +137,61 @@ class LoginPage extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     const Image(
-                  image: AssetImage('assets/logos/lango_logo.png'),
-                  width: 265,
-                  height: 265,
-                ),
+                      image: AssetImage('assets/logos/lango_logo.png'),
+                      width: 265,
+                      height: 265,
+                    ),
                     const SizedBox(height: 60.0),
                   ],
                 ),
-                Column(
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(
-                          hintText: "Username",
+                Form(
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: usernameController,
+                        decoration: InputDecoration(
+                            hintText: "Username",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18),
+                                borderSide: BorderSide.none),
+                            fillColor: Colors.purple.withOpacity(0.1),
+                            filled: true,
+                            prefixIcon: const Icon(Icons.person)),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Username';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: passwordController,
+                        decoration: InputDecoration(
+                          hintText: "Password",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                               borderSide: BorderSide.none),
                           fillColor: Colors.purple.withOpacity(0.1),
                           filled: true,
-                          prefixIcon: const Icon(Icons.person)),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: "Password",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide: BorderSide.none),
-                        fillColor: Colors.purple.withOpacity(0.1),
-                        filled: true,
-                        prefixIcon: const Icon(Icons.key),
+                          prefixIcon: const Icon(Icons.key),
+                        ),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Password';
+                          }
+                          return null;
+                        },
                       ),
-                      obscureText: true,
-                    ),
-
-                    const SizedBox(height: 20),
-                  ],
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
                 Container(
                     padding: const EdgeInsets.only(top: 3, left: 3),
-
                     child: ElevatedButton(
-                      onPressed: () {
-                      },
+                      onPressed: signInUser,
                       child: const Text(
                         "SIGN IN",
                         style: TextStyle(fontSize: 20),
@@ -169,11 +201,8 @@ class LoginPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: Colors.purple,
                       ),
-                    )
-                ),
-
+                    )),
                 const Center(child: Text("OR")),
-
                 Container(
                   height: 45,
                   decoration: BoxDecoration(
@@ -186,7 +215,8 @@ class LoginPage extends StatelessWidget {
                         color: Colors.white.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 1,
-                        offset: const Offset(0, 1), // changes position of shadow
+                        offset:
+                            const Offset(0, 1), // changes position of shadow
                       ),
                     ],
                   ),
@@ -196,18 +226,21 @@ class LoginPage extends StatelessWidget {
                     icon: Image.asset('assets/icons/google.png'),
                   ),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Text("Don't have an account?"),
                     TextButton(
                         onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => SignUpPage()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpPage()));
                         },
-                        child: const Text("sign up", style: TextStyle(color: Colors.purple),)
-                    )
+                        child: const Text(
+                          "sign up",
+                          style: TextStyle(color: Colors.purple),
+                        ))
                   ],
                 )
               ],
@@ -222,15 +255,17 @@ class LoginPage extends StatelessWidget {
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
-   @override
+  @override
   _EmailPasswordSignupState createState() => _EmailPasswordSignupState();
 }
 
 class _EmailPasswordSignupState extends State<SignUpPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -241,157 +276,182 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
     super.dispose();
   }
 
+
   void signUpUser() async {
-    FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
-          email: emailController.text,
-          password: passwordController.text,
-          context: context,
-        );
+    if (_formKey.currentState!.validate()) {
+      FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
+        email: emailController.text,
+        password: passwordController.text,
+        context: context,
+      );
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
+    }
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            height: MediaQuery.of(context).size.height - 50,
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    const Image(
-                  image: AssetImage('assets/icons/lango_icon.png'),
-                  width: 155,
-                  height: 155,
-                ),
-                    const SizedBox(height: 60.0),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    TextField(
-                      controller: usernameController,
-                      decoration: InputDecoration(
-                          hintText: "Username",
+          child: Form(
+            key: _formKey,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              height: MediaQuery.of(context).size.height - 50,
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      const Image(
+                        image: AssetImage('assets/icons/lango_icon.png'),
+                        width: 155,
+                        height: 155,
+                      ),
+                      const SizedBox(height: 60.0),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: usernameController,
+                        decoration: InputDecoration(
+                            hintText: "Username",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18),
+                                borderSide: BorderSide.none),
+                            fillColor: Colors.purple.withOpacity(0.1),
+                            filled: true,
+                            prefixIcon: const Icon(Icons.person)),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your username';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                            hintText: "Email",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18),
+                                borderSide: BorderSide.none),
+                            fillColor: Colors.purple.withOpacity(0.1),
+                            filled: true,
+                            prefixIcon: const Icon(Icons.email)),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: passwordController,
+                        decoration: InputDecoration(
+                          hintText: "Password",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                               borderSide: BorderSide.none),
                           fillColor: Colors.purple.withOpacity(0.1),
                           filled: true,
-                          prefixIcon: const Icon(Icons.person)),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    TextField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                          hintText: "Email",
+                          prefixIcon: const Icon(Icons.key),
+                        ),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: confirmPasswordController,
+                        decoration: InputDecoration(
+                          hintText: "Confirm Password",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                               borderSide: BorderSide.none),
                           fillColor: Colors.purple.withOpacity(0.1),
                           filled: true,
-                          prefixIcon: const Icon(Icons.email)),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    TextField(
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        hintText: "Password",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide: BorderSide.none),
-                        fillColor: Colors.purple.withOpacity(0.1),
-                        filled: true,
-                        prefixIcon: const Icon(Icons.key),
-                      ),
-                      obscureText: true,
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    TextField(
-                      controller: confirmPasswordController,
-                      decoration: InputDecoration(
-                        hintText: "Confirm Password",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide: BorderSide.none),
-                        fillColor: Colors.purple.withOpacity(0.1),
-                        filled: true,
-                        prefixIcon: const Icon(Icons.key),
-                      ),
-                      obscureText: true,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                
-                Container(
-                    padding: const EdgeInsets.only(top: 3, left: 3),
-
-                    child: ElevatedButton(
-                      onPressed: signUpUser,
-                      child: const Text(
-                        "SIGN UP",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        shape: const StadiumBorder(),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        backgroundColor: Colors.purple,
-                      ),
-                    )
-                ),
-
-                const Center(child: Text("OR")),
-
-                Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(
-                      color: Colors.purple,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.white.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset: const Offset(0, 1), // changes position of shadow
+                          prefixIcon: const Icon(Icons.key),
+                        ),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value != passwordController.text) {
+                            return 'Passwords do not match';
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),
-                  child: IconButton(
-                    onPressed: () {},
-                    iconSize: 40,
-                    icon: Image.asset('assets/icons/google.png'),
+                  const SizedBox(height: 20),
+                  Container(
+                      padding: const EdgeInsets.only(top: 3, left: 3),
+                      child: ElevatedButton(
+                        onPressed: signUpUser,
+                        child: const Text(
+                          "SIGN UP",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          shape: const StadiumBorder(),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          backgroundColor: Colors.purple,
+                        ),
+                      )),
+                  const Center(child: Text("OR")),
+                  Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      border: Border.all(
+                        color: Colors.purple,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset:
+                              const Offset(0, 1), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: IconButton(
+                      onPressed: () {},
+                      iconSize: 40,
+                      icon: Image.asset('assets/icons/google.png'),
+                    ),
                   ),
-                ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text("Already have an account?"),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => LoginPage()));
-                        },
-                        child: const Text("login", style: TextStyle(color: Colors.purple),)
-                    )
-                  ],
-                )
-              ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text("Already have an account?"),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()));
+                          },
+                          child: const Text(
+                            "login",
+                            style: TextStyle(color: Colors.purple),
+                          ))
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
