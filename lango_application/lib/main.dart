@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: CustomTheme.customTheme,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Lango'),
     );
   }
 }
@@ -54,6 +54,18 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            ElevatedButton(
+                onPressed: () => {},
+                child: const Text("Use the elevatedButton theme"),
+                style: CustomTheme.customTheme.elevatedButtonTheme.style),
+            ElevatedButton(
+              onPressed: () => {},
+              child: Text("yoooo"),
+            ),
+            Text(
+              "Testing ",
+              style: Theme.of(context).textTheme.headlineMedium,
+            )
           ],
         ),
       ),
