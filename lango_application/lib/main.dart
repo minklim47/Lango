@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lango_application/firebase_options.dart';
+import 'package:lango_application/services/firebase_auth_methods.dart';
 import 'theme/custom_theme.dart';
 
 Future main() async {
@@ -228,22 +230,25 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
-  
+
   void signUpUser() async {
-    context.read<FirebaseAuthMethods>().signUpWithEmail(
+    FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
           email: emailController.text,
           password: passwordController.text,
           context: context,
         );
   }
+
    @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -271,6 +276,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                 Column(
                   children: <Widget>[
                     TextField(
+                      controller: usernameController,
                       decoration: InputDecoration(
                           hintText: "Username",
                           border: OutlineInputBorder(
@@ -284,6 +290,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                     const SizedBox(height: 20),
 
                     TextField(
+                      controller: emailController,
                       decoration: InputDecoration(
                           hintText: "Email",
                           border: OutlineInputBorder(
@@ -297,6 +304,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                     const SizedBox(height: 20),
 
                     TextField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                         hintText: "Password",
                         border: OutlineInputBorder(
@@ -312,8 +320,9 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                     const SizedBox(height: 20),
 
                     TextField(
+                      controller: confirmPasswordController,
                       decoration: InputDecoration(
-                        hintText: "Password",
+                        hintText: "Confirm Password",
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
                             borderSide: BorderSide.none),
@@ -331,8 +340,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                     padding: const EdgeInsets.only(top: 3, left: 3),
 
                     child: ElevatedButton(
-                      onPressed: () {
-                      },
+                      onPressed: signUpUser,
                       child: const Text(
                         "SIGN UP",
                         style: TextStyle(fontSize: 20),
