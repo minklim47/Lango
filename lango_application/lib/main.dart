@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lango_application/theme/app_colors.dart';
 import 'theme/custom_theme.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: CustomTheme.customTheme,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Lango'),
     );
   }
 }
@@ -54,6 +55,29 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            const Padding(
+              padding: EdgeInsets.all(50.0),
+              child: Text("Using color theme",
+                  style: TextStyle(color: AppColors.green)),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(50.0),
+              child: ElevatedButton(
+                  onPressed: () => {},
+                  style: CustomTheme.customTheme.elevatedButtonTheme.style,
+                  child: const Text("Using the elevatedButton theme")),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(50.0),
+              child: ElevatedButton(
+                  onPressed: () => {},
+                  style: CustomTheme.customTheme.outlinedButtonTheme.style,
+                  child: const Text("Using the outlineButton theme")),
+            ),
+            Text(
+              "Using Text Theme ",
+              style: Theme.of(context).textTheme.bodySmall,
+            )
           ],
         ),
       ),
