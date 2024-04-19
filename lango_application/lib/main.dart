@@ -108,7 +108,7 @@ class LoginPage extends StatelessWidget {
   //       password: passwordController.text,
   //       context: context);
   // }
-  
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController usernameController = TextEditingController();
@@ -116,12 +116,19 @@ class LoginPage extends StatelessWidget {
 
     void signInUser() async {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: usernameController.text, password: passwordController.text);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));    // Adding route page later
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: usernameController.text,
+                password: passwordController.text);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MyApp())); // Adding route page later
       } on FirebaseAuthException catch (e) {
         showSnackBar(context, e.message!);
       }
     }
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -276,7 +283,6 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
     super.dispose();
   }
 
-
   void signUpUser() async {
     if (_formKey.currentState!.validate()) {
       FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
@@ -346,7 +352,21 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                             filled: true,
                             prefixIcon: const Icon(Icons.email)),
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          const pattern =
+                              r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
+                              r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
+                              r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
+                              r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
+                              r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
+                              r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
+                              r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
+
+                          RegExp regex = RegExp(pattern);
+
+                          if (!regex.hasMatch(value!)) {
+                            return 'Enter a valid email address';
+                          }
+                          if (value.isEmpty) {
                             return 'Please enter your email';
                           }
                           return null;
@@ -366,7 +386,14 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                         ),
                         obscureText: true,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          const pattern =
+                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&_*~]).{8,}$';
+                          RegExp regex = RegExp(pattern);
+
+                          if (!regex.hasMatch(value!)) {
+                            return 'Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and the lenght should at least be 8';
+                          } 
+                          if (value.isEmpty) {
                             return 'Please enter your password';
                           }
                           return null;
