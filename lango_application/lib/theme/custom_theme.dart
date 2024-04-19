@@ -35,8 +35,10 @@ class CustomTheme {
         ),
       ),
       fixedSize: MaterialStateProperty.all<Size>(
-        const Size.fromHeight(50), 
+        const Size.fromHeight(50),
       ),
+      elevation:
+          MaterialStateProperty.all<double>(0), // Remove the elevation here
     )),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
@@ -47,6 +49,11 @@ class CustomTheme {
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
+            side: const BorderSide(
+              // Add this line to set border
+              color: AppColors.lightGrey, // Set the color of the border
+              width: 1, // Set the width of the border
+            ),
           ),
         ),
         textStyle: MaterialStateProperty.all<TextStyle>(
@@ -56,9 +63,9 @@ class CustomTheme {
             color: AppColors.darkGrey,
           ),
         ),
-        fixedSize: MaterialStateProperty.all<Size>(
-          const Size.fromHeight(50)
-        ),
+        fixedSize: MaterialStateProperty.all<Size>(const Size.fromHeight(50)),
+        elevation:
+            MaterialStateProperty.all<double>(0), // Remove the elevation here
       ),
     ),
     textTheme: const TextTheme(
