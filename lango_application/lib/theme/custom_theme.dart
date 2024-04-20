@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
+import 'color_theme.dart';
 
 class CustomTheme {
   static ThemeData get customTheme {
@@ -8,8 +8,6 @@ class CustomTheme {
   }
 
   static final ThemeData _customTheme = ThemeData(
-    // colorScheme: ColorScheme.fromSeed(
-    //     seedColor: AppColors.yellow, brightness: Brightness.light),
     useMaterial3: true,
     fontFamily: "Inter",
     scaffoldBackgroundColor: AppColors.cream,
