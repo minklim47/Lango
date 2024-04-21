@@ -199,7 +199,9 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                       ],
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle(context);
+                      },
                       iconSize: 40,
                       icon: Image.asset('assets/icons/google.png'),
                     ),

@@ -40,6 +40,7 @@ dependencies:
   firebase_auth: ^4.19.1
   firebase_ui_auth: ^1.13.1
   desktop_webview_auth: ^0.0.15
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:

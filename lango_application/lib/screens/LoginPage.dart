@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lango_application/main.dart';
 import 'package:lango_application/screens/SignUpPage.dart';
+import 'package:lango_application/services/firebase_auth_methods.dart';
 import 'package:lango_application/utils/showSnackbar.dart';
 
 class LoginPage extends StatelessWidget {
@@ -17,7 +18,7 @@ class LoginPage extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MyApp())); // Adding route page later
+                builder: (context) => const MyApp())); // Adding route page later
       } on FirebaseAuthException catch (e) {
         showSnackBar(context, e.message!);
       }
@@ -122,7 +123,9 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle(context);
+                    },
                     iconSize: 40,
                     icon: Image.asset('assets/icons/google.png'),
                   ),
