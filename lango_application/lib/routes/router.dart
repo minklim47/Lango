@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/screens/about/about_page.dart';
+import 'package:lango_application/screens/game/pair_match.dart';
+import 'package:lango_application/screens/game/picture_match.dart';
+import 'package:lango_application/screens/game/word_match.dart';
 import 'package:lango_application/screens/profile/edit_page.dart';
 import 'package:lango_application/screens/profile/profile_page.dart';
 import 'package:lango_application/screens/welcome/welcome_page.dart';
@@ -11,7 +15,7 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const WelComePage(),
       routes: <RouteBase>[
         GoRoute(
-            path: "about", builder: (context, state) => const Placeholder()),
+            path: "about", builder: (context, state) => const AboutPage()),
         GoRoute(
             path: "profile", builder: (context, state) => const ProfilePage()),
         GoRoute(
@@ -25,15 +29,15 @@ final GoRouter router = GoRouter(
           routes: <RouteBase>[
             GoRoute(
               path: "picture",
-              builder: (context, state) => const Placeholder(),
+              builder: (context, state) => const PictureMatchPage(),
             ),
             GoRoute(
-              path: "text",
-              builder: (context, state) => const Placeholder(),
+              path: "word",
+              builder: (context, state) => const WordMatchPage(),
             ),
             GoRoute(
               path: "pair",
-              builder: (context, state) => const Placeholder(),
+              builder: (context, state) => const PairMatchPage(),
             ),
           ],
         )

@@ -78,7 +78,7 @@ class CustomTheme {
       bodyMedium: TextStyle(
           fontWeight: FontWeight.w500, fontSize: 18, color: AppColors.darkGrey),
       bodySmall: TextStyle(
-          fontWeight: FontWeight.w400, fontSize: 12, color: AppColors.darkGrey),
+          fontWeight: FontWeight.w400, fontSize: 14, color: AppColors.darkGrey),
     ),
 
     expansionTileTheme: const ExpansionTileThemeData(

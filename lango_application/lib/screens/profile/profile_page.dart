@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/theme/color_theme.dart';
+import 'package:lango_application/theme/custom_theme.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 
@@ -31,14 +32,12 @@ class ProfilePage extends StatelessWidget {
                           Padding(
                               padding: const EdgeInsets.only(bottom: 2.0),
                               child: Row(children: [
-                                const Expanded(
-                                    child: Text(
-                                  "Username",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      overflow: TextOverflow.ellipsis),
-                                )),
+                                Expanded(
+                                    child: Text("Username",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium,
+                                        overflow: TextOverflow.ellipsis)),
                                 if (MediaQuery.of(context).size.width > 360)
                                   const SizedBox(width: 10),
                                 GestureDetector(
@@ -49,12 +48,8 @@ class ProfilePage extends StatelessWidget {
                                   ),
                                 )
                               ])),
-                          const Text(
-                            "useremail@gmail.com",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
+                          Text("useremail@gmail.com",
+                              style: Theme.of(context).textTheme.bodyLarge)
                         ],
                       )))
             ],
@@ -93,8 +88,13 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ))),
         const SizedBox(height: 20),
-        ElevatedButton(
-            onPressed: () => context.go("/"), child: const Text("LOGOUT"))
+        SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => context.go("/"),
+              style: CustomTheme.customTheme.elevatedButtonTheme.style,
+              child: const Text("LOGOUT"),
+            ))
       ])),
     );
   }
