@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
+import 'color_theme.dart';
 
 class CustomTheme {
   static ThemeData get customTheme {
@@ -8,8 +8,6 @@ class CustomTheme {
   }
 
   static final ThemeData _customTheme = ThemeData(
-    // colorScheme: ColorScheme.fromSeed(
-    //     seedColor: AppColors.yellow, brightness: Brightness.light),
     useMaterial3: true,
     fontFamily: "Inter",
     scaffoldBackgroundColor: AppColors.cream,
@@ -80,7 +78,7 @@ class CustomTheme {
       bodyMedium: TextStyle(
           fontWeight: FontWeight.w500, fontSize: 18, color: AppColors.darkGrey),
       bodySmall: TextStyle(
-          fontWeight: FontWeight.w400, fontSize: 12, color: AppColors.darkGrey),
+          fontWeight: FontWeight.w400, fontSize: 14, color: AppColors.darkGrey),
     ),
 
     expansionTileTheme: const ExpansionTileThemeData(

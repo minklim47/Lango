@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:lango_application/routes/router.dart';
 import 'package:lango_application/firebase_options.dart';
 import 'package:lango_application/screens/LoginPage.dart';
 import 'package:lango_application/screens/SignUpPage.dart';
@@ -20,8 +21,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Lango",
       theme: CustomTheme.customTheme,
-      title: 'Lango',
+      // routerConfig: router,
       home: Builder(
         builder: (context) => Scaffold(
           backgroundColor: const Color(0xFFFEF9EF),
