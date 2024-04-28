@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>930771409692-le7qlk2uiuhgtojq4i7vs1a3cpic4fth.apps.googleusercontent.com</string>
+	<string>930771409692-1np6i98gjcnolb74485guunnis0eqqm7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.930771409692-le7qlk2uiuhgtojq4i7vs1a3cpic4fth</string>
+	<string>com.googleusercontent.apps.930771409692-1np6i98gjcnolb74485guunnis0eqqm7</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>930771409692-c5u27o3tbinrgivs53idlvm30bpp4rvh.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDlf5fUVebuYarFbxtqDFtgEaMt5Wx_iCQ</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.langoApplication</string>
+	<string>com.example.lango</string>
 	<key>PROJECT_ID</key>
 	<string>lango-application</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:930771409692:ios:1821ba3e88539a3bf6f8d9</string>
+	<string>1:930771409692:ios:e4596a0929b3c72bf6f8d9</string>
 </dict>
 </plist>
