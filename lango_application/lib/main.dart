@@ -5,6 +5,7 @@ import 'package:lango_application/firebase_options.dart';
 import 'package:lango_application/screens/LoginPage.dart';
 import 'package:lango_application/screens/SignUpPage.dart';
 import 'theme/custom_theme.dart';
+import 'theme/color_theme.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,11 +27,14 @@ class MyApp extends StatelessWidget {
       // routerConfig: router,
       home: Builder(
         builder: (context) => Scaffold(
-          backgroundColor: const Color(0xFFFEF9EF),
+          backgroundColor: AppColors.cream,
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text('Welcome to Lango'.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 60, color: AppColors.darkGrey)),
                 const Image(
                   image: AssetImage('assets/logos/lango_logo.png'),
                   width: 450,
@@ -41,12 +45,14 @@ class MyApp extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const SignUpPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignUpPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: const Color(0xFFFEE440),
+                    foregroundColor: AppColors.white,
+                    backgroundColor: AppColors.yellow,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -59,7 +65,7 @@ class MyApp extends StatelessWidget {
                       'GET STARTED',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontFamily: 'inter',
+                          fontFamily: 'Inter',
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                     ),
@@ -70,22 +76,23 @@ class MyApp extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const LoginPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    backgroundColor: Colors.white,
+                    foregroundColor: AppColors.black,
+                    backgroundColor: AppColors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
-                      side: const BorderSide(
-                          color: Color(0xFFE8E8E8), width: 1.0),
+                      side: const BorderSide(color: AppColors.grey, width: 1.0),
                     ),
                   ),
                   child: const Text(
                     'ALREADY HAVE AN ACCOUNT',
                     style: TextStyle(
-                        fontFamily: 'inter',
+                        fontFamily: 'Inter',
                         fontSize: 18,
                         fontWeight: FontWeight.normal),
                   ),
@@ -98,4 +105,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
