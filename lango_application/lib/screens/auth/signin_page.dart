@@ -1,21 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lango_application/main.dart';
-import 'package:lango_application/screens/SignUpPage.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lango_application/screens/auth/signup_page.dart';
 import 'package:lango_application/screens/welcome/welcome_page.dart';
 import 'package:lango_application/services/firebase_auth_methods.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/theme/custom_theme.dart';
-import 'package:lango_application/utils/showSnackbar.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SingInPage extends StatefulWidget {
+  const SingInPage({super.key});
 
   @override
   _UsernamePasswordSigninState createState() => _UsernamePasswordSigninState();
 }
 
-class _UsernamePasswordSigninState extends State<LoginPage> {
+class _UsernamePasswordSigninState extends State<SingInPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -33,8 +32,7 @@ class _UsernamePasswordSigninState extends State<LoginPage> {
         password: passwordController.text,
         context: context,
       );
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const WelComePage()));   // Route to Language selection page later when done
+      context.go("/welcome");
     }
   }
 
@@ -84,25 +82,25 @@ class _UsernamePasswordSigninState extends State<LoginPage> {
                                 color: AppColors.grey,
                               )),
                           validator: (value) {
-                              const pattern =
-                                  r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
-                                  r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
-                                  r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
-                                  r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
-                                  r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
-                                  r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
-                                  r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
-          
-                              RegExp regex = RegExp(pattern);
-          
-                              if (!regex.hasMatch(value!)) {
-                                return 'Enter a valid email address';
-                              }
-                              if (value.isEmpty) {
-                                return 'Please enter your email';
-                              }
-                              return null;
-                            },
+                            const pattern =
+                                r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
+                                r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
+                                r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
+                                r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
+                                r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
+                                r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
+                                r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
+
+                            RegExp regex = RegExp(pattern);
+
+                            if (!regex.hasMatch(value!)) {
+                              return 'Enter a valid email address';
+                            }
+                            if (value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
@@ -121,18 +119,18 @@ class _UsernamePasswordSigninState extends State<LoginPage> {
                           ),
                           obscureText: true,
                           validator: (value) {
-                              const pattern =
-                                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&_*~]).{8,}$';
-                              RegExp regex = RegExp(pattern);
-          
-                              if (!regex.hasMatch(value!)) {
-                                return 'Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and the lenght should at least be 8';
-                              } 
-                              if (value.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              return null;
-                            },
+                            const pattern =
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&_*~]).{8,}$';
+                            RegExp regex = RegExp(pattern);
+
+                            if (!regex.hasMatch(value!)) {
+                              return 'Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and the lenght should at least be 8';
+                            }
+                            if (value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                       ],
@@ -156,7 +154,8 @@ class _UsernamePasswordSigninState extends State<LoginPage> {
                     const SizedBox(height: 5),
                     const Center(
                         child: Text("OR",
-                            style: TextStyle(fontSize: 16, fontFamily: 'Inter'))),
+                            style:
+                                TextStyle(fontSize: 16, fontFamily: 'Inter'))),
                     const SizedBox(height: 5),
                     Container(
                       height: 45,
@@ -168,8 +167,8 @@ class _UsernamePasswordSigninState extends State<LoginPage> {
                             color: Colors.white.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 1,
-                            offset:
-                                const Offset(0, 1), // changes position of shadow
+                            offset: const Offset(
+                                0, 1), // changes position of shadow
                           ),
                         ],
                       ),
@@ -191,15 +190,13 @@ class _UsernamePasswordSigninState extends State<LoginPage> {
                         ),
                         TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const SignUpPage()));
+                              context.go("/auth/signup");
                             },
                             child: const Text(
                               "sign up",
                               style: TextStyle(
-                                  color: AppColors.darkGrey, fontFamily: 'Inter'),
+                                  color: AppColors.darkGrey,
+                                  fontFamily: 'Inter'),
                             ))
                       ],
                     )

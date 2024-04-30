@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/screens/about/about_page.dart';
+import 'package:lango_application/screens/auth/get_start_page.dart';
+import 'package:lango_application/screens/auth/signin_page.dart';
+import 'package:lango_application/screens/auth/signup_page.dart';
 import 'package:lango_application/screens/game/pair_match.dart';
 import 'package:lango_application/screens/game/picture_match.dart';
 import 'package:lango_application/screens/game/word_match.dart';
@@ -13,8 +16,14 @@ final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: "/",
-      builder: (context, state) => const WelComePage(),
+      builder: (context, state) => const GetStartPage(),
       routes: <RouteBase>[
+        GoRoute(
+            path: "auth/signin", builder: (context, state) => const SingInPage()),
+        GoRoute(
+            path: "auth/signup", builder: (context, state) => const SignUpPage()),
+        GoRoute(
+            path: "welcome", builder: (context, state) => const WelComePage()),
         GoRoute(
             path: "about", builder: (context, state) => const AboutPage()),
         GoRoute(
