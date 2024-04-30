@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lango_application/screens/auth/signin_page.dart';
 import 'package:lango_application/screens/auth/signup_page.dart';
 import 'package:lango_application/theme/color_theme.dart';
 
