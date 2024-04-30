@@ -71,7 +71,7 @@ class WelComePage extends StatelessWidget {
                   )),
         ))
       ])),
-      bottomNavigationBar: const BottomNav(path: "/"),
+      bottomNavigationBar: const BottomNav(path: "/welcome"),
     );
   }
 }

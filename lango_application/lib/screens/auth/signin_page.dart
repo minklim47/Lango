@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lango_application/screens/auth/signup_page.dart';
-import 'package:lango_application/screens/welcome/welcome_page.dart';
 import 'package:lango_application/services/firebase_auth_methods.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/theme/custom_theme.dart';
@@ -27,11 +25,13 @@ class _UsernamePasswordSigninState extends State<SingInPage> {
 
   void signInUser() async {
     if (_formKey.currentState!.validate()) {
-      FirebaseAuthMethods(FirebaseAuth.instance).loginWithEmail(
+      await FirebaseAuthMethods(FirebaseAuth.instance).loginWithEmail(
         email: emailController.text,
         password: passwordController.text,
         context: context,
       );
+
+      // Navigate to the "/welcome" route regardless of the login success
       context.go("/welcome");
     }
   }
