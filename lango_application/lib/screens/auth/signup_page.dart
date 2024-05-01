@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lango_application/screens/auth/signin_page.dart';
+// import 'package:lango_application/screens/auth/signin_page.dart';
 import 'package:lango_application/services/firebase_auth_methods.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/theme/custom_theme.dart';
@@ -64,7 +64,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                     const Column(
                       children: <Widget>[
                         Image(
-                          image: AssetImage('assets/icons/lango_icon.png'),
+                          image: AssetImage('assets/icons/lango_icon-v2.png'),
                           width: 155,
                           height: 155,
                         ),
@@ -236,14 +236,14 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                       children: <Widget>[
                         const Text(
                           "Already have an account?",
-                          style: TextStyle(fontFamily: 'Inter'),
+                          style: TextStyle(fontFamily: 'Inter', decoration: TextDecoration.underline),
                         ),
                         TextButton(
                             onPressed: () {
                               context.go("/auth/signin");
                             },
                             child: const Text(
-                              "login",
+                              "Sign in",
                               style: TextStyle(
                                   color: AppColors.darkGrey,
                                   fontFamily: "Inter"),

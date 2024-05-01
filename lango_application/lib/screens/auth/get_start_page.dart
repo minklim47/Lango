@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lango_application/screens/auth/signup_page.dart';
+// import 'package:lango_application/screens/auth/signup_page.dart';
 import 'package:lango_application/theme/color_theme.dart';
 
 class GetStartPage extends StatelessWidget {
@@ -19,7 +19,7 @@ class GetStartPage extends StatelessWidget {
                 style:
                     const TextStyle(fontSize: 60, color: AppColors.darkGrey)),
             const Image(
-              image: AssetImage('assets/logos/lango_logo.png'),
+              image: AssetImage('assets/logos/get-start/lango_logo-v2.png'),
               width: 450,
               height: 450,
             ),

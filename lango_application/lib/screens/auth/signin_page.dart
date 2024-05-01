@@ -39,7 +39,7 @@ class _UsernamePasswordSigninState extends State<SingInPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Log in',
+      title: 'Sign in',
       theme: CustomTheme.customTheme,
       debugShowCheckedModeBanner: false,
       home: Builder(builder: (context) {
@@ -59,7 +59,7 @@ class _UsernamePasswordSigninState extends State<SingInPage> {
                     const Column(
                       children: <Widget>[
                         Image(
-                          image: AssetImage('assets/logos/lango_logo.png'),
+                          image: AssetImage('assets/icons/lango_icon-v2.png'),
                           width: 265,
                           height: 265,
                         ),
@@ -186,14 +186,14 @@ class _UsernamePasswordSigninState extends State<SingInPage> {
                       children: <Widget>[
                         const Text(
                           "Don't have an account?",
-                          style: TextStyle(fontFamily: 'Inter'),
+                          style: TextStyle(fontFamily: 'Inter', decoration: TextDecoration.underline),
                         ),
                         TextButton(
                             onPressed: () {
                               context.go("/auth/signup");
                             },
                             child: const Text(
-                              "sign up",
+                              "Sign up",
                               style: TextStyle(
                                   color: AppColors.darkGrey,
                                   fontFamily: 'Inter'),
