@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/theme/color_theme.dart';
@@ -16,9 +17,18 @@ class ChangePassPage extends StatelessWidget {
       body: Wrapper(
         child: Column(
           children: [
+            Row(children: [
+              IconButton(
+                onPressed: () => {context.go("/edit")},
+                icon: const Icon(Icons.arrow_back_ios),
+              ),
+            ]),
             Padding(
               padding: const EdgeInsets.only(top: 30, bottom: 45),
-              child: Row(children: [Text("Change Password")])
+              child: Row(children: [Padding(
+                padding: EdgeInsets.fromLTRB(30,0,0,0),
+                child: Text("Change Password")
+                )])
             ),
             Expanded(
               child: ListView(

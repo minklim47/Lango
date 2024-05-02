@@ -16,6 +16,11 @@ class EditProfilePage extends StatelessWidget {
       body: Wrapper(
         child: Column(
           children: [
+            Row(children: [
+              IconButton(
+                  onPressed: () => {context.go("/profile")},
+                  icon: const Icon(Icons.arrow_back_ios),),
+            ]),
             Padding(
               padding: const EdgeInsets.only(top: 30, bottom: 45),
               child: Stack(
