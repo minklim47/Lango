@@ -30,12 +30,6 @@ final GoRouter router = GoRouter(
         GoRoute(
             path: "learn", builder: (context, state) => const LearnforPage()),
         GoRoute(
-            path: "auth/signin", builder: (context, state) => const SingInPage()),
-        GoRoute(
-            path: "auth/signup", builder: (context, state) => const SignUpPage()),
-        GoRoute(
-            path: "welcome", builder: (context, state) => const WelComePage()),
-        GoRoute(
             path: "about", builder: (context, state) => const AboutPage()),
         GoRoute(
             path: "profile", builder: (context, state) => const ProfilePage()),
