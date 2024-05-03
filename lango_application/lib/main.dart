@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lango_application/routes/router.dart';
+//import 'package:lango_application/screens/survey/choose_lang.dart';
 import 'theme/custom_theme.dart';
 
 void main() {
@@ -12,9 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: "Lango",
+     title: "Lango",
       theme: CustomTheme.customTheme,
       routerConfig: router,
+      
     );
   }
 }

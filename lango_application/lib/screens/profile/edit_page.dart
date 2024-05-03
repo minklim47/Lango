@@ -57,7 +57,7 @@ class EditProfilePage extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () => context.go("/changepass"),
+              onPressed: () => context.go("/"),
               child: const Text("Change Password"),
             ),
             SizedBox(height: 20),
