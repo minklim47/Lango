@@ -9,10 +9,10 @@ import 'package:lango_application/screens/profile/edit_page.dart';
 import 'package:lango_application/screens/profile/profile_page.dart';
 //import 'package:lango_application/screens/survey/choose_lang.dart';
 import 'package:lango_application/screens/welcome/welcome_page.dart';
-import 'package:lango_application/survey/learn_for.dart';
-import 'package:lango_application/survey/your_level.dart';
+import 'package:lango_application/screens/survey/learn_for.dart';
+import 'package:lango_application/screens/survey/your_level.dart';
 
-import '../survey/choose_lang.dart';
+import '../screens/survey/choose_lang.dart';
 
 final GoRouter router = GoRouter(
   routes: <RouteBase>[
