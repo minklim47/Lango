@@ -21,8 +21,14 @@ final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: "/",
-      builder: (context, state) => const ChooselangPage(),
+      builder: (context, state) => const WelComePage(),
       routes: <RouteBase>[
+        GoRoute(
+            path: "getstart", builder: (context, state) => const GetStartPage()),
+        GoRoute(
+            path: "signin", builder: (context, state) => const SingInPage()),
+        GoRoute(
+            path: "signup", builder: (context, state) => const SignUpPage()),
         GoRoute(
             path: "choose", builder: (context, state) => const ChooselangPage()),
         GoRoute(
