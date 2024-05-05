@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
      title: "Lango",
       theme: CustomTheme.customTheme,
       routerConfig: router,
-      
     );
   }
 }

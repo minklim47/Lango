@@ -32,7 +32,7 @@ class _UsernamePasswordSigninState extends State<SingInPage> {
       );
 
       // Navigate to the "/welcome" route regardless of the login success
-      context.go("/welcome");
+      context.go("/");
     }
   }
 
@@ -190,7 +190,7 @@ class _UsernamePasswordSigninState extends State<SingInPage> {
                         ),
                         TextButton(
                             onPressed: () {
-                              context.go("/auth/signup");
+                              context.go("/signup");
                             },
                             child: const Text(
                               "Sign up",

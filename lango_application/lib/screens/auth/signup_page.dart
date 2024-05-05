@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lango_application/services/firebase_auth_methods.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/theme/custom_theme.dart';
+import 'package:lango_application/utils/showSnackbar.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -30,14 +32,24 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
     super.dispose();
   }
 
-  void signUpUser() async {
+  Future<void> signUpUser() async {
     if (_formKey.currentState!.validate()) {
-      FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
-        email: emailController.text,
-        password: passwordController.text,
-        context: context,
-      );
-      context.go("/auth/signin");
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: emailController.text.trim(),
+                password: passwordController.text.trim());
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set({
+          'username': usernameController.text.trim(),
+          'email': emailController.text.trim(),
+        });
+        context.go("/signin");
+      } catch (e) {
+        showSnackBar(context, 'Failed to sign up: $e');
+      }
     }
   }
 
@@ -236,11 +248,13 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                       children: <Widget>[
                         const Text(
                           "Already have an account?",
-                          style: TextStyle(fontFamily: 'Inter', decoration: TextDecoration.underline),
+                          style: TextStyle(
+                              fontFamily: 'Inter',
+                              decoration: TextDecoration.underline),
                         ),
                         TextButton(
                             onPressed: () {
-                              context.go("/auth/signin");
+                              context.go("/signin");
                             },
                             child: const Text(
                               "Sign in",

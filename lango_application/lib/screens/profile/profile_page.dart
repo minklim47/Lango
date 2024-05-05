@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/theme/color_theme.dart';
@@ -5,8 +7,42 @@ import 'package:lango_application/theme/custom_theme.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  late User? _currentUser;
+  String _username = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser();
+  }
+
+  void _getCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      DocumentSnapshot userData = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      setState(() {
+        _currentUser = user;
+        _username = userData['username'];
+      });
+    } else {
+      setState(() {
+        _currentUser = null;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,88 +50,106 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: AppColors.cream,
       bottomNavigationBar: const BottomNav(path: "/profile"),
       body: Wrapper(
-          child: Column(children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20),
-          child: Row(
-            children: [
-              const CircleAvatar(
-                radius: 35,
-                backgroundImage: AssetImage('assets/avatar.png'),
-              ),
-              Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.only(bottom: 2.0),
-                              child: Row(children: [
-                                Expanded(
-                                    child: Text("Username",
+          child: _currentUser != null
+              ? Column(children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20),
+                    child: Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 35,
+                          backgroundImage: AssetImage('assets/avatar.png'),
+                        ),
+                        Expanded(
+                            child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 2.0),
+                                        child: Row(children: [
+                                          Expanded(
+                                              child: Text(
+                                                  _username,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineMedium,
+                                                  overflow:
+                                                      TextOverflow.ellipsis)),
+                                          if (MediaQuery.of(context)
+                                                  .size
+                                                  .width >
+                                              360)
+                                            const SizedBox(width: 10),
+                                          GestureDetector(
+                                            onTap: () => context.go("/edit"),
+                                            child: const Icon(
+                                              Icons.edit,
+                                              color: AppColors.darkGrey,
+                                            ),
+                                          )
+                                        ])),
+                                    Text(_currentUser!.email ?? 'N/A',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headlineMedium,
-                                        overflow: TextOverflow.ellipsis)),
-                                if (MediaQuery.of(context).size.width > 360)
-                                  const SizedBox(width: 10),
-                                GestureDetector(
-                                  onTap: () => context.go("/edit"),
-                                  child: const Icon(
-                                    Icons.edit,
-                                    color: AppColors.darkGrey,
-                                  ),
-                                )
-                              ])),
-                          Text("useremail@gmail.com",
-                              style: Theme.of(context).textTheme.bodyLarge)
-                        ],
-                      )))
-            ],
-          ),
-        ),
-        Expanded(
-            child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 450, // Sets the maximum width to 500 pixels
-                ),
-                child: GridView.count(
-                  crossAxisCount:
-                      MediaQuery.of(context).size.width < 330 ? 1 : 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  childAspectRatio: 3 / 2,
-                  children: const <StatBox>[
-                    StatBox(
-                      title: 'Account Created Since',
-                      value: '2019',
+                                            .bodyLarge)
+                                  ],
+                                )))
+                      ],
                     ),
-                    StatBox(
-                      title: 'Longest Streaks',
-                      value: '130',
-                      foot: "days",
-                    ),
-                    StatBox(
-                      title: 'Experience Points',
-                      value: '6598',
-                      foot: "xp",
-                    ),
-                    StatBox(
-                      title: 'Language Learn',
-                      value: '3',
-                    ),
-                  ],
-                ))),
-        const SizedBox(height: 20),
-        SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => context.go("/"),
-              style: CustomTheme.customTheme.elevatedButtonTheme.style,
-              child: const Text("LOGOUT"),
-            ))
-      ])),
+                  ),
+                  Expanded(
+                      child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxWidth:
+                                450, // Sets the maximum width to 500 pixels
+                          ),
+                          child: GridView.count(
+                            crossAxisCount:
+                                MediaQuery.of(context).size.width < 330 ? 1 : 2,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20,
+                            childAspectRatio: 3 / 2,
+                            children: const <StatBox>[
+                              StatBox(
+                                title: 'Account Created Since',
+                                value: '2019',
+                              ),
+                              StatBox(
+                                title: 'Longest Streaks',
+                                value: '130',
+                                foot: "days",
+                              ),
+                              StatBox(
+                                title: 'Experience Points',
+                                value: '6598',
+                                foot: "xp",
+                              ),
+                              StatBox(
+                                title: 'Language Learn',
+                                value: '3',
+                              ),
+                            ],
+                          ))),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await FirebaseAuth.instance.signOut();
+                          setState(() {
+                            _currentUser = null;
+                          });
+                          context.go('/');
+                        },
+                        style:
+                            CustomTheme.customTheme.elevatedButtonTheme.style,
+                        child: const Text("LOGOUT"),
+                      ))
+                ])
+              : const CircularProgressIndicator()),
     );
   }
 }
