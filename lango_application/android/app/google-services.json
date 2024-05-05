@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "930771409692",
+    "firebase_url": "https://lango-application-default-rtdb.firebaseio.com",
     "project_id": "lango-application",
     "storage_bucket": "lango-application.appspot.com"
   },
@@ -49,14 +50,6 @@
         }
       },
       "oauth_client": [
-        {
-          "client_id": "930771409692-c5u27o3tbinrgivs53idlvm30bpp4rvh.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.lango_application",
-            "certificate_hash": "a8c1bfff9c6ae350b9d317b9180f4497bf439d12"
-          }
-        },
         {
           "client_id": "930771409692-48jut8mfcrtaefcksc0qo25jtori6a8b.apps.googleusercontent.com",
           "client_type": 3
