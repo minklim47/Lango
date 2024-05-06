@@ -161,12 +161,12 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&_*~]).{8,}$';
                             RegExp regex = RegExp(pattern);
 
-                            if (!regex.hasMatch(value!)) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your password';
+                            } else if (!regex.hasMatch(value)) {
                               return 'Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and the lenght should at least be 8';
                             }
-                            if (value.isEmpty) {
-                              return 'Please enter your password';
-                            }
+                            
                             return null;
                           },
                         ),
