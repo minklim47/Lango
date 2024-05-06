@@ -17,6 +17,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late User? _currentUser;
   String _username = '';
+  String _email = '';
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         _currentUser = user;
         _username = userData['username'];
+        _email = userData['email'];
       });
     } else {
       setState(() {
@@ -91,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             ),
                                           )
                                         ])),
-                                    Text(_currentUser!.email ?? 'N/A',
+                                    Text(_email,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge)
