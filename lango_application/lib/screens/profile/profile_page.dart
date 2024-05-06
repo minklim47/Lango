@@ -22,6 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    _currentUser = FirebaseAuth.instance.currentUser;
     _getCurrentUser();
   }
 
@@ -151,7 +152,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: const Text("LOGOUT"),
                       ))
                 ])
-              : const CircularProgressIndicator()),
+              : const Center(
+              child: CircularProgressIndicator(),
+            ),),
     );
   }
 }
