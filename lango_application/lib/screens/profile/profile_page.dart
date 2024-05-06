@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         const CircleAvatar(
                           radius: 35,
-                          backgroundImage: AssetImage('assets/avatar.png'),
+                          backgroundImage: AssetImage('assets/icons/avatar_spain.png'),
                         ),
                         Expanded(
                             child: Padding(

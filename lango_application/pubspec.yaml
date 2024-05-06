@@ -74,7 +74,7 @@ flutter:
     - assets/icons/google.png
     # - assets/logos/lango_logo.png
     - assets/logos/get-start/lango_logo-v2.png
-  #   - images/a_dot_burr.jpeg
+    - assets/icons/avatar_spain.png
   #   - images/a_dot_ham.jpeg
     - assets/images/QRcode.png
   # An image asset can refer to one or more resolution-specific "variants", see

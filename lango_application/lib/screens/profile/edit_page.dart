@@ -35,9 +35,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     super.dispose();
   }
 
-  // Future<void> updateEmail() async {
-  //   return await _currentUser.updateEmail(newEmail)
-  // }
   void updateUser() async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -223,7 +220,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
             ),
             ElevatedButton(
-              onPressed: () => context.go("/"),
+              onPressed: () => context.go("/changepass"),
               child: const Text("Change Password"),
             ),
             SizedBox(height: 20),

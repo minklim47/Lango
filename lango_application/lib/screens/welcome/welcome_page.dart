@@ -95,7 +95,7 @@ class _WelComePageState extends State<WelComePage> {
                           height: 20,
                           width: 20,
                           color: Colors.white,
-                          child: Image.asset("./"),
+                          child: Image.asset("assets/icons/avatar_spain.png"),
                         )
                       ],
                     ),
