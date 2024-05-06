@@ -52,106 +52,94 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: AppColors.cream,
       bottomNavigationBar: const BottomNav(path: "/profile"),
       body: Wrapper(
-          child: _currentUser != null
-              ? Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20),
-                    child: Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 35,
-                          backgroundImage: AssetImage('assets/icons/avatar_spain.png'),
-                        ),
-                        Expanded(
-                            child: Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 2.0),
-                                        child: Row(children: [
-                                          Expanded(
-                                              child: Text(
-                                                  _username,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineMedium,
-                                                  overflow:
-                                                      TextOverflow.ellipsis)),
-                                          if (MediaQuery.of(context)
-                                                  .size
-                                                  .width >
-                                              360)
-                                            const SizedBox(width: 10),
-                                          GestureDetector(
-                                            onTap: () => context.go("/edit"),
-                                            child: const Icon(
-                                              Icons.edit,
-                                              color: AppColors.darkGrey,
-                                            ),
-                                          )
-                                        ])),
-                                    Text(_email,
+          child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20),
+          child: Row(
+            children: [
+              const CircleAvatar(
+                radius: 35,
+                backgroundImage: AssetImage('assets/icons/avatar_spain.png'),
+              ),
+              Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(bottom: 2.0),
+                              child: Row(children: [
+                                Expanded(
+                                    child: Text(_username,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyLarge)
-                                  ],
-                                )))
-                      ],
+                                            .headlineMedium,
+                                        overflow: TextOverflow.ellipsis)),
+                                if (MediaQuery.of(context).size.width > 360)
+                                  const SizedBox(width: 10),
+                                GestureDetector(
+                                  onTap: () => context.go("/edit"),
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: AppColors.darkGrey,
+                                  ),
+                                )
+                              ])),
+                          Text(_email,
+                              style: Theme.of(context).textTheme.bodyLarge)
+                        ],
+                      )))
+            ],
+          ),
+        ),
+        Expanded(
+            child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 450, // Sets the maximum width to 500 pixels
+                ),
+                child: GridView.count(
+                  crossAxisCount:
+                      MediaQuery.of(context).size.width < 330 ? 1 : 2,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  childAspectRatio: 3 / 2,
+                  children: const <StatBox>[
+                    StatBox(
+                      title: 'Account Created Since',
+                      value: '2019',
                     ),
-                  ),
-                  Expanded(
-                      child: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth:
-                                450, // Sets the maximum width to 500 pixels
-                          ),
-                          child: GridView.count(
-                            crossAxisCount:
-                                MediaQuery.of(context).size.width < 330 ? 1 : 2,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 20,
-                            childAspectRatio: 3 / 2,
-                            children: const <StatBox>[
-                              StatBox(
-                                title: 'Account Created Since',
-                                value: '2019',
-                              ),
-                              StatBox(
-                                title: 'Longest Streaks',
-                                value: '130',
-                                foot: "days",
-                              ),
-                              StatBox(
-                                title: 'Experience Points',
-                                value: '6598',
-                                foot: "xp",
-                              ),
-                              StatBox(
-                                title: 'Language Learn',
-                                value: '3',
-                              ),
-                            ],
-                          ))),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await FirebaseAuth.instance.signOut();
-                          setState(() {
-                            _currentUser = null;
-                          });
-                          context.go('/');
-                        },
-                        style:
-                            CustomTheme.customTheme.elevatedButtonTheme.style,
-                        child: const Text("LOGOUT"),
-                      ))
-                ])
-              : const CircularProgressIndicator()),
+                    StatBox(
+                      title: 'Longest Streaks',
+                      value: '130',
+                      foot: "days",
+                    ),
+                    StatBox(
+                      title: 'Experience Points',
+                      value: '6598',
+                      foot: "xp",
+                    ),
+                    StatBox(
+                      title: 'Language Learn',
+                      value: '3',
+                    ),
+                  ],
+                ))),
+        const SizedBox(height: 20),
+        SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                setState(() {
+                  _currentUser = null;
+                });
+                context.go('/');
+              },
+              style: CustomTheme.customTheme.elevatedButtonTheme.style,
+              child: const Text("LOGOUT"),
+            ))
+      ])),
     );
   }
 }
