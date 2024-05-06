@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
      title: "Lango",
       theme: CustomTheme.customTheme,
-      routerConfig: router,
+      routerConfig: router
     );
   }
 }
