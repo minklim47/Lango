@@ -91,10 +91,11 @@
                           ),
                           const Spacer(),
                           Container(
-                            height: 20,
-                            width: 20,
+                            height: 50,
+                            width: 50,
                             color: Colors.white,
                             child: Image.asset("assets/icons/avatar_spain.png"),
+                            
                           )
                         ],
                       ),
@@ -119,7 +120,7 @@
                     Expanded(
                         child: GridView.count(
                       shrinkWrap: true,
-                      crossAxisCount: 5,
+                      crossAxisCount: 4,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 20,
                       childAspectRatio: 0.8,
