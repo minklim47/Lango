@@ -1,50 +1,50 @@
-  import 'package:cloud_firestore/cloud_firestore.dart';
-  import 'package:firebase_auth/firebase_auth.dart';
-  import 'package:flutter/material.dart';
-  import 'package:go_router/go_router.dart';
-  import 'package:lango_application/widgets/stage_card.dart';
-  import 'package:lango_application/widgets/navigator.dart';
-  import 'package:lango_application/widgets/wrapper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lango_application/widgets/stage_card.dart';
+import 'package:lango_application/widgets/navigator.dart';
+import 'package:lango_application/widgets/wrapper.dart';
 
-  const currentStage = 9;
-  const totalStage = 12;
+const currentStage = 9;
+const totalStage = 12;
 
-  class WelComePage extends StatefulWidget {
-    const WelComePage({super.key});
+class WelComePage extends StatefulWidget {
+  const WelComePage({super.key});
 
-    @override
-    _WelComePageState createState() => _WelComePageState(); 
+  @override
+  _WelComePageState createState() => _WelComePageState();
+}
+
+class _WelComePageState extends State<WelComePage> {
+  late User? _currentUser;
+  late String _username = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser();
   }
 
-  class _WelComePageState extends State<WelComePage> {
-    late User? _currentUser;
-    late String _username = '';
+  void _getCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
 
-    @override
-    void initState() {
-      super.initState();
-      _getCurrentUser();
+    if (user != null) {
+      DocumentSnapshot userData = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      setState(() {
+        _currentUser = user;
+        _username = userData['username'];
+      });
+    } else {
+      setState(() {
+        _currentUser = null;
+      });
     }
-
-    void _getCurrentUser() async {
-      User? user = FirebaseAuth.instance.currentUser;
-
-      if (user != null) {
-        DocumentSnapshot userData = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
-
-        setState(() {
-          _currentUser = user;
-          _username = userData['username'];
-        });
-      } else {
-        setState(() {
-          _currentUser = null;
-        });
-      }
-    }
+  }
 
     @override
     Widget build(BuildContext context) {
