@@ -128,7 +128,7 @@
                           totalStage,
                           (index) => SizedBox(
                                 child: StageCard(
-                                  stage: index,
+                                  stage: index+1,
                                   isLock: index > currentStage,
                                 ),
                               )),
