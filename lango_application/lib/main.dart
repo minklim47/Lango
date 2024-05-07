@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:lango_application/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:lango_application/routes/router.dart';
-//import 'package:lango_application/screens/survey/choose_lang.dart';
 import 'theme/custom_theme.dart';
 
 Future main() async {

@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lango_application/theme/color_theme.dart';
 
+enum CardState { normal, correct, wrong }
+
 class PictureCard extends StatelessWidget {
   final String word;
   final String image;
-  const PictureCard({super.key, required this.word, required this.image});
+  final CardState cardState;
+
+  const PictureCard(
+      {super.key,
+      required this.word,
+      required this.image,
+      this.cardState = CardState.normal});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +23,9 @@ class PictureCard extends StatelessWidget {
             height: 180,
             width: 150,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColors.white,
-            ),
+                borderRadius: BorderRadius.circular(10),
+                color: AppColors.white,
+                border: Border.all(color: getBackgroundColor(cardState))),
             child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: Center(
@@ -29,5 +37,17 @@ class PictureCard extends StatelessWidget {
                     Image.asset("assets/images/game/$image.png", height: 100)
                   ],
                 )))));
+  }
+
+  Color getBackgroundColor(CardState state) {
+    switch (state) {
+      case CardState.correct:
+        return Colors.green; // Change to your desired color for collect state
+      case CardState.wrong:
+        return Colors.red; // Change to your desired color for wrong state
+      case CardState.normal:
+      default:
+        return AppColors.white; // Change to your desired color for normal state
+    }
   }
 }

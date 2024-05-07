@@ -43,6 +43,7 @@ dependencies:
   google_sign_in: ^6.2.1
   desktop_webview_auth: ^0.0.15
   cloud_firestore: ^4.17.2
+  confetti: ^0.7.0
 
 dev_dependencies:
   flutter_test:
@@ -68,7 +69,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/game/testimage.png
+    - assets/images/game/apple.png
+    - assets/images/game/pink.png
+    - assets/images/game/banana.png
     # - assets/icons/lango_icon.png
     - assets/icons/lango_icon-v2.png
     - assets/icons/google.png
