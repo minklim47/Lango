@@ -4,9 +4,14 @@ import 'package:lango_application/widgets/game/word_card.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 
-class PairMatchPage extends StatelessWidget {
+class PairMatchPage extends StatefulWidget {
   const PairMatchPage({super.key});
 
+  @override
+  State<PairMatchPage> createState() => _PairMatchPageState();
+}
+
+class _PairMatchPageState extends State<PairMatchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,15 +19,15 @@ class PairMatchPage extends StatelessWidget {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
-          IconButton(
-              onPressed: () => {context.go("/")},
-              icon: const Icon(Icons.close)),
           const Expanded(
               child: ProgressBar(
             max: 100,
             current: 10,
             height: 20,
-          ))
+          )),
+          IconButton(
+              onPressed: () => {context.go("/")},
+              icon: const Icon(Icons.close)),
         ]),
         Padding(
           padding: const EdgeInsets.fromLTRB(18, 10, 18, 30),
@@ -39,7 +44,7 @@ class PairMatchPage extends StatelessWidget {
             childAspectRatio: 3,
             children: List.generate(
               10,
-              (index) => const WordCard(word: "Hello"),
+              (index) => const WordCard(word: "Test"),
             ),
           ),
         ),
