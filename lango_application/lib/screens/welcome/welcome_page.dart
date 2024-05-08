@@ -13,11 +13,12 @@ class WelComePage extends StatefulWidget {
   const WelComePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _WelComePageState createState() => _WelComePageState();
 }
 
 class _WelComePageState extends State<WelComePage> {
-  late User? _currentUser;
+  // late User? _currentUser;
   late String _username = '';
 
   @override
@@ -36,12 +37,12 @@ class _WelComePageState extends State<WelComePage> {
           .get();
 
       setState(() {
-        _currentUser = user;
+        // _currentUser = user;
         _username = userData['username'];
       });
     } else {
       setState(() {
-        _currentUser = null;
+        // _currentUser = null;
       });
     }
   }
@@ -81,10 +82,10 @@ class _WelComePageState extends State<WelComePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                                padding: EdgeInsets.only(bottom: 10),
+                                padding: const EdgeInsets.only(bottom: 10),
                                 child: Text(
                                   'Welcome, $_username',
-                                  style: TextStyle(fontSize: 20),
+                                  style: const TextStyle(fontSize: 20),
                                 )),
                             const Text(
                               "สวัสดีครับ",

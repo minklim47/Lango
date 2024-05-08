@@ -6,7 +6,7 @@ import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
 
 class LearnforPage extends StatelessWidget {
-  const LearnforPage({Key? key}) : super(key: key);
+  const LearnforPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class LearnforPage extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: ProgressBar(
                     max: 100,
                     current: 50,
@@ -87,7 +87,7 @@ class LearnforPage extends StatelessWidget {
    Center(
       child: TextButton(
         onPressed: () => context.go("/level"), // Navigate to the desired page
-        child: Text(
+        child: const Text(
           "SKIP",
           style: TextStyle(
             color: Colors.grey, // Set text color to indicate it's clickable
@@ -107,6 +107,7 @@ class LearnforPage extends StatelessWidget {
 class LearnBox extends StatelessWidget {
   final String title;
 
+  // ignore: use_key_in_widget_constructors
   const LearnBox ({Key? key, required this.title});
 
   @override

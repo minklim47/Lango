@@ -5,7 +5,7 @@ import 'package:lango_application/widgets/wrapper.dart';
 //import 'package:lango_application/widgets/progress_bar.dart';
 
 class ChooselangPage extends StatelessWidget {
-  const ChooselangPage({Key? key}) : super(key: key);
+  const ChooselangPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +38,11 @@ class ChooselangPage extends StatelessWidget {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () => GoRouter.of(context).go('/learn'),
-                      child: LangBox(title: 'Thai'),
+                      child: const LangBox(title: 'Thai'),
                     ),
                     GestureDetector(
                       onTap: () => GoRouter.of(context).go('/learn'),
-                      child: LangBox(title: 'Spanish'),
+                      child: const LangBox(title: 'Spanish'),
                     ),
                   ],
                 ),
@@ -58,6 +58,7 @@ class ChooselangPage extends StatelessWidget {
 class LangBox extends StatelessWidget {
   final String title;
 
+  // ignore: use_key_in_widget_constructors
   const LangBox({Key? key, required this.title});
 
   @override

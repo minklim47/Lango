@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lango_application/theme/color_theme.dart';
 
 enum CardState { normal, correct, wrong }

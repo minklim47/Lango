@@ -9,6 +9,7 @@ class SingInPage extends StatefulWidget {
   const SingInPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UsernamePasswordSigninState createState() => _UsernamePasswordSigninState();
 }
 
@@ -32,6 +33,7 @@ class _UsernamePasswordSigninState extends State<SingInPage> {
       );
 
       // Navigate to the "/welcome" route regardless of the login success
+      // ignore: use_build_context_synchronously
       context.go("/");
     }
   }

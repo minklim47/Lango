@@ -12,6 +12,7 @@ class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EmailPasswordSignupState createState() => _EmailPasswordSignupState();
 }
 
@@ -46,8 +47,10 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
           'username': usernameController.text.trim(),
           'email': emailController.text.trim(),
         });
+        // ignore: use_build_context_synchronously
         context.go("/signin");
       } catch (e) {
+        // ignore: use_build_context_synchronously
         showSnackBar(context, 'Failed to sign up: $e');
       }
     }

@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/utils/showSnackbar.dart';
-import 'package:lango_application/widgets/input.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import "package:lango_application/widgets/wrapper.dart";
 
@@ -12,6 +10,7 @@ class ChangePassPage extends StatefulWidget {
   const ChangePassPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ChangePassPageState createState() => _ChangePassPageState();
 }
 
@@ -43,9 +42,12 @@ class _ChangePassPageState extends State<ChangePassPage> {
 
         await _auth.currentUser!.updatePassword(_newPassword);
 
+        // ignore: use_build_context_synchronously
         showSnackBar(context, 'Password updated successfully');
+        // ignore: use_build_context_synchronously
         context.go("/");
       } catch (e) {
+        // ignore: use_build_context_synchronously
         showSnackBar(context, 'Failed to update password: $e');
       }
     }
@@ -65,8 +67,8 @@ class _ChangePassPageState extends State<ChangePassPage> {
                 icon: const Icon(Icons.arrow_back_ios),
               ),
             ]),
-            Padding(
-                padding: const EdgeInsets.only(top: 30, bottom: 45),
+            const Padding(
+                padding: EdgeInsets.only(top: 30, bottom: 45),
                 child: Row(children: [
                   Padding(
                       padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
@@ -89,7 +91,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             fillColor: AppColors.white,
                             filled: true,
                             prefixIcon:
-                                Icon(Icons.password, color: AppColors.grey),
+                                const Icon(Icons.password, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -104,7 +106,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             });
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: newPasswordController,
                           decoration: InputDecoration(
@@ -114,7 +116,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: Icon(Icons.password_outlined,
+                            prefixIcon: const Icon(Icons.password_outlined,
                                 color: AppColors.grey),
                           ),
                           validator: (value) {
@@ -133,7 +135,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             });
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: confirmPasswordController,
                           decoration: InputDecoration(
@@ -143,7 +145,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: Icon(Icons.password_outlined,
+                            prefixIcon: const Icon(Icons.password_outlined,
                                 color: AppColors.grey),
                           ),
                           validator: (value) {
@@ -160,7 +162,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

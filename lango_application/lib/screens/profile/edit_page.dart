@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/utils/showSnackbar.dart';
-import 'package:lango_application/widgets/input.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import "package:lango_application/widgets/wrapper.dart";
 
@@ -12,6 +11,7 @@ class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
@@ -24,7 +24,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late User? _currentUser;
   String _currentPassword = '';
   String _newEmail = '';
-  String _username = '';
+  // String _username = '';
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   @override
@@ -57,6 +57,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           showSnackBar(context, "Failed to update user: $error");
         });
       } catch (e) {
+        // ignore: use_build_context_synchronously
         showSnackBar(context, 'error updating email : $e');
     
       }
@@ -74,14 +75,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      DocumentSnapshot userData = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
 
       setState(() {
         _currentUser = user;
-        _username = userData['username'];
+        // _username = userData['username'];
       });
     } else {
       setState(() {
@@ -137,7 +134,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: Icon(Icons.face, color: AppColors.grey),
+                            prefixIcon: const Icon(Icons.face, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -146,7 +143,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: currentPasswordController,
                           decoration: InputDecoration(
@@ -157,7 +154,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             fillColor: AppColors.white,
                             filled: true,
                             prefixIcon:
-                                Icon(Icons.password, color: AppColors.grey),
+                              const Icon(Icons.password, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -172,7 +169,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             });
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: editEmailController,
                           decoration: InputDecoration(
@@ -215,7 +212,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20), // Add some extra space at the end
+                  const SizedBox(height: 20), // Add some extra space at the end
                 ],
               ),
             ),
@@ -223,7 +220,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               onPressed: () => context.go("/changepass"),
               child: const Text("Change Password"),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => updateUser(),
               child: const Text("SAVE CHANGES"),

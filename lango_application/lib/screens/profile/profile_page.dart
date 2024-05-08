@@ -11,18 +11,19 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late User? _currentUser;
+  // late User? _currentUser; 
   String _username = '';
   String _email = '';
 
   @override
   void initState() {
     super.initState();
-    _currentUser = FirebaseAuth.instance.currentUser;
+    // _currentUser = FirebaseAuth.instance.currentUser;
     _getCurrentUser();
   }
 
@@ -36,13 +37,13 @@ class _ProfilePageState extends State<ProfilePage> {
           .get();
 
       setState(() {
-        _currentUser = user;
+        // _currentUser = user;
         _username = userData['username'];
         _email = userData['email'];
       });
     } else {
       setState(() {
-        _currentUser = null;
+        // _currentUser = null;
       });
     }
   }
@@ -160,8 +161,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: () async {
                         await FirebaseAuth.instance.signOut();
                         setState(() {
-                          _currentUser = null;
+                          // _currentUser = null;
                         });
+                        // ignore: use_build_context_synchronously
                         context.go('/');
                       },
                       child: const Text('Sign out'),
