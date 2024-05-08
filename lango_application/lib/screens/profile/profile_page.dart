@@ -127,19 +127,53 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ))),
         const SizedBox(height: 20),
-        SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                setState(() {
-                  _currentUser = null;
-                });
-                context.go('/');
+        // SizedBox(
+        //     width: double.infinity,
+        //     child: ElevatedButton(
+        //       onPressed: () async {
+        //         await FirebaseAuth.instance.signOut();
+        //         setState(() {
+        //           _currentUser = null;
+        //         });
+        //         context.go('/');
+        //       },
+        //       style: CustomTheme.customTheme.elevatedButtonTheme.style,
+        //       child: const Text("LOGOUT"),
+        //     ))
+        ElevatedButton(
+          onPressed: () async {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  content: const Text("Do you want to sign out?"),
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        context.go('/');
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        setState(() {
+                          _currentUser = null;
+                        });
+                        context.go('/');
+                      },
+                      child: const Text('Sign out'),
+                    ),
+                  ],
+                );
               },
-              style: CustomTheme.customTheme.elevatedButtonTheme.style,
-              child: const Text("LOGOUT"),
-            ))
+            );
+          },
+          style: CustomTheme.customTheme.elevatedButtonTheme.style,
+          child: const Text("LOGOUT"),
+        )
       ])),
     );
   }
