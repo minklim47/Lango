@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lango_application/providers/AppProvider.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
+import 'package:provider/provider.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -12,12 +14,12 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.cream,
-      bottomNavigationBar: BottomNav(path: "/about"),
+      bottomNavigationBar: const BottomNav(path: "/about"),
       body: Wrapper(
           child: Column(
         children: [
-          Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20),
+          const Padding(
+              padding: EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 20),
               child: Row(children: [
                 Text("About Us"),
               ])),
@@ -27,10 +29,10 @@ class AboutPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                       "Lango is a language learning app that helps users learn new languages through games and quizzes. Our app is designed to be user-friendly and interactive, making it easy for users to learn new languages in a fun and engaging way. With Lango, you can learn new languages at your own pace and on your own time. Whether you're a beginner or an advanced learner, Lango has something for everyone. Download our app today and start learning a new language with Lango!"),
-                  SizedBox(height: 30),
-                  Divider(
+                  const SizedBox(height: 30),
+                  const Divider(
                     color: AppColors.grey,
                     thickness: 2,
                   ),
@@ -38,8 +40,8 @@ class AboutPage extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(0, 10, 10.0, 10),
                     child: ExpansionTile(
                       title: Container(
-                          padding: EdgeInsets.only(left: 20),
-                          child: Text("Support us")),
+                          padding: const EdgeInsets.only(left: 20),
+                          child: const Text("Support us")),
                       backgroundColor: AppColors.cream,
                       collapsedBackgroundColor: AppColors.cream,
                       children: [
@@ -53,7 +55,7 @@ class AboutPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     color: AppColors.grey,
                     thickness: 2,
                   ),
@@ -61,12 +63,28 @@ class AboutPage extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(0, 10, 10.0, 10),
                     child: ExpansionTile(
                       title: Container(
-                          padding: EdgeInsets.only(left: 20),
-                          child: Text("Survey")),
+                          padding: const EdgeInsets.only(left: 20),
+                          child: const Text("Survey")),
                       backgroundColor: AppColors.cream,
                       collapsedBackgroundColor: AppColors.cream,
                       children: [
-                        ListTile(title: Text("insert survey here")),
+                        // ListTile(title: Text("insert survey here")),
+                        Consumer<AppProvider>(
+                          builder: (context, data, child) {
+                            return Column(
+                              children: [
+                                Text('Total Counter: ${data.counter}'),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      data.addCounter();
+                                    },
+                                    child: const Text('Increment Counter')),
+                                    Text(data.currentUser?.email ?? "No user")
+                                  
+                              ],
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
