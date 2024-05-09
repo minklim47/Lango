@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/AppProvider.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/theme/custom_theme.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -18,7 +20,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   // late User? _currentUser; 
   String _username = '';
-  String _email = '';
+  // String _email = '';
 
   @override
   void initState() {
@@ -39,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         // _currentUser = user;
         _username = userData['username'];
-        _email = userData['email'];
+        // _email = userData['email'];
       });
     } else {
       setState(() {
@@ -66,31 +68,36 @@ class _ProfilePageState extends State<ProfilePage> {
               Expanded(
                   child: Padding(
                       padding: const EdgeInsets.all(15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.only(bottom: 2.0),
-                              child: Row(children: [
-                                Expanded(
-                                    child: Text(_username,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium,
-                                        overflow: TextOverflow.ellipsis)),
-                                if (MediaQuery.of(context).size.width > 360)
-                                  const SizedBox(width: 10),
-                                GestureDetector(
-                                  onTap: () => context.go("/edit"),
-                                  child: const Icon(
-                                    Icons.edit,
-                                    color: AppColors.darkGrey,
-                                  ),
-                                )
-                              ])),
-                          Text(_email,
-                              style: Theme.of(context).textTheme.bodyLarge)
-                        ],
+                      child: Consumer<AppProvider>(
+                        builder: (context, data, child) {
+                          return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.only(bottom: 2.0),
+                                child: Row(children: [
+                                  Expanded(
+                                      child: Text(_username,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineMedium,
+                                          overflow: TextOverflow.ellipsis)),
+                                  if (MediaQuery.of(context).size.width > 360)
+                                    const SizedBox(width: 10),
+                                  GestureDetector(
+                                    onTap: () => context.go("/edit"),
+                                    child: const Icon(
+                                      Icons.edit,
+                                      color: AppColors.darkGrey,
+                                    ),
+                                  )
+                                ])),
+                            Text(data.currentUser?.email ?? "No user",
+                                style: Theme.of(context).textTheme.bodyLarge)
+                          ],
+                        );
+                        },
+                        
                       )))
             ],
           ),
@@ -128,19 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ))),
         const SizedBox(height: 20),
-        // SizedBox(
-        //     width: double.infinity,
-        //     child: ElevatedButton(
-        //       onPressed: () async {
-        //         await FirebaseAuth.instance.signOut();
-        //         setState(() {
-        //           _currentUser = null;
-        //         });
-        //         context.go('/');
-        //       },
-        //       style: CustomTheme.customTheme.elevatedButtonTheme.style,
-        //       child: const Text("LOGOUT"),
-        //     ))
+
         ElevatedButton(
           onPressed: () async {
             showDialog(
