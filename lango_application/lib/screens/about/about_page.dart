@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:lango_application/providers/AppProvider.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
+import 'package:provider/provider.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -63,8 +66,24 @@ class AboutPage extends StatelessWidget {
                           child: const Text("Survey")),
                       backgroundColor: AppColors.cream,
                       collapsedBackgroundColor: AppColors.cream,
-                      children: const [
-                        ListTile(title: Text("insert survey here")),
+                      children: [
+                        // ListTile(title: Text("insert survey here")),
+                        Consumer<AppProvider>(
+                          builder: (context, data, child) {
+                            return Column(
+                              children: [
+                                Text('Total Counter: ${data.counter}'),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      data.addCounter();
+                                    },
+                                    child: const Text('Increment Counter')),
+                                    Text(data.currentUser?.email ?? "No user")
+                                  
+                              ],
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
