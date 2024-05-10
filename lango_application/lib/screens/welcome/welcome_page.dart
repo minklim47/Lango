@@ -6,6 +6,7 @@ import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/widgets/stage_card.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
+import 'package:provider/provider.dart';
 
 const currentStage = 9;
 const totalStage = 12;
@@ -25,36 +26,35 @@ class _WelComePageState extends State<WelComePage> {
   @override
   void initState() {
     super.initState();
-    _getCurrentUser();
+    // _getCurrentUser();
     // Fetch the current user when the widget initializes
   }
 
-  void _getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
+  // void _getCurrentUser() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      DocumentSnapshot userData = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+  //   if (user != null) {
+  //     DocumentSnapshot userData = await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(user.uid)
+  //         .get();
 
-      setState(() {
-        _currentUser = user;
-        _username = userData['username'];
-      });
-    } else {
-      setState(() {
-        _currentUser = null;
-      });
-    }
-  }
+  //     setState(() {
+  //       _currentUser = user;
+  //       _username = userData['username'];
+  //     });
+  //   } else {
+  //     setState(() {
+  //       _currentUser = null;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          
           if (snapshot.connectionState == ConnectionState.active) {
             User? user = snapshot.data;
             if (user == null) {
@@ -84,12 +84,18 @@ class _WelComePageState extends State<WelComePage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                                padding: EdgeInsets.only(bottom: 10),
-                                child: Text(
-                                  'Welcome, $_username',
-                                  style: TextStyle(fontSize: 20),
-                                )),
+                            Consumer<AppProvider>(builder: (context, value, _) {
+                              if (value.user != null) {
+                                return Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Text(
+                                      'Welcome, ${value.username}',
+                                      style: const TextStyle(fontSize: 20),
+                                    ));
+                              } else {
+                                return Container();
+                              }
+                            }),
                             const Text(
                               "สวัสดีครับ",
                               style: TextStyle(fontSize: 20),

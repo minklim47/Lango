@@ -171,25 +171,26 @@ class _ProfilePageState extends State<ProfilePage> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  content: const Text("Do you want to sign out?"),
+                  content: Text("Do you want to sign out?",
+                      style: Theme.of(context).textTheme.bodyMedium),
                   shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  backgroundColor: AppColors.cream,
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
-                        context.go('/');
+                        Navigator.of(context).pop();
                       },
-                      child: const Text('Cancel'),
+                      child: Text('Cancel',
+                          style: Theme.of(context).textTheme.bodySmall),
                     ),
                     TextButton(
                       onPressed: () async {
                         await FirebaseAuth.instance.signOut();
-                        // setState(() {
-                        //   _currentUser = null;
-                        // });
-                        context.go('/');
+                        GoRouter.of(context).go('/');
                       },
-                      child: const Text('Sign out'),
+                      child: Text('Sign out',
+                          style: Theme.of(context).textTheme.bodySmall),
                     ),
                   ],
                 );
