@@ -17,37 +17,37 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late User? _currentUser;
-  String _username = '';
-  String _email = '';
+  // late User? _currentUser;
+  // String _username = '';
+  // String _email = '';
 
   @override
   void initState() {
     super.initState();
-    _currentUser = FirebaseAuth.instance.currentUser;
-    _getCurrentUser();
+    // _currentUser = FirebaseAuth.instance.currentUser;
+    // _getCurrentUser();
   }
 
-  void _getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
+  // void _getCurrentUser() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      DocumentSnapshot userData = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+  //   if (user != null) {
+  //     DocumentSnapshot userData = await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(user.uid)
+  //         .get();
 
-      setState(() {
-        _currentUser = user;
-        _username = userData['username'];
-        _email = userData['email'];
-      });
-    } else {
-      setState(() {
-        _currentUser = null;
-      });
-    }
-  }
+  //     setState(() {
+  //       _currentUser = user;
+  //       _username = userData['username'];
+  //       _email = userData['email'];
+  //     });
+  //   } else {
+  //     setState(() {
+  //       _currentUser = null;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   builder: (context, value, _) {
                                     if (value.user != null) {
                                       return Expanded(
-                                          child: Text(_username,
+                                          child: Text(value.username ?? 'N/A',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headlineMedium,
@@ -184,9 +184,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     TextButton(
                       onPressed: () async {
                         await FirebaseAuth.instance.signOut();
-                        setState(() {
-                          _currentUser = null;
-                        });
+                        // setState(() {
+                        //   _currentUser = null;
+                        // });
                         context.go('/');
                       },
                       child: const Text('Sign out'),
