@@ -45,6 +45,16 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
             .set({
           'username': usernameController.text.trim(),
           'email': emailController.text.trim(),
+          'progress': {
+            'th': {
+              'level': 0,
+              'stage': 0,
+            },
+            'es': {
+              'level': 0,
+              'stage': 0,
+            }
+          },
         });
         context.go("/signin");
       } catch (e) {
@@ -166,7 +176,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                             } else if (!regex.hasMatch(value)) {
                               return 'Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and the lenght should at least be 8';
                             }
-                            
+
                             return null;
                           },
                         ),
