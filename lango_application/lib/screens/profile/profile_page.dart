@@ -73,12 +73,20 @@ class _ProfilePageState extends State<ProfilePage> {
                           Padding(
                               padding: const EdgeInsets.only(bottom: 2.0),
                               child: Row(children: [
-                                Expanded(
-                                    child: Text(_username,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium,
-                                        overflow: TextOverflow.ellipsis)),
+                                Consumer<AppProvider>(
+                                  builder: (context, value, _) {
+                                    if (value.user != null) {
+                                      return Expanded(
+                                          child: Text(_username,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineMedium,
+                                              overflow: TextOverflow.ellipsis));
+                                    } else {
+                                      return const Text('User not logged in');
+                                    }
+                                  },
+                                ),
                                 if (MediaQuery.of(context).size.width > 360)
                                   const SizedBox(width: 10),
                                 GestureDetector(
@@ -89,22 +97,20 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 )
                               ])),
-                          // Text(_email,
-                          //     style: Theme.of(context).textTheme.bodyLarge)
                           Consumer<AppProvider>(
                             builder: (context, value, _) {
                               if (value.user != null) {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                        'Username: ${value.username ?? 'N/A'}'),
-                                    Text(
-                                        'Email: ${value.email ?? 'N/A'}'),
+                                    Text('Email: ${value.email ?? 'N/A'}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge),
                                   ],
                                 );
                               } else {
-                                return Text('User not logged in');
+                                return const Text('User not logged in');
                               }
                             },
                           )
