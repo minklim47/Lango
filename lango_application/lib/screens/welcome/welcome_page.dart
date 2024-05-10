@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/widgets/stage_card.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
@@ -19,11 +20,13 @@ class WelComePage extends StatefulWidget {
 class _WelComePageState extends State<WelComePage> {
   late User? _currentUser;
   late String _username = '';
+  final AppProvider _appProvider = AppProvider();
 
   @override
   void initState() {
     super.initState();
     _getCurrentUser();
+    // Fetch the current user when the widget initializes
   }
 
   void _getCurrentUser() async {
@@ -51,6 +54,7 @@ class _WelComePageState extends State<WelComePage> {
     return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
+          
           if (snapshot.connectionState == ConnectionState.active) {
             User? user = snapshot.data;
             if (user == null) {

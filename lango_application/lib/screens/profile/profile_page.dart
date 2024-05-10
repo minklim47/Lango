@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/theme/custom_theme.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -87,8 +89,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 )
                               ])),
-                          Text(_email,
-                              style: Theme.of(context).textTheme.bodyLarge)
+                          // Text(_email,
+                          //     style: Theme.of(context).textTheme.bodyLarge)
+                          Consumer<AppProvider>(
+                            builder: (context, value, _) {
+                              if (value.user != null) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        'Username: ${value.username ?? 'N/A'}'),
+                                    Text(
+                                        'Email: ${value.email ?? 'N/A'}'),
+                                  ],
+                                );
+                              } else {
+                                return Text('User not logged in');
+                              }
+                            },
+                          )
                         ],
                       )))
             ],

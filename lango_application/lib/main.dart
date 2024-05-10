@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:lango_application/firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:lango_application/providers/AppProvider.dart';
+import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/routes/router.dart';
 import 'package:provider/provider.dart';
 import 'theme/custom_theme.dart';
