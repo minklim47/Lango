@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/widgets/stage_card.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
+import 'package:provider/provider.dart';
 
-const currentStage = 9;
+// const currentStage = 9;
 const totalStage = 12;
 
 class WelComePage extends StatefulWidget {
@@ -19,33 +21,56 @@ class WelComePage extends StatefulWidget {
 
 class _WelComePageState extends State<WelComePage> {
   // late User? _currentUser;
-  late String _username = '';
+  // late String _username = '';
+  // final AppProvider _appProvider = AppProvider();
+  int level = 1;
 
   @override
   void initState() {
     super.initState();
-    _getCurrentUser();
+    
+    // _getCurrentUser();
+    // Fetch the current user when the widget initializes
   }
 
-  void _getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      DocumentSnapshot userData = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
-
+  void _incrementLevel() {
+    if (level < 3) {
       setState(() {
-        // _currentUser = user;
-        _username = userData['username'];
-      });
-    } else {
-      setState(() {
-        // _currentUser = null;
+        level++;
       });
     }
+    print("level");
+    print(level);
   }
+
+  void _decrementLevel() {
+    if (level > 1) {
+      setState(() {
+        level--;
+      });
+    }
+    print("level");
+    print(level);
+  }
+  // void _getCurrentUser() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
+
+  //   if (user != null) {
+  //     DocumentSnapshot userData = await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(user.uid)
+  //         .get();
+
+  //     setState(() {
+  //       _currentUser = user;
+  //       _username = userData['username'];
+  //     });
+  //   } else {
+  //     setState(() {
+  //       _currentUser = null;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,45 +106,88 @@ class _WelComePageState extends State<WelComePage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: Text(
-                                  'Welcome, $_username',
-                                  style: const TextStyle(fontSize: 20),
-                                )),
-                            const Text(
-                              "สวัสดีครับ",
-                              style: TextStyle(fontSize: 20),
-                            )
+                            Consumer<AppProvider>(builder: (context, value, _) {
+                              if (value.user != null) {
+                                return Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Text(
+                                      'Welcome, ${value.username}',
+                                      style: const TextStyle(fontSize: 20),
+                                    ));
+                              } else {
+                                return Container();
+                              }
+                            }),
+                            Consumer<AppProvider>(builder: (context, value, _) {
+                              String greeting = value.language == 'th'
+                                  ? 'สวัสดีครับ'
+                                  : 'Hola';
+                              return Text(
+                                greeting,
+                                style: const TextStyle(fontSize: 20),
+                              );
+                            }),
                           ],
                         ),
                         const Spacer(),
-                        Container(
-                          height: 50,
-                          width: 50,
-                          color: Colors.white,
-                          child: Image.asset("assets/icons/avatar_spain.png"),
-                        )
+                        // Container(
+                        //   height: 50,
+                        //   width: 50,
+                        //   color: Colors.white,
+                        //   child: Image.asset("assets/icons/avatar_spain.png"),
+                        // )
+                        ElevatedButton(
+                            onPressed: () {
+                              context.go('/choose');
+                            },
+                            child: Image.asset("assets/icons/avatar_spain.png"),
+                            style: ElevatedButton.styleFrom(
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.all(10),
+                            ))
                       ],
                     ),
                   ),
-                  const Padding(
+                  // const Padding(
+                  //     padding: EdgeInsets.symmetric(vertical: 20),
+                  //     child: Row(
+                  //       children: [
+                  //         Icon(
+                  //           Icons.arrow_left,
+                  //           size: 40,
+                  //         ),
+                  //         Spacer(),
+                  //         Text(
+                  //           "Level 1",
+                  //           style: TextStyle(fontSize: 20),
+                  //         ),
+                  //         Spacer(),
+                  //         Icon(Icons.arrow_right, size: 40),
+                  //       ],
+                  //     )),
+                  Padding(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       child: Row(
                         children: [
-                          Icon(
-                            Icons.arrow_left,
-                            size: 40,
-                          ),
-                          Spacer(),
+                          IconButton(
+                              onPressed: () {
+                                _decrementLevel();
+                              },
+                              icon: const Icon(Icons.arrow_left, size: 40)),
+                          const Spacer(),
                           Text(
-                            "Level 1",
-                            style: TextStyle(fontSize: 20),
+                            "Level $level",
+                            style: const TextStyle(fontSize: 20),
                           ),
-                          Spacer(),
-                          Icon(Icons.arrow_right, size: 40),
+                          const Spacer(),
+                          IconButton(
+                              onPressed: () {
+                                _incrementLevel();
+                              },
+                              icon: const Icon(Icons.arrow_right, size: 40))
                         ],
                       )),
+                  // Consumer(builder: builder)
                   Expanded(
                       child: GridView.count(
                     shrinkWrap: true,
@@ -131,9 +199,19 @@ class _WelComePageState extends State<WelComePage> {
                         totalStage,
                         (index) => SizedBox(
                               child: StageCard(
-                                stage: index + 1,
-                                isLock: index > currentStage,
-                              ),
+                                  stage: index + 1,
+                                  isLock: context
+                                              .watch<AppProvider>()
+                                              .currentLevel! <
+                                          level ||
+                                      context
+                                                  .watch<AppProvider>()
+                                                  .currentLevel! <=
+                                              level &&
+                                          context
+                                                  .watch<AppProvider>()
+                                                  .currentStage! <
+                                              index + 1),
                             )),
                   ))
                 ])),

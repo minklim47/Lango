@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lango_application/providers/AppProvider.dart';
+import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/theme/custom_theme.dart';
 import 'package:lango_application/widgets/navigator.dart';
@@ -18,37 +18,37 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // late User? _currentUser; 
-  String _username = '';
+  // late User? _currentUser;
+  // String _username = '';
   // String _email = '';
 
   @override
   void initState() {
     super.initState();
     // _currentUser = FirebaseAuth.instance.currentUser;
-    _getCurrentUser();
+    // _getCurrentUser();
   }
 
-  void _getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
+  // void _getCurrentUser() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      DocumentSnapshot userData = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+  //   if (user != null) {
+  //     DocumentSnapshot userData = await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(user.uid)
+  //         .get();
 
-      setState(() {
-        // _currentUser = user;
-        _username = userData['username'];
-        // _email = userData['email'];
-      });
-    } else {
-      setState(() {
-        // _currentUser = null;
-      });
-    }
-  }
+  //     setState(() {
+  //       _currentUser = user;
+  //       _username = userData['username'];
+  //       _email = userData['email'];
+  //     });
+  //   } else {
+  //     setState(() {
+  //       _currentUser = null;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -68,36 +68,54 @@ class _ProfilePageState extends State<ProfilePage> {
               Expanded(
                   child: Padding(
                       padding: const EdgeInsets.all(15),
-                      child: Consumer<AppProvider>(
-                        builder: (context, data, child) {
-                          return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                                padding: const EdgeInsets.only(bottom: 2.0),
-                                child: Row(children: [
-                                  Expanded(
-                                      child: Text(_username,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium,
-                                          overflow: TextOverflow.ellipsis)),
-                                  if (MediaQuery.of(context).size.width > 360)
-                                    const SizedBox(width: 10),
-                                  GestureDetector(
-                                    onTap: () => context.go("/edit"),
-                                    child: const Icon(
-                                      Icons.edit,
-                                      color: AppColors.darkGrey,
-                                    ),
-                                  )
-                                ])),
-                            Text(data.currentUser?.email ?? "No user",
-                                style: Theme.of(context).textTheme.bodyLarge)
-                          ],
-                        );
-                        },
-                        
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(bottom: 2.0),
+                              child: Row(children: [
+                                Consumer<AppProvider>(
+                                  builder: (context, value, _) {
+                                    if (value.user != null) {
+                                      return Expanded(
+                                          child: Text(value.username ?? 'N/A',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineMedium,
+                                              overflow: TextOverflow.ellipsis));
+                                    } else {
+                                      return const Text('User not logged in');
+                                    }
+                                  },
+                                ),
+                                if (MediaQuery.of(context).size.width > 360)
+                                  const SizedBox(width: 10),
+                                GestureDetector(
+                                  onTap: () => context.go("/edit"),
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: AppColors.darkGrey,
+                                  ),
+                                )
+                              ])),
+                          Consumer<AppProvider>(
+                            builder: (context, value, _) {
+                              if (value.user != null) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Email: ${value.email ?? 'N/A'}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge),
+                                  ],
+                                );
+                              } else {
+                                return const Text('User not logged in');
+                              }
+                            },
+                          )
+                        ],
                       )))
             ],
           ),
@@ -142,26 +160,26 @@ class _ProfilePageState extends State<ProfilePage> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  content: const Text("Do you want to sign out?"),
+                  content: Text("Do you want to sign out?",
+                      style: Theme.of(context).textTheme.bodyMedium),
                   shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  backgroundColor: AppColors.cream,
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
-                        context.go('/');
+                        Navigator.of(context).pop();
                       },
-                      child: const Text('Cancel'),
+                      child: Text('Cancel',
+                          style: Theme.of(context).textTheme.bodySmall),
                     ),
                     TextButton(
                       onPressed: () async {
                         await FirebaseAuth.instance.signOut();
-                        setState(() {
-                          // _currentUser = null;
-                        });
-                        // ignore: use_build_context_synchronously
-                        context.go('/');
+                        GoRouter.of(context).go('/');
                       },
-                      child: const Text('Sign out'),
+                      child: Text('Sign out',
+                          style: Theme.of(context).textTheme.bodySmall),
                     ),
                   ],
                 );
