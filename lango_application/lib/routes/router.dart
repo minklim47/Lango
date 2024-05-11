@@ -21,7 +21,7 @@ final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: "/",
-      builder: (context, state) => const WelComePage(),
+      builder: (context, state) => const ChooselangPage(),
       routes: <RouteBase>[
         GoRoute(
             path: "getstart", builder: (context, state) => const GetStartPage()),

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/widgets/survey/lang_card.dart';
 import 'package:lango_application/widgets/wrapper.dart';
-//import 'package:lango_application/theme/color_theme.dart';
-//import 'package:lango_application/widgets/progress_bar.dart';
 
 class ChooselangPage extends StatelessWidget {
-  const ChooselangPage({Key? key}) : super(key: key);
+  const ChooselangPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +33,15 @@ class ChooselangPage extends StatelessWidget {
                       MediaQuery.of(context).size.width < 330 ? 1 : 1,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 30,
-                  childAspectRatio: 4,
+                  childAspectRatio: 3,
                   children: <Widget>[
                     GestureDetector(
                       onTap: () => GoRouter.of(context).go('/learn'),
-                      child: LangBox(title: 'Thai'),
+                      child: const LangBox(title: "Thai", image: "th"),
                     ),
                     GestureDetector(
                       onTap: () => GoRouter.of(context).go('/learn'),
-                      child: LangBox(title: 'Spanish'),
+                      child: const LangBox(title: 'Spanish',image: "es"),
                     ),
                   ],
                 ),
@@ -55,29 +54,3 @@ class ChooselangPage extends StatelessWidget {
   }
 }
 
-class LangBox extends StatelessWidget {
-  final String title;
-
-  const LangBox({Key? key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white, // Use Colors.white instead of AppColors.white
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 14),
-            overflow: TextOverflow.ellipsis,
-          )
-        ],
-      ),
-    );
-  }
-}
