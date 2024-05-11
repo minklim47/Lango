@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/utils/showSnackbar.dart';
-import 'package:lango_application/widgets/input.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import "package:lango_application/widgets/wrapper.dart";
 
@@ -34,7 +32,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
     super.dispose();
   }
 
-    void _updatePassword() async {
+  void _updatePassword() async {
     if (_formKey.currentState!.validate()) {
       try {
         AuthCredential credential = EmailAuthProvider.credential(
@@ -69,8 +67,10 @@ class _ChangePassPageState extends State<ChangePassPage> {
                 padding: const EdgeInsets.only(top: 30, bottom: 45),
                 child: Row(children: [
                   Padding(
-                      padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-                      child: Text("Change Password"))
+                    padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                    child: Text("Change Password",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  )
                 ])),
             Expanded(
               child: ListView(
@@ -85,11 +85,11 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             hintText: "Current Password",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none,
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon:
-                                Icon(Icons.password, color: AppColors.grey),
+                            prefixIcon: Icon(Icons.key, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -111,11 +111,11 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             hintText: "New Password",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none,
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: Icon(Icons.password_outlined,
-                                color: AppColors.grey),
+                            prefixIcon: Icon(Icons.key, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -140,11 +140,11 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             hintText: "Confirm New Password",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none,
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: Icon(Icons.password_outlined,
-                                color: AppColors.grey),
+                            prefixIcon: Icon(Icons.key, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -164,13 +164,18 @@ class _ChangePassPageState extends State<ChangePassPage> {
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: () => _updatePassword(),
-              child: const Text("SAVE CHANGES"),
-            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => _updatePassword(),
+                child: const Text("SAVE CHANGES"),
+              ),
+            )
           ],
         ),
       ),
     );
   }
 }
+
+

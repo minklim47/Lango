@@ -137,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 });
                 context.go('/');
               },
-              style: CustomTheme.customTheme.elevatedButtonTheme.style,
+              style: CustomTheme.customTheme.outlinedButtonTheme.style,
               child: const Text("LOGOUT"),
             ))
       ])),
