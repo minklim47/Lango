@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/providers/app_provider.dart';
+import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/stage_card.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
@@ -91,14 +92,19 @@ class _WelComePageState extends State<WelComePage> {
                         ),
                         const Spacer(),
                         ElevatedButton(
-                            onPressed: () {
-                              context.go('/choose');
-                            },
-                            child: Image.asset("assets/icons/avatar_spain.png"),
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              padding: const EdgeInsets.all(10),
-                            ))
+                          onPressed: () {
+                            context.go('/change');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(5),
+                            backgroundColor: AppColors.cream,
+                          ),
+                          child: Image.asset(
+                            Provider.of<AppProvider>(context).language == "es"
+                                ? "assets/images/language/es_flag.png"
+                                : "assets/images/language/th_flag.png",
+                          ),
+                        )
                       ],
                     ),
                   ),

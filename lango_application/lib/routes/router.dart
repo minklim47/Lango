@@ -10,41 +10,47 @@ import 'package:lango_application/screens/game/word_match.dart';
 import 'package:lango_application/screens/profile/change_pass.dart';
 import 'package:lango_application/screens/profile/edit_page.dart';
 import 'package:lango_application/screens/profile/profile_page.dart';
-//import 'package:lango_application/screens/survey/choose_lang.dart';
+import 'package:lango_application/screens/survey/change_lang.dart';
 import 'package:lango_application/screens/welcome/welcome_page.dart';
 import 'package:lango_application/screens/survey/learn_for.dart';
 import 'package:lango_application/screens/survey/your_level.dart';
-
 import '../screens/survey/choose_lang.dart';
 
 final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: "/",
-      builder: (context, state) => const ChooselangPage(),
+      builder: (context, state) => const WelComePage(),
       routes: <RouteBase>[
         GoRoute(
-            path: "getstart", builder: (context, state) => const GetStartPage()),
+            path: "getstart",
+            builder: (context, state) => const GetStartPage()),
         GoRoute(
             path: "signin", builder: (context, state) => const SingInPage()),
         GoRoute(
             path: "signup", builder: (context, state) => const SignUpPage()),
         GoRoute(
-            path: "choose", builder: (context, state) => const ChooselangPage()),
+            path: "choose",
+            builder: (context, state) => const ChooselangPage()),
+        GoRoute(
+            path: "change",
+            builder: ((context, state) => const ChangelangPage())),
         GoRoute(
             path: "level", builder: (context, state) => const YourlevelPage()),
         GoRoute(
             path: "learn", builder: (context, state) => const LearnforPage()),
-        GoRoute(
-            path: "about", builder: (context, state) => const AboutPage()),
+        GoRoute(path: "about", builder: (context, state) => const AboutPage()),
         GoRoute(
             path: "profile", builder: (context, state) => const ProfilePage()),
         GoRoute(
             path: "select", builder: (context, state) => const Placeholder()),
         GoRoute(
             path: "reasons", builder: (context, state) => const Placeholder()),
-        GoRoute(path: "edit", builder: (context, state) => const EditProfilePage()),
-        GoRoute(path: "changepass", builder: (context, state) => const ChangePassPage()),
+        GoRoute(
+            path: "edit", builder: (context, state) => const EditProfilePage()),
+        GoRoute(
+            path: "changepass",
+            builder: (context, state) => const ChangePassPage()),
         GoRoute(
           path: "game",
           builder: (context, state) => const Placeholder(),

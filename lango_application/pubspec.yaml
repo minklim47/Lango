@@ -84,6 +84,8 @@ flutter:
     
     - assets/images/language/th.png
     - assets/images/language/es.png
+    - assets/images/language/es_flag.png
+    - assets/images/language/th_flag.png
     - assets/images/survey/learnfor/brain.png
     - assets/images/survey/learnfor/friend.png
     - assets/images/survey/learnfor/job.png

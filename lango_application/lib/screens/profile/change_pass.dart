@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/utils/showSnackbar.dart';
-import 'package:lango_application/widgets/input.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import "package:lango_application/widgets/wrapper.dart";
 
