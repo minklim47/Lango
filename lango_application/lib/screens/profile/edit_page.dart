@@ -126,21 +126,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   key: _formKey,
                   child: Column(
                     children: <Widget>[
-                      // TextFormField(
-                      // initialValue: _email,
-                      // readOnly: true,
-                      //   decoration: InputDecoration(
-                      //     hintText: "Email",
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(20),
-                      //       borderSide: BorderSide.none,
-                      //     ),
-                      //     fillColor: AppColors.white,
-                      //     filled: true,
-                      //     prefixIcon: Icon(Icons.email, color: AppColors.grey),
-                      //   ),
-                      // ),
-
                       SizedBox(height: 20),
 
                       TextFormField(
@@ -162,11 +147,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 20),
                     ],
                   ),
                 ),
-                SizedBox(
+              ],
+            ),
+          ),
+
+          SizedBox(
                   width: double.infinity,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -185,9 +173,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
         ])));
   }
 }

@@ -35,14 +35,31 @@ class _ChangePassPageState extends State<ChangePassPage> {
   void _updatePassword() async {
     if (_formKey.currentState!.validate()) {
       try {
-        AuthCredential credential = EmailAuthProvider.credential(
-            email: _auth.currentUser!.email!, password: _currentPassword);
-        await _auth.currentUser!.reauthenticateWithCredential(credential);
+        //       AuthCredential credential = EmailAuthProvider.credential(
+        //           email: _auth.currentUser!.email!, password: _currentPassword);
+        //       await _auth.currentUser!.reauthenticateWithCredential(credential);
 
-        await _auth.currentUser!.updatePassword(_newPassword);
+        //       await _auth.currentUser!.updatePassword(_newPassword);
 
-        showSnackBar(context, 'Password updated successfully');
-        context.go("/");
+        //       showSnackBar(context, 'Password updated successfully');
+        //       context.go("/");
+        //     } catch (e) {
+        //       showSnackBar(context, 'Failed to update password: $e');
+        //     }
+        //   }
+        // }
+        final user = _auth.currentUser;
+        if (user != null) {
+          await _auth.signInWithEmailAndPassword(
+            email: user.email!,
+            password: oldPasswordController.text,
+          );
+          await user.updatePassword(_newPassword);
+          showSnackBar(context, 'Password updated successfully');
+          context.go("/");
+        } else {
+          showSnackBar(context, 'User not found');
+        }
       } catch (e) {
         showSnackBar(context, 'Failed to update password: $e');
       }
@@ -119,7 +136,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your current password';
+                              return 'Please enter your new password';
                             }
                             if (value.length < 6) {
                               return 'Password must be at least 6 characters long';
@@ -148,7 +165,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your current password';
+                              return 'Please enter your new password';
                             }
                             if (value != newPasswordController.text) {
                               return 'Passwords do not match';
@@ -177,5 +194,3 @@ class _ChangePassPageState extends State<ChangePassPage> {
     );
   }
 }
-
-
