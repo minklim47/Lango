@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
-import 'package:provider/provider.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});

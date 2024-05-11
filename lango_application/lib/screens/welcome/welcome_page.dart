@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,17 +18,11 @@ class WelComePage extends StatefulWidget {
 }
 
 class _WelComePageState extends State<WelComePage> {
-  // late User? _currentUser;
-  // late String _username = '';
-  // final AppProvider _appProvider = AppProvider();
   int level = 1;
 
   @override
   void initState() {
     super.initState();
-    
-    // _getCurrentUser();
-    // Fetch the current user when the widget initializes
   }
 
   void _incrementLevel() {
@@ -51,25 +44,6 @@ class _WelComePageState extends State<WelComePage> {
     print("level");
     print(level);
   }
-  // void _getCurrentUser() async {
-  //   User? user = FirebaseAuth.instance.currentUser;
-
-  //   if (user != null) {
-  //     DocumentSnapshot userData = await FirebaseFirestore.instance
-  //         .collection('users')
-  //         .doc(user.uid)
-  //         .get();
-
-  //     setState(() {
-  //       _currentUser = user;
-  //       _username = userData['username'];
-  //     });
-  //   } else {
-  //     setState(() {
-  //       _currentUser = null;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -79,19 +53,6 @@ class _WelComePageState extends State<WelComePage> {
           if (snapshot.connectionState == ConnectionState.active) {
             User? user = snapshot.data;
             if (user == null) {
-              // AlertDialog(
-              //   title: const Text('Not Sign In'),
-              //   content: const Text('You need to sign in to access this page.'),
-              //   actions: [
-              //     TextButton(
-              //       onPressed: () {
-              //         context.go('/signin');
-              //       },
-              //       child: const Text('Sign In'),
-              //     )
-              //   ],
-              // );
-              // context.go('/signin');
               GoRouter.of(context).go('/signin');
               return Container();
             } else {
@@ -129,43 +90,20 @@ class _WelComePageState extends State<WelComePage> {
                           ],
                         ),
                         const Spacer(),
-                        // Container(
-                        //   height: 50,
-                        //   width: 50,
-                        //   color: Colors.white,
-                        //   child: Image.asset("assets/icons/avatar_spain.png"),
-                        // )
                         ElevatedButton(
                             onPressed: () {
                               context.go('/choose');
                             },
                             child: Image.asset("assets/icons/avatar_spain.png"),
                             style: ElevatedButton.styleFrom(
-                              shape: CircleBorder(),
-                              padding: EdgeInsets.all(10),
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(10),
                             ))
                       ],
                     ),
                   ),
-                  // const Padding(
-                  //     padding: EdgeInsets.symmetric(vertical: 20),
-                  //     child: Row(
-                  //       children: [
-                  //         Icon(
-                  //           Icons.arrow_left,
-                  //           size: 40,
-                  //         ),
-                  //         Spacer(),
-                  //         Text(
-                  //           "Level 1",
-                  //           style: TextStyle(fontSize: 20),
-                  //         ),
-                  //         Spacer(),
-                  //         Icon(Icons.arrow_right, size: 40),
-                  //       ],
-                  //     )),
                   Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       child: Row(
                         children: [
                           IconButton(
@@ -186,7 +124,6 @@ class _WelComePageState extends State<WelComePage> {
                               icon: const Icon(Icons.arrow_right, size: 40))
                         ],
                       )),
-                  // Consumer(builder: builder)
                   Expanded(
                       child: GridView.count(
                     shrinkWrap: true,
