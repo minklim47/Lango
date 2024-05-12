@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/widgets/survey/lang_card.dart';
 import 'package:lango_application/widgets/wrapper.dart';
-//import 'package:lango_application/theme/color_theme.dart';
-//import 'package:lango_application/widgets/progress_bar.dart';
 
 class ChooselangPage extends StatelessWidget {
   const ChooselangPage({super.key});
@@ -34,15 +33,23 @@ class ChooselangPage extends StatelessWidget {
                       MediaQuery.of(context).size.width < 330 ? 1 : 1,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 30,
-                  childAspectRatio: 4,
+                  childAspectRatio: 3,
                   children: <Widget>[
                     GestureDetector(
                       onTap: () => GoRouter.of(context).go('/learn'),
+<<<<<<< HEAD
                       child: const LangBox(title: 'Thai'),
                     ),
                     GestureDetector(
                       onTap: () => GoRouter.of(context).go('/learn'),
                       child: const LangBox(title: 'Spanish'),
+=======
+                      child: const LangBox(title: "Thai", image: "th"),
+                    ),
+                    GestureDetector(
+                      onTap: () => GoRouter.of(context).go('/learn'),
+                      child: const LangBox(title: 'Spanish',image: "es"),
+>>>>>>> origin/Alpha
                     ),
                   ],
                 ),
@@ -55,6 +62,7 @@ class ChooselangPage extends StatelessWidget {
   }
 }
 
+<<<<<<< HEAD
 class LangBox extends StatelessWidget {
   final String title;
 
@@ -82,3 +90,5 @@ class LangBox extends StatelessWidget {
     );
   }
 }
+=======
+>>>>>>> origin/Alpha

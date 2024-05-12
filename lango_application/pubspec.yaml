@@ -81,6 +81,23 @@ flutter:
     - assets/icons/avatar_spain.png
   #   - images/a_dot_ham.jpeg
     - assets/images/QRcode.png
+    
+    - assets/images/language/th.png
+    - assets/images/language/es.png
+    - assets/images/language/es_flag.png
+    - assets/images/language/th_flag.png
+    - assets/images/survey/learnfor/brain.png
+    - assets/images/survey/learnfor/friend.png
+    - assets/images/survey/learnfor/job.png
+    - assets/images/survey/learnfor/other.png
+    - assets/images/survey/learnfor/school.png
+    - assets/images/survey/learnfor/travel.png
+
+    - assets/images/survey/yourlevel/beginner.png
+    - assets/images/survey/yourlevel/intermediate.png
+    - assets/images/survey/yourlevel/expert.png
+  
+    - assets/images/survey/mango.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -2,12 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/theme/custom_theme.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
-import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -18,37 +16,37 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // late User? _currentUser;
-  // String _username = '';
-  // String _email = '';
+  late User? _currentUser;
+  String _username = '';
+  String _email = '';
 
   @override
   void initState() {
     super.initState();
-    // _currentUser = FirebaseAuth.instance.currentUser;
-    // _getCurrentUser();
+    _currentUser = FirebaseAuth.instance.currentUser;
+    _getCurrentUser();
   }
 
-  // void _getCurrentUser() async {
-  //   User? user = FirebaseAuth.instance.currentUser;
+  void _getCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
 
-  //   if (user != null) {
-  //     DocumentSnapshot userData = await FirebaseFirestore.instance
-  //         .collection('users')
-  //         .doc(user.uid)
-  //         .get();
+    if (user != null) {
+      DocumentSnapshot userData = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
 
-  //     setState(() {
-  //       _currentUser = user;
-  //       _username = userData['username'];
-  //       _email = userData['email'];
-  //     });
-  //   } else {
-  //     setState(() {
-  //       _currentUser = null;
-  //     });
-  //   }
-  // }
+      setState(() {
+        _currentUser = user;
+        _username = userData['username'];
+        _email = userData['email'];
+      });
+    } else {
+      setState(() {
+        _currentUser = null;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,20 +72,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           Padding(
                               padding: const EdgeInsets.only(bottom: 2.0),
                               child: Row(children: [
-                                Consumer<AppProvider>(
-                                  builder: (context, value, _) {
-                                    if (value.user != null) {
-                                      return Expanded(
-                                          child: Text(value.username ?? 'N/A',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headlineMedium,
-                                              overflow: TextOverflow.ellipsis));
-                                    } else {
-                                      return const Text('User not logged in');
-                                    }
-                                  },
-                                ),
+                                Expanded(
+                                    child: Text(_username,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium,
+                                        overflow: TextOverflow.ellipsis)),
                                 if (MediaQuery.of(context).size.width > 360)
                                   const SizedBox(width: 10),
                                 GestureDetector(
@@ -98,23 +88,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 )
                               ])),
-                          Consumer<AppProvider>(
-                            builder: (context, value, _) {
-                              if (value.user != null) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Email: ${value.email ?? 'N/A'}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge),
-                                  ],
-                                );
-                              } else {
-                                return const Text('User not logged in');
-                              }
-                            },
-                          )
+                          Text(_email,
+                              style: Theme.of(context).textTheme.bodyLarge)
                         ],
                       )))
             ],
@@ -153,6 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ))),
         const SizedBox(height: 20),
+<<<<<<< HEAD
 
         ElevatedButton(
           onPressed: () async {
@@ -183,12 +159,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 );
+=======
+        SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                setState(() {
+                  _currentUser = null;
+                });
+                context.go('/');
+>>>>>>> origin/Alpha
               },
-            );
-          },
-          style: CustomTheme.customTheme.elevatedButtonTheme.style,
-          child: const Text("LOGOUT"),
-        )
+              style: CustomTheme.customTheme.outlinedButtonTheme.style,
+              child: const Text("LOGOUT"),
+            ))
       ])),
     );
   }

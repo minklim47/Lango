@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-//import 'package:lango_application/survey/choose_lang.dart';
+import 'package:lango_application/widgets/survey/level_card.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
 
+<<<<<<< HEAD
 class YourlevelPage extends StatelessWidget {
   const YourlevelPage({super.key});
+=======
+class YourlevelPage extends StatefulWidget {
+  const YourlevelPage({super.key});
+
+  @override
+  State<YourlevelPage> createState() => _YourlevelPageState();
+}
+
+class _YourlevelPageState extends State<YourlevelPage> {
+  int _selectCardIndex = -1;
+
+  void handleCardTap(int index) {
+    setState(() {
+      _selectCardIndex = index;
+    });
+  }
+>>>>>>> origin/Alpha
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +61,48 @@ class YourlevelPage extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 600),
-                child: GridView.count(
-                  crossAxisCount:
-                      MediaQuery.of(context).size.width < 330 ? 1 : 1,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 30,
-                  childAspectRatio: 3,
-                  children: const <LevelBox>[
-                    LevelBox(
-                      title: 'Beginner',
-                    ),
-                    LevelBox(
-                      title: 'Intermediate',
-                    ),
-                    LevelBox(
-                      title: 'Expert',
-                    ),
-                  ],
+              child: Center(
+                // Wrap the GridView in a Center widget
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 500),
+                  child: GridView.count(
+                      crossAxisCount:
+                          MediaQuery.of(context).size.width < 330 ? 1 : 1,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 30,
+                      childAspectRatio: 3,
+                      children: [
+                        GestureDetector(
+                          onTap: () => handleCardTap(0),
+                          child: LevelBox(
+                            title: 'Beginner',
+                            image: 'beginner',
+                            langState: _selectCardIndex == 0
+                                ? LangState.click
+                                : LangState.normal,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => handleCardTap(1),
+                          child: LevelBox(
+                            title: 'Intermediate',
+                            image: 'intermediate',
+                            langState: _selectCardIndex == 1
+                                ? LangState.click
+                                : LangState.normal,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => handleCardTap(2),
+                          child: LevelBox(
+                            title: 'Expert',
+                            image: 'expert',
+                            langState: _selectCardIndex == 2
+                                ? LangState.click
+                                : LangState.normal,
+                          ),
+                        ),
+                      ]),
                 ),
               ),
             ),
@@ -69,19 +110,33 @@ class YourlevelPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
               child: SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => context.go("/"),
-                  child: const Text("CONTINUE"),
+                child: IgnorePointer(
+                  ignoring: _selectCardIndex == -1,
+                  child: ElevatedButton(
+                    onPressed: () => context.go("/level"),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        _selectCardIndex == -1 ? Colors.grey : AppColors.yellow,
+                      ),
+                    ),
+                    child: const Text("CONTINUE"),
+                  ),
                 ),
               ),
             ),
             Center(
               child: TextButton(
+<<<<<<< HEAD
                 onPressed: () => context.go("/"), // Navigate to the desired page
+=======
+                onPressed: () =>
+                    context.go("/level"),
+>>>>>>> origin/Alpha
                 child: const Text(
                   "SKIP",
                   style: TextStyle(
-                    color: Colors.grey, // Set text color to indicate it's clickable
+                    color: Colors
+                        .grey,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -93,6 +148,7 @@ class YourlevelPage extends StatelessWidget {
     );
   }
 }
+<<<<<<< HEAD
 
 class LevelBox extends StatelessWidget {
   final String title;
@@ -121,3 +177,5 @@ class LevelBox extends StatelessWidget {
     );
   }
 }
+=======
+>>>>>>> origin/Alpha
