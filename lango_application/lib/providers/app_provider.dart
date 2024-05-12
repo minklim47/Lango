@@ -19,7 +19,7 @@ class AppProvider extends ChangeNotifier {
   int? get currentLevel => _currentLevel;
   int? _currentStage = 0;
   int? get currentStage => _currentStage;
-  
+
   AppProvider() {
     _init();
   }
@@ -93,6 +93,11 @@ class AppProvider extends ChangeNotifier {
 
   void changeLanguage(String newLanguage) {
     _language = newLanguage;
+    notifyListeners();
+  }
+
+  void updateUsername(String newName) {
+    _username = newName;
     notifyListeners();
   }
 }
