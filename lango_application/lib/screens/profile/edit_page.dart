@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/utils/showSnackbar.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import "package:lango_application/widgets/wrapper.dart";
 import 'package:lango_application/theme/custom_theme.dart';
+import 'package:provider/provider.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -37,7 +39,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .update({'username': editUsernameController.text.trim()});
-
+        Provider.of<AppProvider>(context, listen: false)
+            .updateUsername(editUsernameController.text.trim());
         showSnackBar(context, "Username Updated");
         context.go('/profile');
       } catch (e) {
@@ -127,7 +130,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 20),
-
                       TextFormField(
                         controller: editUsernameController,
                         decoration: InputDecoration(
@@ -153,26 +155,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ],
             ),
           ),
-
           SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () => context.go("/changepass"),
-                        style:
-                            CustomTheme.customTheme.outlinedButtonTheme.style,
-                        child: const Text("Change Password"),
-                      ),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () => updateUser(),
-                        child: const Text("SAVE CHANGES"),
-                      ),
-                    ],
-                  ),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedButton(
+                  onPressed: () => context.go("/changepass"),
+                  style: CustomTheme.customTheme.outlinedButtonTheme.style,
+                  child: const Text("Change Password"),
                 ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () => updateUser(),
+                  child: const Text("SAVE CHANGES"),
+                ),
+              ],
+            ),
+          ),
         ])));
   }
 }
