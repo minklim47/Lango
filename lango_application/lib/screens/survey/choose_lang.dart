@@ -37,19 +37,11 @@ class ChooselangPage extends StatelessWidget {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () => GoRouter.of(context).go('/learn'),
-<<<<<<< HEAD
-                      child: const LangBox(title: 'Thai'),
-                    ),
-                    GestureDetector(
-                      onTap: () => GoRouter.of(context).go('/learn'),
-                      child: const LangBox(title: 'Spanish'),
-=======
                       child: const LangBox(title: "Thai", image: "th"),
                     ),
                     GestureDetector(
                       onTap: () => GoRouter.of(context).go('/learn'),
                       child: const LangBox(title: 'Spanish',image: "es"),
->>>>>>> origin/Alpha
                     ),
                   ],
                 ),
@@ -62,33 +54,3 @@ class ChooselangPage extends StatelessWidget {
   }
 }
 
-<<<<<<< HEAD
-class LangBox extends StatelessWidget {
-  final String title;
-
-  // ignore: use_key_in_widget_constructors
-  const LangBox({Key? key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white, // Use Colors.white instead of AppColors.white
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 14),
-            overflow: TextOverflow.ellipsis,
-          )
-        ],
-      ),
-    );
-  }
-}
-=======
->>>>>>> origin/Alpha

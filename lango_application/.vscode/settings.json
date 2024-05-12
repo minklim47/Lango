@@ -1,5 +1,5 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.configuration.updateBuildConfiguration": "automatic",
     "terminal.integrated.fontFamily": "MesloLGS NF",
     "cmake.configureOnOpen": true
 }

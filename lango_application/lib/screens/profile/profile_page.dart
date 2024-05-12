@@ -128,38 +128,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ))),
         const SizedBox(height: 20),
-<<<<<<< HEAD
-
-        ElevatedButton(
-          onPressed: () async {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  content: Text("Do you want to sign out?",
-                      style: Theme.of(context).textTheme.bodyMedium),
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  backgroundColor: AppColors.cream,
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Cancel',
-                          style: Theme.of(context).textTheme.bodySmall),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
-                        GoRouter.of(context).go('/');
-                      },
-                      child: Text('Sign out',
-                          style: Theme.of(context).textTheme.bodySmall),
-                    ),
-                  ],
-                );
-=======
         SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -169,7 +137,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   _currentUser = null;
                 });
                 context.go('/');
->>>>>>> origin/Alpha
               },
               style: CustomTheme.customTheme.outlinedButtonTheme.style,
               child: const Text("LOGOUT"),

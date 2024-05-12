@@ -5,10 +5,6 @@ import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
 
-<<<<<<< HEAD
-class YourlevelPage extends StatelessWidget {
-  const YourlevelPage({super.key});
-=======
 class YourlevelPage extends StatefulWidget {
   const YourlevelPage({super.key});
 
@@ -24,7 +20,6 @@ class _YourlevelPageState extends State<YourlevelPage> {
       _selectCardIndex = index;
     });
   }
->>>>>>> origin/Alpha
 
   @override
   Widget build(BuildContext context) {
@@ -126,12 +121,8 @@ class _YourlevelPageState extends State<YourlevelPage> {
             ),
             Center(
               child: TextButton(
-<<<<<<< HEAD
-                onPressed: () => context.go("/"), // Navigate to the desired page
-=======
                 onPressed: () =>
                     context.go("/level"),
->>>>>>> origin/Alpha
                 child: const Text(
                   "SKIP",
                   style: TextStyle(
@@ -148,34 +139,3 @@ class _YourlevelPageState extends State<YourlevelPage> {
     );
   }
 }
-<<<<<<< HEAD
-
-class LevelBox extends StatelessWidget {
-  final String title;
-
-  // ignore: use_key_in_widget_constructors
-  const LevelBox({Key? key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 11),
-            overflow: TextOverflow.ellipsis,
-          )
-        ],
-      ),
-    );
-  }
-}
-=======
->>>>>>> origin/Alpha

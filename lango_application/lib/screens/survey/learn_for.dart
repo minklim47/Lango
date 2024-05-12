@@ -5,10 +5,6 @@ import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
 
-<<<<<<< HEAD
-class LearnforPage extends StatelessWidget {
-  const LearnforPage({super.key});
-=======
 class LearnforPage extends StatefulWidget {
   const LearnforPage({super.key});
 
@@ -24,7 +20,6 @@ class _LearnforPageState extends State<LearnforPage> {
       _selectCardIndex = index;
     });
   }
->>>>>>> origin/Alpha
 
   @override
   Widget build(BuildContext context) {
@@ -137,30 +132,6 @@ class _LearnforPageState extends State<LearnforPage> {
               ),
             ),
             Padding(
-<<<<<<< HEAD
-  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-  child: SizedBox(
-    width: double.infinity,
-    child: ElevatedButton(
-      onPressed: () => context.go("/level"),
-      child: const Text("CONTINUE"),
-    ),
-  ),
-),
-   Center(
-      child: TextButton(
-        onPressed: () => context.go("/level"), // Navigate to the desired page
-        child: const Text(
-          "SKIP",
-          style: TextStyle(
-            color: Colors.grey, // Set text color to indicate it's clickable
-             fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    ),
-
-=======
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
               child: SizedBox(
                 width: double.infinity,
@@ -192,41 +163,9 @@ class _LearnforPageState extends State<LearnforPage> {
                 ),
               ),
             ),
->>>>>>> origin/Alpha
           ],
         ),
       ),
     );
   }
 }
-<<<<<<< HEAD
-
-class LearnBox extends StatelessWidget {
-  final String title;
-
-  // ignore: use_key_in_widget_constructors
-  const LearnBox ({Key? key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 11),
-            overflow: TextOverflow.ellipsis,
-          )
-        ],
-      ),
-    );
-  }
-}
-=======
->>>>>>> origin/Alpha
