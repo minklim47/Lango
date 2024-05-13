@@ -4,6 +4,8 @@ import 'package:lango_application/widgets/survey/learn_card.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LearnforPage extends StatefulWidget {
   const LearnforPage({super.key});
@@ -19,6 +21,39 @@ class _LearnforPageState extends State<LearnforPage> {
     setState(() {
       _selectCardIndex = index;
     });
+  }
+
+  Future<void> saveSelectedReason() async {
+    if (_selectCardIndex == -1) return; // Do nothing if no selection
+
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print('No user logged in');
+      return;
+    }
+
+    final List<String> reasons = [
+      'Apply job',
+      'Travel',
+      'Brain training',
+      'School',
+      'Friend & Family',
+      'Other'
+    ];
+
+    try {
+      // Update the existing user document with the selected reason
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
+          {
+            'selectedReason':
+                reasons[_selectCardIndex], // Save the text reason, not index
+          },
+          SetOptions(
+              merge: true)); // Merge with existing data to avoid overwriting
+      print('Reason saved successfully');
+    } catch (e) {
+      print('Error saving reason: $e');
+    }
   }
 
   @override
@@ -138,7 +173,15 @@ class _LearnforPageState extends State<LearnforPage> {
                 child: IgnorePointer(
                   ignoring: _selectCardIndex == -1,
                   child: ElevatedButton(
-                    onPressed: () => context.go("/level"),
+                    onPressed: () async {
+                      if (_selectCardIndex != -1) {
+                        await saveSelectedReason(); // Save the selection to Firestore
+                        context.go("/level"); // Navigate to the next page
+                      } else {
+                        // Optionally handle the case where no selection has been made
+                        print("Please make a selection before continuing.");
+                      }
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                         _selectCardIndex == -1 ? Colors.grey : AppColors.yellow,

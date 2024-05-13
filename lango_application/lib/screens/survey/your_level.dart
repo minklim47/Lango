@@ -4,6 +4,8 @@ import 'package:lango_application/widgets/survey/level_card.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class YourlevelPage extends StatefulWidget {
   const YourlevelPage({super.key});
@@ -19,6 +21,29 @@ class _YourlevelPageState extends State<YourlevelPage> {
     setState(() {
       _selectCardIndex = index;
     });
+  }
+
+  Future<void> saveSelectedLevel() async {
+    if (_selectCardIndex == -1) return; // Do nothing if no selection
+
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print('No user logged in');
+      return;
+    }
+
+    final List<String> levels = ['Beginner', 'Intermediate', 'Expert'];
+
+    String selectedLevel = levels[_selectCardIndex];
+
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'languageLevel': selectedLevel, // Save the level as a string
+      }, SetOptions(merge: true)); // Use merge to not overwrite other fields
+      print('Language level saved successfully');
+    } catch (e) {
+      print('Error saving language level: $e');
+    }
   }
 
   @override
@@ -108,7 +133,16 @@ class _YourlevelPageState extends State<YourlevelPage> {
                 child: IgnorePointer(
                   ignoring: _selectCardIndex == -1,
                   child: ElevatedButton(
-                    onPressed: () => context.go("/level"),
+                    onPressed: () async {
+                      if (_selectCardIndex != -1) {
+                        await saveSelectedLevel(); // Save the selected level to Firestore
+                        context.go("/"); 
+                        // Optionally, prompt the user to make a selection if none is made
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                "Please select a level before continuing.")));
+                      }
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                         _selectCardIndex == -1 ? Colors.grey : AppColors.yellow,
@@ -121,13 +155,11 @@ class _YourlevelPageState extends State<YourlevelPage> {
             ),
             Center(
               child: TextButton(
-                onPressed: () =>
-                    context.go("/level"),
+                onPressed: () => context.go("/"),
                 child: const Text(
                   "SKIP",
                   style: TextStyle(
-                    color: Colors
-                        .grey,
+                    color: Colors.grey,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
