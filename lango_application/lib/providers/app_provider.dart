@@ -12,6 +12,9 @@ class AppProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  String _userId = '';
+  String get userId => _userId;
+
   String? _language = "es";
   String? get language => _language;
 
@@ -30,6 +33,7 @@ class AppProvider extends ChangeNotifier {
         _user = user;
         _isLoading = true;
         notifyListeners();
+        _userId = user.uid;
         await _fetchUserInfo(user.uid);
         _isLoading = false;
         notifyListeners();
@@ -52,6 +56,7 @@ class AppProvider extends ChangeNotifier {
       _email = userData['email'];
       Map<String, dynamic>? progress = userData['progress'];
       if (progress != null && _language != null) {
+        _language = userData['language'];
         Map<String, dynamic>? languageProgress = progress[_language!];
         if (languageProgress != null) {
           _currentLevel = languageProgress['level'];
@@ -91,8 +96,15 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
-  void changeLanguage(String newLanguage) {
+  Future<void> changeLanguage(String newLanguage) async {
+    _isLoading = true;
     _language = newLanguage;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .update({'language': newLanguage});
+    await _fetchUserInfo(userId);
+    _isLoading = false;
     notifyListeners();
   }
 
