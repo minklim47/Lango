@@ -1,13 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lango_application/providers/app_provider.dart';
 import 'package:provider/provider.dart';
 
 class LevelControls extends StatelessWidget {
- 
-
   const LevelControls({
     super.key,
-  
   });
 
   @override
@@ -18,9 +17,12 @@ class LevelControls extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
             children: [
-              IconButton(
-                onPressed: appProvider.decrementLevel,
-                icon: const Icon(Icons.arrow_left, size: 40),
+              Opacity(
+                opacity: appProvider.appLevel > 1 ? 1 : 0,
+                child: IconButton(
+                  onPressed: appProvider.decrementLevel,
+                  icon: const Icon(Icons.arrow_left, size: 40),
+                ),
               ),
               const Spacer(),
               Text(
@@ -28,9 +30,12 @@ class LevelControls extends StatelessWidget {
                 style: const TextStyle(fontSize: 20),
               ),
               const Spacer(),
-              IconButton(
-                onPressed: appProvider.incrementLevel,
-                icon: const Icon(Icons.arrow_right, size: 40),
+              Opacity(
+                opacity: appProvider.appLevel < 3 ? 1 : 0,
+                child: IconButton(
+                  onPressed: appProvider.incrementLevel,
+                  icon: const Icon(Icons.arrow_right, size: 40),
+                ),
               ),
             ],
           ),
