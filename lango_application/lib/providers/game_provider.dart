@@ -67,7 +67,7 @@ class GameProvider extends ChangeNotifier {
             _words.add(Word(eng: doc["en"], other: doc["es"]));
           }
         }
-        if (_newWords.isNotEmpty) {
+        if (_newWords.isNotEmpty) { //ใส่ 3 คำ
           questions.add(Question(
               questionWord: _newWords[0].eng,
               answerIndex: 2,

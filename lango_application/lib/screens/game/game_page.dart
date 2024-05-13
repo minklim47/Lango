@@ -51,7 +51,7 @@ class _GamePageState extends State<GamePage> {
                         var question =
                             Provider.of<GameProvider>(context, listen: false)
                                 .questions[0];
-                                print(question.answerIndex);
+                        print(question.answerIndex);
                         context.go('/game/${widget.level}/${widget.stage}/word',
                             extra: question);
                       },

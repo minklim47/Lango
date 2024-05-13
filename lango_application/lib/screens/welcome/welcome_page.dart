@@ -75,7 +75,7 @@ class _WelComePageState extends State<WelComePage> {
                     }),
                     Consumer<AppProvider>(builder: (context, value, _) {
                       String greeting =
-                          value.language == 'th' ? 'สวัสดีครับ' : 'Hola';
+                          value.language == 'th' ? 'สวัสดี' : 'Hola';
                       return Text(
                         greeting,
                         style: const TextStyle(fontSize: 20),
@@ -124,6 +124,7 @@ class _WelComePageState extends State<WelComePage> {
                 totalStage,
                 (index) => SizedBox(
                       child: StageCard(
+                        level: level,
                         stage: index + 1,
                         isLock: context.watch<AppProvider>().currentLevel! <
                                 level ||
@@ -132,7 +133,8 @@ class _WelComePageState extends State<WelComePage> {
                                 context.watch<AppProvider>().currentStage! <
                                     index + 1,
                         isCurrent: index + 1 ==
-                            context.watch<AppProvider>().currentStage && level == context.watch<AppProvider>().currentLevel,
+                                context.watch<AppProvider>().currentStage &&
+                            level == context.watch<AppProvider>().currentLevel,
                       ),
                     )),
           ))
