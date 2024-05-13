@@ -71,8 +71,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/game/apple.png
-    - assets/images/game/pink.png
     - assets/images/game/banana.png
+    - assets/images/game/pink.png
     # - assets/icons/lango_icon.png
     - assets/icons/lango_icon-v2.png
     - assets/icons/google.png

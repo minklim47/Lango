@@ -24,11 +24,16 @@ class FirebaseAuthMethods {
     } on FirebaseAuthException catch (e) {
       // if you want to display your own custom error message
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        if (kDebugMode) {
+          print('The password provided is too weak.');
+        }
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        if (kDebugMode) {
+          print('The account already exists for that email.');
+        }
       }
       showSnackBar(
+          // ignore: use_build_context_synchronously
           context, e.message!); // Displaying the usual firebase error message
     }
   }
@@ -45,11 +50,13 @@ class FirebaseAuthMethods {
         password: password,
       );
       if (!user.emailVerified) {
+        // ignore: use_build_context_synchronously
         await sendEmailVerification(context);
         // restrict access to certain things using provider
         // transition to another page instead of home screen
       }
     } on FirebaseAuthException catch (e) {
+      // ignore: use_build_context_synchronously
       showSnackBar(context, e.message!); // Displaying the error message
     }
   }
@@ -57,9 +64,11 @@ class FirebaseAuthMethods {
   // EMAIL VERIFICATION
   Future<void> sendEmailVerification(BuildContext context) async {
     try {
-     await _auth.currentUser?.sendEmailVerification();
+      await _auth.currentUser?.sendEmailVerification();
+      // ignore: use_build_context_synchronously
       showSnackBar(context, 'Email verification sent!');
     } on FirebaseAuthException catch (e) {
+      // ignore: use_build_context_synchronously
       showSnackBar(context, e.message!); // Display error message
     }
   }
@@ -100,6 +109,7 @@ class FirebaseAuthMethods {
         }
       }
     } on FirebaseAuthException catch (e) {
+      // ignore: use_build_context_synchronously
       showSnackBar(context, e.message!); // Displaying the error message
     }
   }

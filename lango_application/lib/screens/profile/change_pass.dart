@@ -10,6 +10,7 @@ class ChangePassPage extends StatefulWidget {
   const ChangePassPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ChangePassPageState createState() => _ChangePassPageState();
 }
 
@@ -61,6 +62,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
           showSnackBar(context, 'User not found');
         }
       } catch (e) {
+        // ignore: use_build_context_synchronously
         showSnackBar(context, 'Failed to update password: $e');
       }
     }
@@ -80,8 +82,8 @@ class _ChangePassPageState extends State<ChangePassPage> {
                 icon: const Icon(Icons.arrow_back_ios),
               ),
             ]),
-            Padding(
-                padding: const EdgeInsets.only(top: 30, bottom: 45),
+            const Padding(
+                padding: EdgeInsets.only(top: 30, bottom: 45),
                 child: Row(children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
@@ -121,7 +123,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             });
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: newPasswordController,
                           decoration: InputDecoration(
@@ -150,7 +152,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             });
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: confirmPasswordController,
                           decoration: InputDecoration(
@@ -177,7 +179,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

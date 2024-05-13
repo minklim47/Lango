@@ -14,6 +14,7 @@ class WelComePage extends StatefulWidget {
   const WelComePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _WelComePageState createState() => _WelComePageState();
 }
 
