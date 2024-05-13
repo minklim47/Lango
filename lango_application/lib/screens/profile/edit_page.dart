@@ -29,6 +29,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void dispose() {
     editUsernameController.dispose();
+
     super.dispose();
   }
 
@@ -68,6 +69,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         _username = userData['username'];
         _email = userData['email'];
       });
+      editUsernameController.text = _username;
     } else {
       setState(() {
         _currentUser = null;
@@ -109,11 +111,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.email, color: AppColors.darkGrey),
-                SizedBox(width: 10),
+                const Icon(Icons.email, color: AppColors.darkGrey),
+                const SizedBox(width: 10),
                 Text(
                   _email,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     color: AppColors.black,
                   ),
@@ -133,7 +135,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       TextFormField(
                         controller: editUsernameController,
                         decoration: InputDecoration(
-                          hintText: "Username",
+                          hintText: "New Username",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide.none,
