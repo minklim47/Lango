@@ -1,11 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/theme/custom_theme.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,36 +16,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late User? _currentUser;
-  String _username = '';
-  String _email = '';
-
   @override
   void initState() {
     super.initState();
-    _currentUser = FirebaseAuth.instance.currentUser;
-    _getCurrentUser();
-  }
-
-  void _getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      DocumentSnapshot userData = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
-
-      setState(() {
-        _currentUser = user;
-        _username = userData['username'];
-        _email = userData['email'];
-      });
-    } else {
-      setState(() {
-        _currentUser = null;
-      });
-    }
   }
 
   @override
@@ -71,12 +45,20 @@ class _ProfilePageState extends State<ProfilePage> {
                           Padding(
                               padding: const EdgeInsets.only(bottom: 2.0),
                               child: Row(children: [
-                                Expanded(
-                                    child: Text(_username,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium,
-                                        overflow: TextOverflow.ellipsis)),
+                                Consumer<AppProvider>(
+                                  builder: (context, value, _) {
+                                    if (value.user != null) {
+                                      return Expanded(
+                                          child: Text(value.username ?? 'N/A',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineMedium,
+                                              overflow: TextOverflow.ellipsis));
+                                    } else {
+                                      return const Text('User not logged in');
+                                    }
+                                  },
+                                ),
                                 if (MediaQuery.of(context).size.width > 360)
                                   const SizedBox(width: 10),
                                 GestureDetector(
@@ -87,8 +69,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 )
                               ])),
-                          Text(_email,
-                              style: Theme.of(context).textTheme.bodyLarge)
+                          Consumer<AppProvider>(
+                            builder: (context, value, _) {
+                              if (value.user != null) {
+                                return Text(value.email ?? 'N/A',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    overflow: TextOverflow.ellipsis);
+                              } else {
+                                return const Text('User not logged in');
+                              }
+                            },
+                          ),
                         ],
                       )))
             ],
@@ -131,11 +123,37 @@ class _ProfilePageState extends State<ProfilePage> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                setState(() {
-                  _currentUser = null;
-                });
-                context.go('/');
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Text("Do you want to sign out?",
+                            style: Theme.of(context).textTheme.bodyMedium),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        backgroundColor: AppColors.cream,
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Cancel',
+                                style: Theme.of(context).textTheme.bodySmall),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              await FirebaseAuth.instance.signOut();
+                              Provider.of<AppProvider>(context, listen: false)
+                                  .signOut();
+                              GoRouter.of(context).go('/');
+                            },
+                            child: Text('Sign out',
+                                style: Theme.of(context).textTheme.bodySmall),
+                          ),
+                        ],
+                      );
+                    });
               },
               style: CustomTheme.customTheme.outlinedButtonTheme.style,
               child: const Text("LOGOUT"),
