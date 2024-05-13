@@ -99,10 +99,18 @@ class _WelComePageState extends State<WelComePage> {
                             padding: const EdgeInsets.all(5),
                             backgroundColor: AppColors.cream,
                           ),
-                          child: Image.asset(
-                            Provider.of<AppProvider>(context).language == "es"
-                                ? "assets/images/language/es_flag.png"
-                                : "assets/images/language/th_flag.png",
+                          child: Consumer<AppProvider>(
+                            builder: (context, provider, _) {
+                              if (provider.isLoading) {
+                                return const CircularProgressIndicator(); // Show loader while changing language
+                              } else {
+                                return Image.asset(
+                                  provider.language == "es"
+                                      ? "assets/images/language/es_flag.png"
+                                      : "assets/images/language/th_flag.png",
+                                );
+                              }
+                            },
                           ),
                         )
                       ],
