@@ -105,24 +105,29 @@ class _WelComePageState extends State<WelComePage> {
                         totalStage,
                         (index) => SizedBox(
                               child: StageCard(
-                                  level: context.watch<AppProvider>().appLevel,
-                                  stage: index + 1,
-                                  isLock: context
-                                              .watch<AppProvider>()
-                                              .currentLevel! <
-                                          context
-                                              .watch<AppProvider>()
-                                              .appLevel ||
-                                      context
-                                                  .watch<AppProvider>()
-                                                  .currentLevel! <=
-                                              context
-                                                  .watch<AppProvider>()
-                                                  .appLevel &&
-                                          context
-                                                  .watch<AppProvider>()
-                                                  .currentStage! <
-                                              index + 1),
+                                level: context.watch<AppProvider>().appLevel,
+                                stage: index + 1,
+                                isCurrent: context
+                                            .watch<AppProvider>()
+                                            .currentStage ==
+                                        index + 1 &&
+                                    context.watch<AppProvider>().currentLevel ==
+                                        context.watch<AppProvider>().appLevel,
+                                isLock: context
+                                            .watch<AppProvider>()
+                                            .currentLevel! <
+                                        context.watch<AppProvider>().appLevel ||
+                                    context
+                                                .watch<AppProvider>()
+                                                .currentLevel! <=
+                                            context
+                                                .watch<AppProvider>()
+                                                .appLevel &&
+                                        context
+                                                .watch<AppProvider>()
+                                                .currentStage! <
+                                            index + 1,
+                              ),
                             )),
                   ))
                 ])),
