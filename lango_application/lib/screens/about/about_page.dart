@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/widgets/navigator.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
+import 'package:provider/provider.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -75,8 +78,42 @@ class AboutPage extends StatelessWidget {
                         ),
                         backgroundColor: AppColors.cream,
                         collapsedBackgroundColor: AppColors.cream,
-                        children: const [
-                          ListTile(title: Text("insert survey here")),
+                        children: [
+                          // ListTile(title: Text("insert survey here")),
+                          Consumer<AppProvider>(builder: (context, value, _) {
+                            return Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                        
+                              
+                                  if (value.selectedReason == "") {
+                                    print(value.selectedReason);
+                                    GoRouter.of(context).go('/learn');
+                                  } else if (value.languageLevel == "") {
+                                    GoRouter.of(context).go('/level');
+                                  } else {
+                                    null;
+                                  }
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    value.selectedReason != "" &&
+                                            value.languageLevel != ""
+                                        ? Colors.grey
+                                        : AppColors.yellow,
+                                  ),
+                                ),
+                                child: value.languageLevel == "" ||
+                                        value.languageLevel == ""
+                                    ? Text("Enter Survey")
+                                    : Text("Survey Completed"),
+                              ),
+                            );
+
+                            // Text("Enter Survey"));
+                          }),
                         ],
                       ),
                     ),

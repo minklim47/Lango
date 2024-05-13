@@ -47,7 +47,7 @@ class _GamePageState extends State<GamePage> {
               child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () async {                      
+                      onPressed: () async {
                         await Provider.of<GameProvider>(context, listen: false)
                             .initData(widget.level, widget.stage);
 

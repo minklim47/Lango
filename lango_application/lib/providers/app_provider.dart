@@ -26,6 +26,18 @@ class AppProvider extends ChangeNotifier {
   int _appLevel = 1;
   int get appLevel => _appLevel;
 
+  String _createdAt = "";
+  String get createdAt => _createdAt;
+
+  int _exp = 0;
+  int get exp => _exp;
+
+  String _selectedReason = "";
+  String get selectedReason => _selectedReason;
+
+  String _languageLevel = "";
+  String get languageLevel => _languageLevel;
+
   AppProvider() {
     _init();
   }
@@ -57,6 +69,13 @@ class AppProvider extends ChangeNotifier {
           .get();
       _username = userData['username'];
       _email = userData['email'];
+      _createdAt = userData['created_at'];
+      _exp = userData['exp'];
+      _selectedReason = userData['selectedReason'];
+      _languageLevel = userData['languageLevel'];
+      // print(userData['username']);
+
+      // print(userData['selectedReason']);
       Map<String, dynamic>? progress = userData['progress'];
       if (progress != null && _language != null) {
         _language = userData['language'];
@@ -65,8 +84,7 @@ class AppProvider extends ChangeNotifier {
           _currentLevel = languageProgress['level'];
           _currentStage = languageProgress['stage'];
           _appLevel = _currentLevel;
-          print('appLevel');
-          print(_appLevel);
+
           // print(languageProgress);
         }
       }
@@ -131,5 +149,15 @@ class AppProvider extends ChangeNotifier {
       _appLevel--;
       notifyListeners();
     }
+  }
+
+  void surveyLevel(String level) {
+    _languageLevel = level;
+    notifyListeners();
+  }
+
+  void surveyReason(String reason) {
+    _selectedReason = reason;
+    notifyListeners();
   }
 }

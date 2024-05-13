@@ -87,38 +87,41 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           ),
         ),
-        Expanded(
-            child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 450, // Sets the maximum width to 500 pixels
-                ),
-                child: GridView.count(
-                  crossAxisCount:
-                      MediaQuery.of(context).size.width < 330 ? 1 : 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  childAspectRatio: 3 / 2,
-                  children: const <StatBox>[
-                    StatBox(
-                      title: 'Account Created Since',
-                      value: '2019',
-                    ),
-                    StatBox(
-                      title: 'Longest Streaks',
-                      value: '130',
-                      foot: "days",
-                    ),
-                    StatBox(
-                      title: 'Experience Points',
-                      value: '6598',
-                      foot: "xp",
-                    ),
-                    StatBox(
-                      title: 'Language Learn',
-                      value: '3',
-                    ),
-                  ],
-                ))),
+        Consumer<AppProvider>(builder: (context, value, _) {
+          return Expanded(
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 450, // Sets the maximum width to 500 pixels
+                  ),
+                  child: GridView.count(
+                    crossAxisCount:
+                        MediaQuery.of(context).size.width < 330 ? 1 : 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                    childAspectRatio: 3 / 2,
+                    children: <StatBox>[
+                      StatBox(
+                        title: 'Account Created Since',
+                        value: value.createdAt,
+                      ),
+                      StatBox(
+                        title: 'Longest Streaks',
+                        value: '130',
+                        foot: "days",
+                      ),
+                      StatBox(
+                        title: 'Experience Points',
+                        value: value.exp.toString(),
+                        foot: "xp",
+                      ),
+                      StatBox(
+                        title: 'Language Learn',
+                        value: '3',
+                      ),
+                    ],
+                  )));
+          ;
+        }),
         const SizedBox(height: 20),
         SizedBox(
             width: double.infinity,

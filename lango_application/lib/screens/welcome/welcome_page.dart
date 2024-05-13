@@ -24,7 +24,6 @@ class _WelComePageState extends State<WelComePage> {
 
   @override
   void initState() {
-    // int level = context.read<AppProvider>().currentLevel;
     super.initState(); // Changed to fetch level from provider
   }
 
@@ -39,10 +38,6 @@ class _WelComePageState extends State<WelComePage> {
               GoRouter.of(context).go('/signin');
               return Container();
             } else {
-              // if (isFirstLoad) {
-              //   isFirstLoad =
-              //       false; // Set isFirstLoad to false after first load
-              // }
               return Scaffold(
                 body: Wrapper(
                     child: Column(children: [

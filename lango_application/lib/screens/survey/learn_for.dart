@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/widgets/survey/learn_card.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class LearnforPage extends StatefulWidget {
   const LearnforPage({super.key});
@@ -50,6 +52,8 @@ class _LearnforPageState extends State<LearnforPage> {
           },
           SetOptions(
               merge: true)); // Merge with existing data to avoid overwriting
+      Provider.of<AppProvider>(context, listen: false)
+          .surveyReason(reasons[_selectCardIndex]);
       print('Reason saved successfully');
     } catch (e) {
       print('Error saving reason: $e');
