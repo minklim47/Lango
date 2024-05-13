@@ -5,8 +5,12 @@ import 'package:lango_application/theme/color_theme.dart';
 class StageCard extends StatelessWidget {
   final num stage;
   final bool isLock;
-
-  const StageCard({super.key, required this.stage, this.isLock = false});
+  final bool isCurrent;
+  const StageCard(
+      {super.key,
+      required this.stage,
+      this.isLock = false,
+      this.isCurrent = false});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class StageCard extends StatelessWidget {
               width: 50,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: AppColors.blue,
+                  color: isCurrent ? AppColors.darkBlue : AppColors.blue,
                   boxShadow: const [
                     BoxShadow(
                         blurRadius: 2,

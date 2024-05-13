@@ -61,7 +61,6 @@ class AppProvider extends ChangeNotifier {
         if (languageProgress != null) {
           _currentLevel = languageProgress['level'];
           _currentStage = languageProgress['stage'];
-          print(languageProgress);
         }
       }
     } catch (error) {
