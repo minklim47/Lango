@@ -47,16 +47,16 @@ class _GamePageState extends State<GamePage> {
               child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () async {                      
+                      onPressed: () async {
                         await Provider.of<GameProvider>(context, listen: false)
-                            .initData(widget.level, widget.stage);
+                            .initData(widget.stage, widget.level);
 
                         var question =
                             Provider.of<GameProvider>(context, listen: false)
                                 .questions[0];
                         print(question.answerIndex);
-                        context.go('/game/${widget.level}/${widget.stage}/word',
-                            extra: question);
+                        context
+                            .go('/game/${widget.level}/${widget.stage}/word/0');
                       },
                       child: const Text("Continue"))))
         ],

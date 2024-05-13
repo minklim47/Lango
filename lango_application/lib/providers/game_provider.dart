@@ -1,13 +1,18 @@
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lango_application/providers/app_provider.dart';
-import 'package:provider/provider.dart';
 
 class Word {
   final String eng;
   final String other;
 
   Word({required this.eng, required this.other});
+
+  @override
+  String toString() {
+    return 'Question(Eng: $eng, other: $other)';
+  }
 }
 
 class Question {
@@ -19,22 +24,23 @@ class Question {
       {required this.questionWord,
       required this.answerIndex,
       required this.choice});
+
+  @override
+  String toString() {
+    return 'Question(questionWord: $questionWord, answerIndex: $answerIndex, choice: $choice)';
+  }
 }
 
 class GameProvider extends ChangeNotifier {
   final List<Word> _words = [];
   final List<Word> _newWords = [];
   final List<Question> _questions = [];
-  final String _stage = "1";
-  final String _level = "1";
   int _currentGame = 0;
   int _totalPoint = 0;
   String _start = "";
   String _end = "";
 
   int get currentGame => _currentGame;
-  String get stage => _stage;
-  String get level => _level;
   int get length => _questions.length;
   List<Word> get words => _words;
   List<Word> get newWords => _newWords;
@@ -44,6 +50,8 @@ class GameProvider extends ChangeNotifier {
   GameProvider(this.appProvider);
 
   Future<void> initData(String stage, String level) async {
+    print(stage);
+    print(level);
     try {
       _words.clear();
       _newWords.clear();
@@ -57,14 +65,14 @@ class GameProvider extends ChangeNotifier {
           .get();
       int start = range["start"];
       int end = range["end"];
+      print(start);
+      print(end);
       if (range.exists) {
         QuerySnapshot newWordList = await FirebaseFirestore.instance
             .collection("vocab")
             .where("value", isLessThanOrEqualTo: end)
-            .get(); 
+            .get();
         String? language = appProvider.language;
-        print("lang");
-        print(language);
         for (int i = 0; i < newWordList.docs.length; i++) {
           var doc = newWordList.docs[i];
           if (i + 1 >= start) {
@@ -73,10 +81,29 @@ class GameProvider extends ChangeNotifier {
             _words.add(Word(eng: doc["en"], other: doc["es"]));
           }
         }
+        List<Word> choiceWords = newWords;
+        int temp = Random().nextInt(3);
+        if (_newWords.length < 3) {
+          choiceWords.add(_words[Random().nextInt(words.length)]);
+        }
+        print(choiceWords);
+        questions.add(Question(
+            questionWord: choiceWords[2].eng,
+            answerIndex: temp,
+            choice: shuffle(choiceWords, 2, temp)));
+        temp = Random().nextInt(3);
 
         questions.add(Question(
-            questionWord: _newWords[0].eng, answerIndex: 2, choice: _newWords));
-        // // }
+            questionWord: choiceWords[0].eng,
+            answerIndex: temp,
+            choice: shuffle(choiceWords, 0, temp)));
+        temp = Random().nextInt(3);
+
+        questions.add(Question(
+            questionWord: choiceWords[1].eng,
+            answerIndex: temp,
+            choice: shuffle(choiceWords, 1, temp)));
+        print(questions.toString());
       }
 
       notifyListeners();
@@ -93,5 +120,13 @@ class GameProvider extends ChangeNotifier {
   void addPoint(int point) {
     _totalPoint += point;
     notifyListeners();
+  }
+
+  List<Word> shuffle(List<Word> list, int index1, int index2) {
+    List<Word> ls = List.from(list); 
+    Word temp = ls[index1];
+    ls[index1] = ls[index2];
+    ls[index2] = temp;
+    return ls;
   }
 }
