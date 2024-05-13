@@ -20,27 +20,12 @@ class WelComePage extends StatefulWidget {
 }
 
 class _WelComePageState extends State<WelComePage> {
-  int level = 1;
+  // bool isFirstLoad = true;
 
   @override
   void initState() {
-    super.initState();
-  }
-
-  void _incrementLevel() {
-    if (level < 3) {
-      setState(() {
-        level++;
-      });
-    }
-  }
-
-  void _decrementLevel() {
-    if (level > 1) {
-      setState(() {
-        level--;
-      });
-    }
+    // int level = context.read<AppProvider>().currentLevel;
+    super.initState(); // Changed to fetch level from provider
   }
 
   @override
@@ -54,6 +39,10 @@ class _WelComePageState extends State<WelComePage> {
               GoRouter.of(context).go('/signin');
               return Container();
             } else {
+              // if (isFirstLoad) {
+              //   isFirstLoad =
+              //       false; // Set isFirstLoad to false after first load
+              // }
               return Scaffold(
                 body: Wrapper(
                     child: Column(children: [
@@ -104,10 +93,7 @@ class _WelComePageState extends State<WelComePage> {
                       ],
                     ),
                   ),
-                  LevelControls(
-                      level: level,
-                      incrementLevel: _incrementLevel,
-                      decrementLevel: _decrementLevel),
+                  LevelControls(),
                   Expanded(
                       child: GridView.count(
                     shrinkWrap: true,
@@ -119,16 +105,20 @@ class _WelComePageState extends State<WelComePage> {
                         totalStage,
                         (index) => SizedBox(
                               child: StageCard(
-                                  level: level,
+                                  level: context.watch<AppProvider>().appLevel,
                                   stage: index + 1,
                                   isLock: context
                                               .watch<AppProvider>()
                                               .currentLevel! <
-                                          level ||
+                                          context
+                                              .watch<AppProvider>()
+                                              .appLevel ||
                                       context
                                                   .watch<AppProvider>()
                                                   .currentLevel! <=
-                                              level &&
+                                              context
+                                                  .watch<AppProvider>()
+                                                  .appLevel &&
                                           context
                                                   .watch<AppProvider>()
                                                   .currentStage! <

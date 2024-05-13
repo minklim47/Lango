@@ -1,6 +1,3 @@
-import 'dart:js';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lango_application/providers/app_provider.dart';
@@ -45,51 +42,6 @@ class GameProvider extends ChangeNotifier {
   final AppProvider appProvider;
 
   GameProvider(this.appProvider);
-  // GameProvider({
-  //   required String stage,
-  //   required String level,
-  // })  : _stage = stage,
-  //       _level = level {
-  //   _init();
-  // }
-  // GameProvider() {
-  //   // _init();
-  // }
-
-  // Future<void> _init() async {
-  //   try {
-  //     DocumentSnapshot range = await FirebaseFirestore.instance
-  //         .collection("game")
-  //         .doc("level$_level")
-  //         .collection("stages")
-  //         .doc("stage$_stage")
-  //         .get();
-  //     if (range.exists) {
-  //       QuerySnapshot newWordList = await FirebaseFirestore.instance
-  //           .collection("vocab")
-  //           .where("value", isLessThanOrEqualTo: range["end"])
-  //           .get();
-  //       for (int i = 0; i < newWordList.docs.length; i++) {
-  //         var doc = newWordList.docs[i];
-  //         if (i + 1 >= range["start"]) {
-  //           _newWords.add(Word(eng: doc["en"], other: doc["es"]));
-  //         } else {
-  //           _words.add(Word(eng: doc["en"], other: doc["es"]));
-  //         }
-  //       }
-  //       if (_newWords.isNotEmpty) {
-  //         //ใส่ 3 คำ
-  //         questions.add(Question(
-  //             questionWord: _newWords[0].eng,
-  //             answerIndex: 2,
-  //             choice: _newWords));
-  //       }
-  //     }
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 
   Future<void> initData(String stage, String level) async {
     try {
@@ -121,24 +73,11 @@ class GameProvider extends ChangeNotifier {
             _words.add(Word(eng: doc["en"], other: doc["es"]));
           }
         }
-        // if (_newWords.isNotEmpty) {
-        //ใส่ 3 คำ
-        // _newWords.shuffle();
-        // Word randomWord = _words[Random().nextInt(_words.length)];
-        // _newWords.add(randomWord);
-        // print(_newWords.length);
-        // for (int i = 0; i < _newWords.length; i++) {
-        //   print(_newWords[i].eng);
-        //   print(_newWords[i].other);
-        // }
 
         questions.add(Question(
             questionWord: _newWords[0].eng, answerIndex: 2, choice: _newWords));
         // // }
       }
-
-      // Your logic to retrieve data based on the selected stage and level
-      // Populate _words, _newWords, and _questions accordingly
 
       notifyListeners();
     } catch (e) {

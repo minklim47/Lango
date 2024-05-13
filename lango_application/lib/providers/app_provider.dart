@@ -18,10 +18,13 @@ class AppProvider extends ChangeNotifier {
   String? _language = "es";
   String? get language => _language;
 
-  int? _currentLevel = 0;
-  int? get currentLevel => _currentLevel;
-  int? _currentStage = 0;
-  int? get currentStage => _currentStage;
+  int _currentLevel = 1;
+  int get currentLevel => _currentLevel;
+  int _currentStage = 1;
+  int get currentStage => _currentStage;
+
+  int _appLevel = 1;
+  int get appLevel => _appLevel;
 
   AppProvider() {
     _init();
@@ -61,7 +64,10 @@ class AppProvider extends ChangeNotifier {
         if (languageProgress != null) {
           _currentLevel = languageProgress['level'];
           _currentStage = languageProgress['stage'];
-          print(languageProgress);
+          _appLevel = _currentLevel;
+          print('appLevel');
+          print(_appLevel);
+          // print(languageProgress);
         }
       }
     } catch (error) {
@@ -111,5 +117,19 @@ class AppProvider extends ChangeNotifier {
   void updateUsername(String newName) {
     _username = newName;
     notifyListeners();
+  }
+
+  void incrementLevel() {
+    if (_appLevel < 3) {
+      _appLevel++;
+      notifyListeners();
+    }
+  }
+
+  void decrementLevel() {
+    if (_appLevel > 1) {
+      _appLevel--;
+      notifyListeners();
+    }
   }
 }
