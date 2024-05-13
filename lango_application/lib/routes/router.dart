@@ -56,19 +56,10 @@ final GoRouter router = GoRouter(
             builder: (context, state) => const ChangePassPage()),
         GoRoute(
           path: "game/:level/:stage",
-          builder: (context, state) {
-            // Provide GameProvider above the GamePage and its nested routes
-            return ChangeNotifierProvider(
-              create: (context) => GameProvider(
-                level: state.pathParameters['level']!,
-                stage: state.pathParameters['stage']!,
-              ),
-              child: GamePage(
-                level: state.pathParameters['level']!,
-                stage: state.pathParameters['stage']!,
-              ),
-            );
-          },
+          builder: (context, state) => GamePage(
+            level: state.pathParameters['level']!,
+            stage: state.pathParameters['stage']!,
+          ),
           routes: <RouteBase>[
             GoRoute(
               path: "picture",
