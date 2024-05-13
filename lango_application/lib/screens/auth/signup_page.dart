@@ -48,12 +48,12 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
           'email': emailController.text.trim(),
           'progress': {
             'th': {
-              'level': 0,
-              'stage': 0,
+              'level': 1,
+              'stage': 1,
             },
             'es': {
-              'level': 0,
-              'stage': 0,
+              'level': 1,
+              'stage': 1,
             }
           },
         });
