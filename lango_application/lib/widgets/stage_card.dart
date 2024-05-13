@@ -3,16 +3,21 @@ import 'package:go_router/go_router.dart';
 import 'package:lango_application/theme/color_theme.dart';
 
 class StageCard extends StatelessWidget {
-  final num stage;
+  final int level;
+  final int stage;
   final bool isLock;
 
-  const StageCard({super.key, required this.stage, this.isLock = false});
+  const StageCard(
+      {super.key,
+      required this.level,
+      required this.stage,
+      this.isLock = false});
 
   @override
   Widget build(BuildContext context) {
     if (!isLock) {
       return GestureDetector(
-          onTap: () => context.go("/game/picture"),
+          onTap: () => context.go("/game/$level/$stage"),
           child: Container(
               height: 65,
               width: 50,

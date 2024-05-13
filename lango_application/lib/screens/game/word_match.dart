@@ -1,6 +1,7 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/game_provider.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/game/picture_card.dart';
 import 'package:lango_application/widgets/game/word_card.dart';
@@ -8,7 +9,8 @@ import 'package:lango_application/widgets/progress_bar.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 
 class WordMatchPage extends StatefulWidget {
-  const WordMatchPage({super.key});
+  final Question question;
+  const WordMatchPage({super.key, required this.question});
 
   @override
   State<WordMatchPage> createState() => _WordMatchPageState();
@@ -79,7 +81,7 @@ class _WordMatchPageState extends State<WordMatchPage> {
         Padding(
           padding: const EdgeInsets.fromLTRB(18, 10, 18, 0),
           child: Text(
-            "How do you say “small”",
+            "How do you say \“${widget.question.questionWord}\”",
             style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
@@ -91,7 +93,7 @@ class _WordMatchPageState extends State<WordMatchPage> {
               GestureDetector(
                   onTap: () => handleCardTap(0),
                   child: WordCard(
-                    word: "ใหญ่",
+                    word: widget.question.choice[0].other,
                     cardState: _selectCardIndex == 0
                         ? CardState.wrong
                         : CardState.normal,
@@ -99,7 +101,7 @@ class _WordMatchPageState extends State<WordMatchPage> {
               GestureDetector(
                   onTap: () => handleCardTap(1),
                   child: WordCard(
-                    word: "เล็ก",
+                    word: widget.question.choice[1].other,
                     cardState: _selectCardIndex != -1
                         ? CardState.correct
                         : CardState.normal,
@@ -107,7 +109,7 @@ class _WordMatchPageState extends State<WordMatchPage> {
               GestureDetector(
                   onTap: () => handleCardTap(2),
                   child: WordCard(
-                    word: "กลาง",
+                    word: widget.question.choice[2].other,
                     cardState: _selectCardIndex == 2
                         ? CardState.wrong
                         : CardState.normal,

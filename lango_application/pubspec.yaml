@@ -76,7 +76,7 @@ flutter:
     # - assets/icons/lango_icon.png
     - assets/icons/lango_icon-v2.png
     - assets/icons/google.png
-    # - assets/logos/lango_logo.png
+    - assets/logos/lango_logo.png
     - assets/logos/get-start/lango_logo-v2.png
     - assets/icons/avatar_spain.png
   #   - images/a_dot_ham.jpeg
