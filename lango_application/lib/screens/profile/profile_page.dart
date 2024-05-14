@@ -131,33 +131,99 @@ class _ProfilePageState extends State<ProfilePage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        content: Text("Do you want to sign out?",
-                            style: Theme.of(context).textTheme.bodyMedium),
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
+                        content: const Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "See you soon!",
+                              style: TextStyle(
+                                fontFamily: "Inter",
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              "Are you sure you want to sign out?",
+                              style: TextStyle(
+                                fontFamily: "Inter",
+                                fontSize: 16,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ],
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         backgroundColor: AppColors.cream,
                         actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Cancel',
-                                style: Theme.of(context).textTheme.bodySmall),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              await FirebaseAuth.instance.signOut();
-                              Provider.of<AppProvider>(context, listen: false)
-                                  .signOut();
-                              GoRouter.of(context).go('/');
-                            },
-                            child: Text('Sign out',
-                                style: Theme.of(context).textTheme.bodySmall),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        side: BorderSide(color: Color(0xFF5F5F5F)),
+                                      ),
+                                    ),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                                    child: Text(
+                                      'Cancel',
+                                      style: TextStyle(
+                                        fontFamily: "Inter",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                TextButton(
+                                  onPressed: () async {
+                                    await FirebaseAuth.instance.signOut();
+                                    Provider.of<AppProvider>(context, listen: false).signOut();
+                                    GoRouter.of(context).go('/');
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(Color(0xFFFEE440)),
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                                    child: Text(
+                                      'Sign out',
+                                      style: TextStyle(
+                                        fontFamily: "Inter",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       );
-                    });
+                    },
+                  );
               },
               style: CustomTheme.customTheme.outlinedButtonTheme.style,
               child: const Text("LOGOUT"),
