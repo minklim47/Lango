@@ -129,6 +129,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         _username = userData['username'];
         _email = userData['email'];
       });
+      editUsernameController.text = _username;
     } else {
       setState(() {
         _currentUser = null;
@@ -154,15 +155,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
             child: Stack(
               alignment: const Alignment(2, 1.2),
               children: [
+                // CircleAvatar(
+                //   radius: 40,
+                //   backgroundImage: _profileImageUrl.isNotEmpty
+                //       ? NetworkImage(_profileImageUrl)
+                //       : null,
+                //   child: _profileImageUrl.isEmpty
+                //       ? const Icon(Icons.person, size: 40)
+                //       : null,
+                // ),
                 CircleAvatar(
                   radius: 40,
-                  backgroundImage: _profileImageUrl.isNotEmpty
-                      ? NetworkImage(_profileImageUrl)
-                      : null,
-                  child: _profileImageUrl.isEmpty
+                  backgroundImage: NetworkImage(
+                      Provider.of<AppProvider>(context).imageProfile ?? ''),
+                  child: Provider.of<AppProvider>(context).imageProfile == null
                       ? const Icon(Icons.person, size: 40)
                       : null,
                 ),
+
                 IconButton(
                   onPressed: _pickImage,
                   icon: const Icon(Icons.edit),
