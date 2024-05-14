@@ -1,9 +1,12 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/screens/about/about_page.dart';
 import 'package:lango_application/screens/auth/get_start_page.dart';
 import 'package:lango_application/screens/auth/signin_page.dart';
 import 'package:lango_application/screens/auth/signup_page.dart';
+import 'package:lango_application/screens/game/end_game.dart';
 import 'package:lango_application/screens/game/game_page.dart';
 import 'package:lango_application/screens/game/pair_match.dart';
 import 'package:lango_application/screens/game/picture_match.dart';
@@ -75,6 +78,10 @@ final GoRouter router = GoRouter(
               path: "pair",
               builder: (context, state) => const PairMatchPage(),
             ),
+            GoRoute(
+              path: "end",
+              builder: (context, state) => const EndGamePage(),
+            )
           ],
         )
       ],
