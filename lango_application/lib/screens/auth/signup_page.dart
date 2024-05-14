@@ -89,8 +89,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                   key: _formKey,
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
