@@ -61,6 +61,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
           'created_at': year.toString(),
           'selectedReason': '',
           'languageLevel': '',
+          'language': 'es',
           'exp': 0,
         });
         // ignore: use_build_context_synchronously

@@ -5,8 +5,6 @@ import 'package:lango_application/widgets/survey/learn_card.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 class LearnforPage extends StatefulWidget {
@@ -23,41 +21,6 @@ class _LearnforPageState extends State<LearnforPage> {
     setState(() {
       _selectCardIndex = index;
     });
-  }
-
-  Future<void> saveSelectedReason() async {
-    if (_selectCardIndex == -1) return; // Do nothing if no selection
-
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      print('No user logged in');
-      return;
-    }
-
-    final List<String> reasons = [
-      'Apply job',
-      'Travel',
-      'Brain training',
-      'School',
-      'Friend & Family',
-      'Other'
-    ];
-
-    try {
-      // Update the existing user document with the selected reason
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
-          {
-            'selectedReason':
-                reasons[_selectCardIndex], // Save the text reason, not index
-          },
-          SetOptions(
-              merge: true)); // Merge with existing data to avoid overwriting
-      Provider.of<AppProvider>(context, listen: false)
-          .surveyReason(reasons[_selectCardIndex]);
-      print('Reason saved successfully');
-    } catch (e) {
-      print('Error saving reason: $e');
-    }
   }
 
   @override
@@ -179,10 +142,22 @@ class _LearnforPageState extends State<LearnforPage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_selectCardIndex != -1) {
-                        await saveSelectedReason(); // Save the selection to Firestore
+                        final List<String> reasons = [
+                          'Apply job',
+                          'Travel',
+                          'Brain training',
+                          'School',
+                          'Friend & Family',
+                          'Other'
+                        ];
+                        Provider.of<AppProvider>(context, listen: false)
+                            .surveyReason(reasons[_selectCardIndex]);
+
                         context.go("/level"); // Navigate to the next page
                       } else {
-                        // Optionally handle the case where no selection has been made
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                                "Please select a level before continuing.")));
                         print("Please make a selection before continuing.");
                       }
                     },

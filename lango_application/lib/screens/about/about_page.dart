@@ -85,15 +85,13 @@ class AboutPage extends StatelessWidget {
                               padding: const EdgeInsets.all(20.0),
                               child: ElevatedButton(
                                 onPressed: () {
-                                        
-                              
                                   if (value.selectedReason == "") {
                                     print(value.selectedReason);
                                     GoRouter.of(context).go('/learn');
                                   } else if (value.languageLevel == "") {
                                     GoRouter.of(context).go('/level');
                                   } else {
-                                    null;
+                                    return;
                                   }
                                 },
                                 style: ButtonStyle(
