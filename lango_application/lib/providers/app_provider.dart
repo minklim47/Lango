@@ -151,13 +151,28 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
-  void surveyLevel(String level) {
+  // void surveyLevel(String level) {
+  //   _languageLevel = level;
+  //   notifyListeners();
+  // }
+
+  Future<void> surveyLevel(String level) async {
+    await FirebaseFirestore.instance.collection('users').doc(userId).set({
+      'languageLevel': level,
+    }, SetOptions(merge: true));
+
     _languageLevel = level;
+
     notifyListeners();
   }
 
-  void surveyReason(String reason) {
+  Future<void> surveyReason(String reason) async {
+    await FirebaseFirestore.instance.collection('users').doc(userId).set({
+      'selectedReason': reason,
+    }, SetOptions(merge: true));
+
     _selectedReason = reason;
+
     notifyListeners();
   }
 }
