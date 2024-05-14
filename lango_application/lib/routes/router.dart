@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lango_application/providers/game_provider.dart';
 import 'package:lango_application/screens/about/about_page.dart';
 import 'package:lango_application/screens/auth/get_start_page.dart';
 import 'package:lango_application/screens/auth/signin_page.dart';
@@ -16,7 +15,6 @@ import 'package:lango_application/screens/survey/change_lang.dart';
 import 'package:lango_application/screens/welcome/welcome_page.dart';
 import 'package:lango_application/screens/survey/learn_for.dart';
 import 'package:lango_application/screens/survey/your_level.dart';
-import 'package:provider/provider.dart';
 import '../screens/survey/choose_lang.dart';
 
 final GoRouter router = GoRouter(
@@ -66,14 +64,12 @@ final GoRouter router = GoRouter(
               builder: (context, state) => const PictureMatchPage(),
             ),
             GoRoute(
-              path: "word",
-              builder: (context, state) {
-                Question? question = state.extra as Question;
-                if (question == null) {
-                  Error();
-                }
-                return WordMatchPage(question: question);
-              },
+              path: "word/:page",
+              builder: (context, state) => WordMatchPage(
+                level: state.pathParameters['level']!,
+                stage: state.pathParameters['stage']!,
+                game: state.pathParameters['page']!,
+              ),
             ),
             GoRoute(
               path: "pair",

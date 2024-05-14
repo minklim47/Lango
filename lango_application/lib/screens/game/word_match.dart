@@ -7,10 +7,21 @@ import 'package:lango_application/widgets/game/picture_card.dart';
 import 'package:lango_application/widgets/game/word_card.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
 import 'package:lango_application/widgets/wrapper.dart';
+import 'package:provider/provider.dart';
 
 class WordMatchPage extends StatefulWidget {
-  final Question question;
-  const WordMatchPage({super.key, required this.question});
+  final String _level;
+  final String _stage;
+  final String _currentGame;
+
+  const WordMatchPage(
+      {super.key,
+      required String level,
+      required String stage,
+      required String game})
+      : _level = level,
+        _stage = stage,
+        _currentGame = game;
 
   @override
   State<WordMatchPage> createState() => _WordMatchPageState();
@@ -18,6 +29,7 @@ class WordMatchPage extends StatefulWidget {
 
 class _WordMatchPageState extends State<WordMatchPage> {
   int _selectCardIndex = -1;
+  late Question _question;
   late ConfettiController _confettiController;
 
   @override
@@ -25,6 +37,26 @@ class _WordMatchPageState extends State<WordMatchPage> {
     super.initState();
     _confettiController =
         ConfettiController(duration: const Duration(seconds: 10));
+    _question = Question(questionWord: "", answerIndex: -1, choice: [
+      Word(eng: "", other: ""),
+      Word(eng: "", other: ""),
+      Word(eng: "", other: "")
+    ]);
+    fetchQuestion();
+  }
+
+  void fetchQuestion() async {
+    try {
+      final gameProvider = Provider.of<GameProvider>(context, listen: false);
+      await gameProvider.initData(widget._stage, widget._level);
+      print("Current game");
+      print(widget._currentGame);
+      setState(() {
+        _question = gameProvider.questions[int.parse(widget._currentGame)];
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -38,10 +70,25 @@ class _WordMatchPageState extends State<WordMatchPage> {
       setState(() {
         _selectCardIndex = index;
       });
-      if (_selectCardIndex == 1) {
+      if (_selectCardIndex == _question.answerIndex) {
         _confettiController.play();
       }
     }
+  }
+
+  void reloadQuestion() {
+    fetchQuestion();
+  }
+
+  CardState cardStateCheck(int index) {
+    if (_selectCardIndex == -1) {
+      return CardState.normal;
+    } else if (index == _question.answerIndex) {
+      return CardState.correct;
+    } else if (index == _selectCardIndex && index != _question.answerIndex) {
+      return CardState.wrong;
+    }
+    return CardState.normal;
   }
 
   @override
@@ -54,17 +101,15 @@ class _WordMatchPageState extends State<WordMatchPage> {
           alignment: Alignment.center,
           child: ConfettiWidget(
             confettiController: _confettiController,
-            blastDirectionality: BlastDirectionality
-                .explosive, // don't specify a direction, blast randomly
-            shouldLoop:
-                true, // start again as soon as the animation is finished
+            blastDirectionality: BlastDirectionality.explosive,
+            shouldLoop: true,
             colors: const [
               Colors.green,
               Colors.blue,
               Colors.pink,
               Colors.orange,
               Colors.purple
-            ], // manually specify the colors to be used
+            ],
           ),
         ),
         Row(children: [
@@ -81,7 +126,7 @@ class _WordMatchPageState extends State<WordMatchPage> {
         Padding(
           padding: const EdgeInsets.fromLTRB(18, 10, 18, 0),
           child: Text(
-            "How do you say \“${widget.question.questionWord}\”",
+            "How do you say “${_question.questionWord}”",
             style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
@@ -93,27 +138,18 @@ class _WordMatchPageState extends State<WordMatchPage> {
               GestureDetector(
                   onTap: () => handleCardTap(0),
                   child: WordCard(
-                    word: widget.question.choice[0].other,
-                    cardState: _selectCardIndex == 0
-                        ? CardState.wrong
-                        : CardState.normal,
-                  )),
+                      word: _question.choice[0].other,
+                      cardState: cardStateCheck(0))),
               GestureDetector(
                   onTap: () => handleCardTap(1),
                   child: WordCard(
-                    word: widget.question.choice[1].other,
-                    cardState: _selectCardIndex != -1
-                        ? CardState.correct
-                        : CardState.normal,
-                  )),
+                      word: _question.choice[1].other,
+                      cardState: cardStateCheck(1))),
               GestureDetector(
                   onTap: () => handleCardTap(2),
                   child: WordCard(
-                    word: widget.question.choice[2].other,
-                    cardState: _selectCardIndex == 2
-                        ? CardState.wrong
-                        : CardState.normal,
-                  ))
+                      word: _question.choice[2].other,
+                      cardState: cardStateCheck(2)))
             ]))),
         if (MediaQuery.of(context).size.height > 500)
           SizedBox(height: MediaQuery.of(context).size.height / 10),
@@ -122,7 +158,15 @@ class _WordMatchPageState extends State<WordMatchPage> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => context.go("/game/pair"),
+                onPressed: () {
+                  _confettiController.stop();
+                  setState(() {
+                    _selectCardIndex = -1;
+                  });
+                  context.go(
+                      '/game/${widget._level}/${widget._stage}/word/${(int.parse(widget._currentGame) + 1).toString()}');
+                  reloadQuestion();
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
                     _selectCardIndex == -1 ? Colors.grey : AppColors.yellow,
