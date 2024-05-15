@@ -1,13 +1,26 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/game_provider.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/game/picture_card.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
 import 'package:lango_application/widgets/wrapper.dart';
+import 'package:provider/provider.dart';
 
 class PictureMatchPage extends StatefulWidget {
-  const PictureMatchPage({super.key});
+  final String _level;
+  final String _stage;
+  final String _currentGame;
+
+  const PictureMatchPage(
+      {super.key,
+      required String level,
+      required String stage,
+      required String game})
+      : _level = level,
+        _stage = stage,
+        _currentGame = game;
 
   @override
   State<PictureMatchPage> createState() => _PictureMatchPageState();
@@ -15,6 +28,9 @@ class PictureMatchPage extends StatefulWidget {
 
 class _PictureMatchPageState extends State<PictureMatchPage> {
   int _selectCardIndex = -1;
+  late int _progress = int.parse(widget._currentGame);
+  late int _totalQuestion = 1;
+  late Question _question;
   late ConfettiController _confettiController;
 
   @override
@@ -22,6 +38,27 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
     super.initState();
     _confettiController =
         ConfettiController(duration: const Duration(seconds: 10));
+    _question = Question(questionWord: "", answerIndex: -1, choice: [
+      Word(eng: "", other: ""),
+      Word(eng: "", other: ""),
+      Word(eng: "", other: "")
+    ]);
+    fetchQuestion();
+  }
+
+  void fetchQuestion() async {
+    try {
+      final gameProvider = Provider.of<GameProvider>(context, listen: false);
+      await gameProvider.initData(widget._stage, widget._level);
+      print("Current game");
+      print(widget._currentGame);
+      setState(() {
+        _question = gameProvider.questions[int.parse(widget._currentGame)];
+        _totalQuestion = widget._stage == "12" ? 7 : 6;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -35,10 +72,28 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
       setState(() {
         _selectCardIndex = index;
       });
-      if (_selectCardIndex == 0) {
+      if (_selectCardIndex == _question.answerIndex) {
         _confettiController.play();
+        setState(() {
+          _progress++;
+        });
       }
     }
+  }
+
+  void reloadQuestion() {
+    fetchQuestion();
+  }
+
+  CardState cardStateCheck(int index) {
+    if (_selectCardIndex == -1) {
+      return CardState.normal;
+    } else if (index == _question.answerIndex) {
+      return CardState.correct;
+    } else if (index == _selectCardIndex && index != _question.answerIndex) {
+      return CardState.wrong;
+    }
+    return CardState.normal;
   }
 
   @override
@@ -65,10 +120,10 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
           ),
         ),
         Row(children: [
-          const Expanded(
+          Expanded(
               child: ProgressBar(
-            max: 100,
-            current: 0,
+            max: _totalQuestion.toDouble(),
+            current: _progress.toDouble(),
             height: 20,
           )),
           IconButton(
@@ -78,7 +133,7 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
         Padding(
           padding: const EdgeInsets.fromLTRB(18, 10, 18, 30),
           child: Text(
-            "Which one of these is “แอปเปิ้ล”",
+            "Which one of these is “${_question.questionWord}”",
             style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
@@ -91,22 +146,22 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
                       children: [
                         GestureDetector(
                             onTap: () => handleCardTap(0),
-                            child: const PictureCard(
-                              word: "apple",
-                              image: "apple",
-                            )),
+                            child: PictureCard(
+                                word: _question.choice[0].other,
+                                image: _question.choice[0].eng,
+                                cardState: cardStateCheck(0))),
                         GestureDetector(
                             onTap: () => handleCardTap(1),
-                            child: const PictureCard(
-                              word: "pink",
-                              image: "pink",
-                            )),
+                            child: PictureCard(
+                                word: _question.choice[1].other,
+                                image: _question.choice[1].eng,
+                                cardState: cardStateCheck(1))),
                         GestureDetector(
                             onTap: () => handleCardTap(2),
-                            child: const PictureCard(
-                              word: "banana",
-                              image: "banana",
-                            )),
+                            child: PictureCard(
+                                word: _question.choice[2].other,
+                                image: _question.choice[2].eng,
+                                cardState: cardStateCheck(2))),
                       ],
                     ),
                   ),
@@ -125,31 +180,22 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
                               GestureDetector(
                                   onTap: () => handleCardTap(0),
                                   child: PictureCard(
-                                    cardState: _selectCardIndex != -1
-                                        ? CardState.correct
-                                        : CardState.normal,
-                                    word: "apple",
-                                    image: "apple",
-                                  )),
+                                      word: _question.choice[0].other,
+                                      image: _question.choice[0].eng,
+                                      cardState: cardStateCheck(0))),
                               GestureDetector(
                                   onTap: () => handleCardTap(1),
                                   child: PictureCard(
-                                    cardState: _selectCardIndex == 1
-                                        ? CardState.wrong
-                                        : CardState.normal,
-                                    word: "pink",
-                                    image: "pink",
-                                  )),
+                                      word: _question.choice[1].other,
+                                      image: _question.choice[1].eng,
+                                      cardState: cardStateCheck(1))),
                             ])),
                         GestureDetector(
                             onTap: () => handleCardTap(2),
                             child: PictureCard(
-                              cardState: _selectCardIndex == 2
-                                  ? CardState.wrong
-                                  : CardState.normal,
-                              word: "banana",
-                              image: "banana",
-                            )),
+                                word: _question.choice[2].other,
+                                image: _question.choice[2].eng,
+                                cardState: cardStateCheck(2))),
                       ],
                     ),
                   ),
@@ -162,7 +208,18 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
               child: IgnorePointer(
                 ignoring: _selectCardIndex == -1,
                 child: ElevatedButton(
-                  onPressed: () => context.go("/game/word"),
+                  onPressed: () {
+                    if (_selectCardIndex == -1) {
+                      return;
+                    }
+                    _confettiController.stop();
+                    setState(() {
+                      _selectCardIndex = -1;
+                    });
+                    context.go(
+                        '/game/${widget._level}/${widget._stage}/picture/${(int.parse(widget._currentGame) + 1).toString()}');
+                    reloadQuestion();
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                       _selectCardIndex == -1 ? Colors.grey : AppColors.yellow,

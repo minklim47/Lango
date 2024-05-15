@@ -35,12 +35,10 @@ class GameProvider extends ChangeNotifier {
   final List<Word> _words = [];
   final List<Word> _newWords = [];
   final List<Question> _questions = [];
-  int _currentGame = 0;
   int _totalPoint = 0;
   String _start = "";
   String _end = "";
 
-  int get currentGame => _currentGame;
   int get length => _questions.length;
   List<Word> get words => _words;
   List<Word> get newWords => _newWords;
@@ -103,7 +101,23 @@ class GameProvider extends ChangeNotifier {
             questionWord: choiceWords[1].eng,
             answerIndex: temp,
             choice: shuffle(choiceWords, 1, temp)));
-        print(questions.toString());
+
+        temp = Random().nextInt(3);
+        questions.add(Question(
+            questionWord: choiceWords[0].eng,
+            answerIndex: temp,
+            choice: shuffle(choiceWords, 0, temp)));
+
+        temp = Random().nextInt(3);
+        questions.add(Question(
+            questionWord: choiceWords[1].eng,
+            answerIndex: temp,
+            choice: shuffle(choiceWords, 1, temp)));
+        questions.add(Question(
+            questionWord: choiceWords[2].eng,
+            answerIndex: temp,
+            choice: shuffle(choiceWords, 2, temp)));
+        temp = Random().nextInt(3);
       }
 
       notifyListeners();
@@ -112,18 +126,13 @@ class GameProvider extends ChangeNotifier {
     }
   }
 
-  void incrementGame() {
-    _currentGame++;
-    notifyListeners();
-  }
-
   void addPoint(int point) {
     _totalPoint += point;
     notifyListeners();
   }
 
   List<Word> shuffle(List<Word> list, int index1, int index2) {
-    List<Word> ls = List.from(list); 
+    List<Word> ls = List.from(list);
     Word temp = ls[index1];
     ls[index1] = ls[index2];
     ls[index2] = temp;
