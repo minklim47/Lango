@@ -17,7 +17,7 @@ class EndGamePage extends StatelessWidget {
           width: 400,
           height: 400,
         ),
-        Text("Good Job", style: Theme.of(context).textTheme.headlineLarge),
+        Text("Good Job!", style: Theme.of(context).textTheme.headlineLarge),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
