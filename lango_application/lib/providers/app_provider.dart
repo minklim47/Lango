@@ -12,6 +12,9 @@ class AppProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  String? _imageProfile;
+  String? get imageProfile => _imageProfile;
+
   String _userId = '';
   String get userId => _userId;
 
@@ -73,6 +76,7 @@ class AppProvider extends ChangeNotifier {
       _exp = userData['exp'];
       _selectedReason = userData['selectedReason'];
       _languageLevel = userData['languageLevel'];
+      _imageProfile = userData['profileImageUrl'];
       // print(userData['username']);
 
       // print(userData['selectedReason']);
@@ -134,6 +138,11 @@ class AppProvider extends ChangeNotifier {
 
   void updateUsername(String newName) {
     _username = newName;
+    notifyListeners();
+  }
+
+  void updateProfilePath(String newPath) {
+    _imageProfile = newPath;
     notifyListeners();
   }
 
