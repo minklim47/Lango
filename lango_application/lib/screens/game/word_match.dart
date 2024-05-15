@@ -29,6 +29,8 @@ class WordMatchPage extends StatefulWidget {
 
 class _WordMatchPageState extends State<WordMatchPage> {
   int _selectCardIndex = -1;
+  late int _progress = int.parse(widget._currentGame);
+  late int _totalQuestion = 1;
   late Question _question;
   late ConfettiController _confettiController;
 
@@ -53,6 +55,7 @@ class _WordMatchPageState extends State<WordMatchPage> {
       print(widget._currentGame);
       setState(() {
         _question = gameProvider.questions[int.parse(widget._currentGame)];
+        _totalQuestion = widget._stage == "12" ? 7 : 6;
       });
     } catch (e) {
       print(e);
@@ -72,6 +75,9 @@ class _WordMatchPageState extends State<WordMatchPage> {
       });
       if (_selectCardIndex == _question.answerIndex) {
         _confettiController.play();
+        setState(() {
+          _progress++;
+        });
       }
     }
   }
@@ -113,10 +119,10 @@ class _WordMatchPageState extends State<WordMatchPage> {
           ),
         ),
         Row(children: [
-          const Expanded(
+          Expanded(
               child: ProgressBar(
-            max: 100,
-            current: 50,
+            max: _totalQuestion.toDouble(),
+            current: _progress.toDouble(),
             height: 20,
           )),
           IconButton(
@@ -159,13 +165,21 @@ class _WordMatchPageState extends State<WordMatchPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
+                  if (_selectCardIndex == -1) {
+                    return;
+                  }
                   _confettiController.stop();
                   setState(() {
                     _selectCardIndex = -1;
                   });
-                  context.go(
-                      '/game/${widget._level}/${widget._stage}/word/${(int.parse(widget._currentGame) + 1).toString()}');
-                  reloadQuestion();
+                  if (widget._currentGame == "2") {
+                    context.go(
+                        '/game/${widget._level}/${widget._stage}/picture/${(int.parse(widget._currentGame) + 1).toString()}');
+                  } else {
+                    context.go(
+                        '/game/${widget._level}/${widget._stage}/word/${(int.parse(widget._currentGame) + 1).toString()}');
+                    reloadQuestion();
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
