@@ -88,7 +88,7 @@ class _WelComePageState extends State<WelComePage> {
                       ],
                     ),
                   ),
-                  LevelControls(),
+                  const LevelControls(),
                   Expanded(
                       child: GridView.count(
                     shrinkWrap: true,
