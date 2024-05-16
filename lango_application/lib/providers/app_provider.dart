@@ -11,13 +11,10 @@ class AppProvider extends ChangeNotifier {
   String? get email => _email;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-
   String _userId = '';
   String get userId => _userId;
-
   String? _language = "es";
   String? get language => _language;
-
   int _currentLevel = 1;
   int get currentLevel => _currentLevel;
   int _currentStage = 1;
@@ -25,6 +22,9 @@ class AppProvider extends ChangeNotifier {
 
   int _appLevel = 1;
   int get appLevel => _appLevel;
+
+
+  
 
   String _createdAt = "";
   String get createdAt => _createdAt;

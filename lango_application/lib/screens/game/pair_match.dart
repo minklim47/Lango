@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/game_provider.dart';
 import 'package:lango_application/widgets/game/word_card.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
 import 'package:lango_application/widgets/wrapper.dart';
+import 'package:provider/provider.dart';
 
 class PairMatchPage extends StatefulWidget {
   const PairMatchPage({super.key});
@@ -12,6 +14,28 @@ class PairMatchPage extends StatefulWidget {
 }
 
 class _PairMatchPageState extends State<PairMatchPage> {
+  late List<Word> wordList;
+
+  @override
+  void initState() {
+    super.initState();
+    wordList = [
+      Word(eng: "", other: ""),
+      Word(eng: "", other: ""),
+      Word(eng: "", other: ""),
+      Word(eng: "", other: ""),
+      Word(eng: "", other: "")
+    ];
+  }
+
+  void fetchWord() async {
+    try {
+      final gameProvider = Provider.of<GameProvider>(context, listen: false);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,3 +85,7 @@ class _PairMatchPageState extends State<PairMatchPage> {
     );
   }
 }
+
+// void main() {
+//   runApp(const MaterialApp(home: PairMatchPage()));
+// }

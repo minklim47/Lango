@@ -17,7 +17,7 @@ class StageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!isLock) {
       return GestureDetector(
-          onTap: () => context.go("/game/$level/$stage"),
+          onTap: () => context.go("/game/$level/$stage/start"),
           child: Container(
               height: 65,
               width: 50,

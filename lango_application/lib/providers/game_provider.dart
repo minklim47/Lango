@@ -11,7 +11,7 @@ class Word {
 
   @override
   String toString() {
-    return 'Question(Eng: $eng, other: $other)';
+    return 'Word(Eng: $eng, other: $other)';
   }
 }
 
@@ -31,10 +31,17 @@ class Question {
   }
 }
 
+class PairMatchQuestion {
+  final List<Word> wordList;
+
+  PairMatchQuestion({required this.wordList});
+}
+
 class GameProvider extends ChangeNotifier {
   final List<Word> _words = [];
   final List<Word> _newWords = [];
   final List<Question> _questions = [];
+  final List<Word> _matchingPair = [];
   int _totalPoint = 0;
   String _start = "";
   String _end = "";
@@ -48,8 +55,6 @@ class GameProvider extends ChangeNotifier {
   GameProvider(this.appProvider);
 
   Future<void> initData(String stage, String level) async {
-    print(stage);
-    print(level);
     try {
       _words.clear();
       _newWords.clear();
@@ -70,13 +75,13 @@ class GameProvider extends ChangeNotifier {
             .collection("vocab")
             .where("value", isLessThanOrEqualTo: end)
             .get();
-        String? language = appProvider.language;
+        String? language = appProvider.language ?? "es";
         for (int i = 0; i < newWordList.docs.length; i++) {
           var doc = newWordList.docs[i];
           if (i + 1 >= start) {
-            _newWords.add(Word(eng: doc["en"], other: doc["es"]));
+            _newWords.add(Word(eng: doc["en"], other: doc[language]));
           } else {
-            _words.add(Word(eng: doc["en"], other: doc["es"]));
+            _words.add(Word(eng: doc["en"], other: doc[language]));
           }
         }
         List<Word> choiceWords = newWords;
@@ -84,40 +89,23 @@ class GameProvider extends ChangeNotifier {
         if (_newWords.length < 3) {
           choiceWords.add(_words[Random().nextInt(words.length)]);
         }
-        print(choiceWords);
-        questions.add(Question(
-            questionWord: choiceWords[2].eng,
-            answerIndex: temp,
-            choice: shuffle(choiceWords, 2, temp)));
-        temp = Random().nextInt(3);
+        for (int i = 0; i < 2; i++) {
+          List<int> indexOrder = [2, 0, 1];
 
-        questions.add(Question(
-            questionWord: choiceWords[0].eng,
-            answerIndex: temp,
-            choice: shuffle(choiceWords, 0, temp)));
-        temp = Random().nextInt(3);
-
-        questions.add(Question(
-            questionWord: choiceWords[1].eng,
-            answerIndex: temp,
-            choice: shuffle(choiceWords, 1, temp)));
-
-        temp = Random().nextInt(3);
-        questions.add(Question(
-            questionWord: choiceWords[0].eng,
-            answerIndex: temp,
-            choice: shuffle(choiceWords, 0, temp)));
-
-        temp = Random().nextInt(3);
-        questions.add(Question(
-            questionWord: choiceWords[1].eng,
-            answerIndex: temp,
-            choice: shuffle(choiceWords, 1, temp)));
-        questions.add(Question(
-            questionWord: choiceWords[2].eng,
-            answerIndex: temp,
-            choice: shuffle(choiceWords, 2, temp)));
-        temp = Random().nextInt(3);
+          for (int index in indexOrder) {
+            questions.add(Question(
+                questionWord: choiceWords[index].eng,
+                answerIndex: temp,
+                choice: shuffle(choiceWords, index, temp)));
+            temp = Random().nextInt(3);
+          }
+        }
+        print(questions);
+        if (stage == "12") {
+          for (int i = 0; i < 5; i++) {
+            _matchingPair.add(choiceWords[i]);
+          }
+        }
       }
 
       notifyListeners();
