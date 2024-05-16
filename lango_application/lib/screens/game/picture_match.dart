@@ -216,8 +216,18 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
                     setState(() {
                       _selectCardIndex = -1;
                     });
-                    context.go(
-                        '/game/${widget._level}/${widget._stage}/picture/${(int.parse(widget._currentGame) + 1).toString()}');
+                    if (widget._currentGame == "5") {
+                      if (widget._stage == "12") {
+                        context.go(
+                            '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/pair');
+                      } else {
+                        // context.go(
+                        //     '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/pair');
+                      }
+                    } else {
+                      context.go(
+                          '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/picture');
+                    }
                     reloadQuestion();
                   },
                   style: ButtonStyle(
