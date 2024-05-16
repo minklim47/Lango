@@ -39,17 +39,17 @@ class AppProvider extends ChangeNotifier {
   String get languageLevel => _languageLevel;
 
   AppProvider() {
-    _init();
+    init();
   }
 
-  Future<void> _init() async {
+  Future<void> init() async {
     FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       if (user != null) {
         _user = user;
         _isLoading = true;
         notifyListeners();
         _userId = user.uid;
-        await _fetchUserInfo(user.uid);
+        await fetchUserInfo(user.uid);
         _isLoading = false;
         notifyListeners();
       } else {
@@ -61,7 +61,7 @@ class AppProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> _fetchUserInfo(String userId) async {
+  Future<void> fetchUserInfo(String userId) async {
     try {
       DocumentSnapshot userData = await FirebaseFirestore.instance
           .collection('users')
@@ -89,6 +89,7 @@ class AppProvider extends ChangeNotifier {
           // print(languageProgress);
         }
       }
+      notifyListeners();
     } catch (error) {
       print('Error fetching user info: $error');
     }
@@ -128,7 +129,7 @@ class AppProvider extends ChangeNotifier {
         .collection('users')
         .doc(userId)
         .update({'language': newLanguage});
-    await _fetchUserInfo(userId);
+    await fetchUserInfo(userId);
     _isLoading = false;
     notifyListeners();
   }

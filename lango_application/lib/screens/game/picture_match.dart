@@ -208,7 +208,7 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
               child: IgnorePointer(
                 ignoring: _selectCardIndex == -1,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_selectCardIndex == -1) {
                       return;
                     }
@@ -216,18 +216,14 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
                     setState(() {
                       _selectCardIndex = -1;
                     });
-                    if (widget._currentGame == "5") {
-                      if (widget._stage == "12") {
-                        context.go(
-                            '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/pair');
-                      } else {
-                        // context.go(
-                        //     '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/pair');
-                      }
+                    if (widget._currentGame == "2") {
+                      context.go(
+                          '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/word');
                     } else {
                       context.go(
                           '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/picture');
                     }
+
                     reloadQuestion();
                   },
                   style: ButtonStyle(
