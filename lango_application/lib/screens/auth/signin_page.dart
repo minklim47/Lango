@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lango_application/services/firebase_auth_methods.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/theme/custom_theme.dart';
+import 'package:lango_application/utils/showSnackbar.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -34,13 +35,27 @@ class _UsernamePasswordSigninState extends State<SignInPage> {
         );
 
         if (mounted) {
-          context.go("/");
+          context.go(
+              "/choose"); // Route to Language Selection Page after successful login
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login failed: ${e.toString()}')),
-          );
+          String errorMessage;
+          if (e is FirebaseAuthException) {
+            switch (e.code) {
+              case 'user-not-found':
+                errorMessage = 'No user found for that email.';
+                break;
+              case 'wrong-password':
+                errorMessage = 'Wrong password provided.';
+                break;
+              default:
+                errorMessage = 'Login failed. Please try again.';
+            }
+          } else {
+            errorMessage = 'An unknown error occurred.';
+          }
+          showSnackBar(context, errorMessage);
         }
       }
     }
@@ -72,7 +87,8 @@ class _UsernamePasswordSigninState extends State<SignInPage> {
                           children: <Widget>[
                             SizedBox(height: 50.0),
                             Image(
-                              image: AssetImage('assets/icons/lango_icon-v2.png'),
+                              image:
+                                  AssetImage('assets/icons/lango_icon-v2.png'),
                               width: 197,
                               height: 219,
                             ),
@@ -159,7 +175,8 @@ class _UsernamePasswordSigninState extends State<SignInPage> {
                             ),
                             child: const Text(
                               "SIGN IN",
-                              style: TextStyle(fontSize: 20, fontFamily: 'Inter'),
+                              style:
+                                  TextStyle(fontSize: 20, fontFamily: 'Inter'),
                             ),
                           ),
                         ),
@@ -177,7 +194,8 @@ class _UsernamePasswordSigninState extends State<SignInPage> {
                               padding: EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
                                 "OR",
-                                style: TextStyle(fontSize: 16, fontFamily: 'Inter'),
+                                style: TextStyle(
+                                    fontSize: 16, fontFamily: 'Inter'),
                               ),
                             ),
                             Expanded(
@@ -199,7 +217,8 @@ class _UsernamePasswordSigninState extends State<SignInPage> {
                                 color: Colors.white.withOpacity(0.5),
                                 spreadRadius: 1,
                                 blurRadius: 1,
-                                offset: const Offset(0, 1), // changes position of shadow
+                                offset: const Offset(
+                                    0, 1), // changes position of shadow
                               ),
                             ],
                           ),
