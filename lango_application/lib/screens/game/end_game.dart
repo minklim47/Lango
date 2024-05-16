@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lango_application/providers/app_provider.dart';
+import 'package:lango_application/providers/game_provider.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/wrapper.dart';
+import 'package:provider/provider.dart';
 
 class EndGamePage extends StatelessWidget {
   const EndGamePage({super.key});
 
+  // void getScore(){
+  //   final gameProvider = Provider.of<GameProvider>(context, listen: false);
+  //   gameProvider.point;
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,19 +47,22 @@ class EndGamePage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 5, bottom: 10),
-                      width: 100,
-                      height: 100,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Text(
-                        "100",
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
-                    ),
+                        margin: EdgeInsets.only(top: 5, bottom: 10),
+                        width: 100,
+                        height: 100,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Consumer<GameProvider>(
+                          builder: (context, value, _) {
+                            return Text(
+                              "${value.point / value.totalPoint * 100}%",
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            );
+                          },
+                        )),
                   ]),
             ),
             Container(
@@ -74,19 +84,22 @@ class EndGamePage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 5, bottom: 10),
-                      width: 100,
-                      height: 100,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Text(
-                        "100",
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
-                    ),
+                        margin: EdgeInsets.only(top: 5, bottom: 10),
+                        width: 100,
+                        height: 100,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Consumer<GameProvider>(
+                          builder: (context, value, _) {
+                            return Text(
+                              "${value.point * 100}",
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            );
+                          },
+                        )),
                   ]),
             ),
           ],
@@ -96,8 +109,8 @@ class EndGamePage extends StatelessWidget {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Container()]))),
-        if (MediaQuery.of(context).size.height > 500)
-          SizedBox(height: MediaQuery.of(context).size.height / 10),
+        // if (MediaQuery.of(context).size.height > 500)
+        //   SizedBox(height: MediaQuery.of(context).size.height / 10),
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             child: SizedBox(
