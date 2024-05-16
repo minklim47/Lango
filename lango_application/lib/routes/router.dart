@@ -56,14 +56,14 @@ final GoRouter router = GoRouter(
             path: "changepass",
             builder: (context, state) => const ChangePassPage()),
         GoRoute(
-          path: "game/:level/:stage",
+          path: "game/:level/:stage/:page",
           builder: (context, state) => GamePage(
             level: state.pathParameters['level']!,
             stage: state.pathParameters['stage']!,
           ),
           routes: <RouteBase>[
             GoRoute(
-              path: "picture/:page",
+              path: "picture",
               builder: (context, state) => PictureMatchPage(
                 level: state.pathParameters['level']!,
                 stage: state.pathParameters['stage']!,
@@ -71,7 +71,7 @@ final GoRouter router = GoRouter(
               ),
             ),
             GoRoute(
-              path: "word/:page",
+              path: "word",
               builder: (context, state) => WordMatchPage(
                 level: state.pathParameters['level']!,
                 stage: state.pathParameters['stage']!,

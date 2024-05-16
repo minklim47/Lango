@@ -56,7 +56,7 @@ class _GamePageState extends State<GamePage> {
                                 .questions[0];
                         print(question.answerIndex);
                         context
-                            .go('/game/${widget.level}/${widget.stage}/word/0');
+                            .go('/game/${widget.level}/${widget.stage}/0/word');
                       },
                       child: const Text("Continue"))))
         ],

@@ -82,6 +82,7 @@ class _WordMatchPageState extends State<WordMatchPage> {
     }
   }
 
+
   void reloadQuestion() {
     fetchQuestion();
   }
@@ -96,6 +97,7 @@ class _WordMatchPageState extends State<WordMatchPage> {
     }
     return CardState.normal;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -174,10 +176,10 @@ class _WordMatchPageState extends State<WordMatchPage> {
                   });
                   if (widget._currentGame == "2") {
                     context.go(
-                        '/game/${widget._level}/${widget._stage}/picture/${(int.parse(widget._currentGame) + 1).toString()}');
+                        '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/picture');
                   } else {
                     context.go(
-                        '/game/${widget._level}/${widget._stage}/word/${(int.parse(widget._currentGame) + 1).toString()}');
+                        '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/word');
                     reloadQuestion();
                   }
                 },
