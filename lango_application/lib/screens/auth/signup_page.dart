@@ -73,6 +73,14 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
     }
   }
 
+  Future<void> signInWithGoogle() async {
+    UserCredential? userCredential = await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle();
+
+    if (userCredential != null && mounted) {
+      context.go("/choose"); 
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -282,10 +290,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                             ],
                           ),
                           child: IconButton(
-                            onPressed: () {
-                              FirebaseAuthMethods(FirebaseAuth.instance)
-                                  .signInWithGoogle(context);
-                            },
+                            onPressed: signInWithGoogle,
                             iconSize: 40,
                             icon: Image.asset('assets/icons/google.png'),
                           ),

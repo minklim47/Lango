@@ -38,6 +38,9 @@ class AppProvider extends ChangeNotifier {
   String _languageLevel = "";
   String get languageLevel => _languageLevel;
 
+  String _imageProfile = "";
+  String get imageProfile => _imageProfile;
+  
   AppProvider() {
     init();
   }
