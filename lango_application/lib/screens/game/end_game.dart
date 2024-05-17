@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lango_application/providers/app_provider.dart';
 import 'package:lango_application/providers/game_provider.dart';
 import 'package:lango_application/theme/color_theme.dart';
 import 'package:lango_application/widgets/wrapper.dart';
@@ -47,7 +46,7 @@ class EndGamePage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 5, bottom: 10),
+                        margin: const EdgeInsets.only(top: 5, bottom: 10),
                         width: 100,
                         height: 100,
                         alignment: Alignment.center,
@@ -84,7 +83,7 @@ class EndGamePage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 5, bottom: 10),
+                        margin: const EdgeInsets.only(top: 5, bottom: 10),
                         width: 100,
                         height: 100,
                         alignment: Alignment.center,

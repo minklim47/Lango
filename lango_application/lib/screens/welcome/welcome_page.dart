@@ -110,17 +110,17 @@ class _WelComePageState extends State<WelComePage> {
                                         context.watch<AppProvider>().appLevel,
                                 isLock: context
                                             .watch<AppProvider>()
-                                            .currentLevel! <
+                                            .currentLevel <
                                         context.watch<AppProvider>().appLevel ||
                                     context
                                                 .watch<AppProvider>()
-                                                .currentLevel! <=
+                                                .currentLevel <=
                                             context
                                                 .watch<AppProvider>()
                                                 .appLevel &&
                                         context
                                                 .watch<AppProvider>()
-                                                .currentStage! <
+                                                .currentStage <
                                             index + 1,
                               ),
                             )),

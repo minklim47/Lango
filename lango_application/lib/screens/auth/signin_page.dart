@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/services/firebase_auth_methods.dart';
@@ -11,10 +12,10 @@ class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
   @override
-  _UsernamePasswordSigninState createState() => _UsernamePasswordSigninState();
+  UsernamePasswordSigninState createState() => UsernamePasswordSigninState();
 }
 
-class _UsernamePasswordSigninState extends State<SignInPage> {
+class UsernamePasswordSigninState extends State<SignInPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -72,7 +73,9 @@ class _UsernamePasswordSigninState extends State<SignInPage> {
           .doc(userCredential.user!.uid)
           .get();
 
-      print(docInfo.data());
+      if (kDebugMode) {
+        print(docInfo.data());
+      }
 
       // Guard the use of BuildContext with a mounted check
       if (mounted) {

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/providers/game_provider.dart';
@@ -50,11 +51,15 @@ class _GamePageState extends State<GamePage> {
                       onPressed: () async {
                         await Provider.of<GameProvider>(context, listen: false)
                             .initData(widget.stage, widget.level);
-
+                      
                         var question =
+                            // ignore: use_build_context_synchronously
                             Provider.of<GameProvider>(context, listen: false)
                                 .questions[0];
-                        print(question.answerIndex);
+                        if (kDebugMode) {
+                          print(question.answerIndex);
+                        }
+                        // ignore: use_build_context_synchronously
                         context.go(
                             '/game/${widget.level}/${widget.stage}/0/picture');
                       },

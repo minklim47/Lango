@@ -8,7 +8,7 @@ class LevelBox extends StatelessWidget {
   final String image;
   final LangState langState;
 
-  const LevelBox({Key? key, required this.title, required this.image, required this.langState});
+  const LevelBox({super.key, required this.title, required this.image, required this.langState});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +29,9 @@ class LevelBox extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: 14), // Adjust font size as needed
+            style: const TextStyle(fontSize: 14), // Adjust font size as needed
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Expanded(
             child: Image.asset(
               "assets/images/survey/yourlevel/$image.png",

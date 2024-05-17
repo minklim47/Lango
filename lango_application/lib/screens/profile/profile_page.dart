@@ -22,6 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
               CircleAvatar(
                 radius: 35,
                 backgroundImage: NetworkImage(
-                    Provider.of<AppProvider>(context).imageProfile ?? ''),
+                    Provider.of<AppProvider>(context).imageProfile),
               ),
               Expanded(
                   child: Padding(
@@ -105,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         title: 'Account Created Since',
                         value: value.createdAt,
                       ),
-                      StatBox(
+                      const StatBox(
                         title: 'Longest Streaks',
                         value: '130',
                         foot: "days",
@@ -115,13 +116,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         value: value.exp.toString(),
                         foot: "xp",
                       ),
-                      StatBox(
+                      const StatBox(
                         title: 'Language Learn',
                         value: '3',
                       ),
                     ],
                   )));
-          ;
         }),
         const SizedBox(height: 20),
         SizedBox(
@@ -175,7 +175,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       side:
-                                          BorderSide(color: Color(0xFF5F5F5F)),
+                                          const BorderSide(color: Color(0xFF5F5F5F)),
                                     ),
                                   ),
                                 ),
@@ -193,18 +193,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
+                              
                               TextButton(
                                 onPressed: () async {
                                   await FirebaseAuth.instance.signOut();
+                                  // ignore: use_build_context_synchronously
                                   Provider.of<AppProvider>(context,
                                           listen: false)
                                       .signOut();
+                                  // ignore: use_build_context_synchronously
                                   GoRouter.of(context).go('/');
                                 },
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
-                                      Color(0xFFFEE440)),
+                                      const Color(0xFFFEE440)),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(

@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/screens/about/about_page.dart';

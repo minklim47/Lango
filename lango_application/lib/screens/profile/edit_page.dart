@@ -12,23 +12,20 @@ import 'package:lango_application/theme/custom_theme.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'dart:html' as html;
-
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:provider/provider.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
 
   @override
-  _EditProfilePageState createState() => _EditProfilePageState();
+  EditProfilePageState createState() => EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class EditProfilePageState extends State<EditProfilePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController editUsernameController = TextEditingController();
 
-  late User? _currentUser;
   String _email = '';
   String _username = '';
   String _profileImageUrl = '';
@@ -50,12 +47,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .update({'username': editUsernameController.text.trim()});
 
-        showSnackBar(context, "Username Updated");
-        Provider.of<AppProvider>(context, listen: false)
-            .updateUsername(editUsernameController.text.trim());
-        context.go('/profile');
+        if (mounted) {
+          showSnackBar(context, "Username Updated");
+          Provider.of<AppProvider>(context, listen: false)
+              .updateUsername(editUsernameController.text.trim());
+          context.go('/profile');
+        }
       } catch (e) {
-        showSnackBar(context, 'Error updating username : $e');
+        if (mounted) {
+          showSnackBar(context, 'Error updating username : $e');
+        }
       }
     }
   }
@@ -83,12 +84,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
           .child('profile_images')
           .child('${FirebaseAuth.instance.currentUser!.uid}.png');
 
-      UploadTask uploadTask;
       if (kIsWeb) {
-        uploadTask = storageRef.putData(_webImage!);
-      } else {
-        uploadTask = storageRef.putFile(_image!);
-      }
+      } else {}
       // await uploadTask;
 
       final downloadUrl = await storageRef.getDownloadURL();
@@ -96,17 +93,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
         _profileImageUrl = downloadUrl;
       });
 
-      Provider.of<AppProvider>(context, listen: false)
-          .updateProfilePath(_profileImageUrl);
+      if (mounted) {
+        Provider.of<AppProvider>(context, listen: false)
+            .updateProfilePath(_profileImageUrl);
 
-      await users.doc(FirebaseAuth.instance.currentUser!.uid).update({
-        'profileImageUrl': _profileImageUrl,
-      });
-
-      showSnackBar(context, "Profile Picture Updated");
+        await users.doc(FirebaseAuth.instance.currentUser!.uid).update({
+          'profileImageUrl': _profileImageUrl,
+        });
+      }     
+      if (mounted) {
+        showSnackBar(context, "Profile Picture Updated");
+      }
     } catch (e) {
-      showSnackBar(context, 'Error uploading profile picture: $e');
-      print('Error uploading profile picture: $e');
+      if (mounted) {
+        showSnackBar(context, 'Error uploading profile picture: $e');
+        if (kDebugMode) {
+          print('Error uploading profile picture: $e');
+        }
+      }
     }
   }
 
@@ -125,15 +129,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
           .doc(user.uid)
           .get();
       setState(() {
-        _currentUser = user;
         _username = userData['username'];
         _email = userData['email'];
       });
       editUsernameController.text = _username;
     } else {
-      setState(() {
-        _currentUser = null;
-      });
+      setState(() {});
     }
   }
 
@@ -167,10 +168,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 CircleAvatar(
                   radius: 40,
                   backgroundImage: NetworkImage(
-                      Provider.of<AppProvider>(context).imageProfile ?? ''),
-                  child: Provider.of<AppProvider>(context).imageProfile == null
-                      ? const Icon(Icons.person, size: 40)
-                      : null,
+                      Provider.of<AppProvider>(context).imageProfile),
+                  child:
+                      Provider.of<AppProvider>(context).imageProfile.isNotEmpty
+                          ? const Icon(Icons.person, size: 40)
+                          : null,
                 ),
 
                 IconButton(
@@ -205,7 +207,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   key: _formKey,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
                         controller: editUsernameController,
                         decoration: InputDecoration(
@@ -216,7 +218,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ),
                           fillColor: AppColors.white,
                           filled: true,
-                          prefixIcon: Icon(Icons.person, color: AppColors.grey),
+                          prefixIcon: const Icon(Icons.person, color: AppColors.grey),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -241,7 +243,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   style: CustomTheme.customTheme.outlinedButtonTheme.style,
                   child: const Text("Change Password"),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () => updateUser(),
                   child: const Text("SAVE CHANGES"),

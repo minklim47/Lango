@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 // import 'package:lango_application/screens/auth/signin_page.dart';
@@ -83,7 +84,9 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
           .doc(userCredential.user!.uid)
           .get();
 
-      print(docInfo.data());
+      if (kDebugMode) {
+        print(docInfo.data());
+      }
 
       // Guard the use of BuildContext with a mounted check
       if (mounted) {

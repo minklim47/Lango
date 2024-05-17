@@ -6,10 +6,10 @@ class LangBox extends StatelessWidget {
   final String image;
 
   const LangBox({
-    Key? key,
+    super.key,
     required this.title,
     required this.image,
-  }) : super(key: key);
+  });
 
 
 @override
