@@ -70,6 +70,9 @@ class AppProvider extends ChangeNotifier {
           .collection('users')
           .doc(userId)
           .get();
+
+      print("Hello");
+      print(userData.data());
       _username = userData['username'];
       _email = userData['email'];
       _createdAt = userData['created_at'];

@@ -37,7 +37,7 @@ class _UsernamePasswordSigninState extends State<SignInPage> {
 
         if (mounted) {
           context.go(
-              "/choose"); // Route to Language Selection Page after successful login
+              "/"); // Route to Language Selection Page after successful login
         }
       } catch (e) {
         if (mounted) {
@@ -66,44 +66,51 @@ class _UsernamePasswordSigninState extends State<SignInPage> {
     UserCredential? userCredential =
         await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle();
 
-    DocumentSnapshot docInfo = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(userCredential!.user!.uid)
-        .get();
+    if (userCredential != null) {
+      DocumentSnapshot docInfo = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userCredential.user!.uid)
+          .get();
 
-    print(docInfo.data());
+      print(docInfo.data());
 
-    if (docInfo.exists) {
-      context.go("/choose");
-    }
-    if (userCredential != null && mounted) {
-      Timestamp timestamp = Timestamp.now();
-      int year = timestamp.toDate().year;
+      // Guard the use of BuildContext with a mounted check
+      if (mounted) {
+        if (docInfo.exists) {
+          context.go("/");
+        } else {
+          Timestamp timestamp = Timestamp.now();
+          int year = timestamp.toDate().year;
 
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userCredential.user!.uid)
-        .set({
-      'username': userCredential.user?.displayName?.split(" ")[0].trim(),
-      'email': userCredential.user?.email,
-      'progress': {
-        'th': {
-          'level': 1,
-          'stage': 1,
-        },
-        'es': {
-          'level': 1,
-          'stage': 1,
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .set({
+            'username': userCredential.user?.displayName?.split(" ")[0].trim(),
+            'email': userCredential.user?.email,
+            'progress': {
+              'th': {
+                'level': 1,
+                'stage': 1,
+              },
+              'es': {
+                'level': 1,
+                'stage': 1,
+              }
+            },
+            'created_at': year.toString(),
+            'selectedReason': '',
+            'languageLevel': '',
+            'language': 'es',
+            'exp': 0,
+          });
+
+          if (mounted) {
+            context.go("/choose");
+          }
         }
-      },
-      'created_at': year.toString(),
-      'selectedReason': '',
-      'languageLevel': '',
-      'language': 'es',
-      'exp': 0,
-    });
-    context.go("/choose");
-  }
+      }
+    }
   }
 
   @override

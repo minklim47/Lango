@@ -74,10 +74,53 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
   }
 
   Future<void> signInWithGoogle() async {
-    UserCredential? userCredential = await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle();
+    UserCredential? userCredential =
+        await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle();
 
-    if (userCredential != null && mounted) {
-      context.go("/choose"); 
+    if (userCredential != null) {
+      DocumentSnapshot docInfo = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userCredential.user!.uid)
+          .get();
+
+      print(docInfo.data());
+
+      // Guard the use of BuildContext with a mounted check
+      if (mounted) {
+        if (docInfo.exists) {
+          context.go("/");
+        } else {
+          Timestamp timestamp = Timestamp.now();
+          int year = timestamp.toDate().year;
+
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .set({
+            'username': userCredential.user?.displayName?.split(" ")[0].trim(),
+            'email': userCredential.user?.email,
+            'progress': {
+              'th': {
+                'level': 1,
+                'stage': 1,
+              },
+              'es': {
+                'level': 1,
+                'stage': 1,
+              }
+            },
+            'created_at': year.toString(),
+            'selectedReason': '',
+            'languageLevel': '',
+            'language': 'es',
+            'exp': 0,
+          });
+
+          if (mounted) {
+            context.go("/choose");
+          }
+        }
+      }
     }
   }
 
