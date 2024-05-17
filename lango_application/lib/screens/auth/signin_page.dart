@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -61,14 +62,49 @@ class _UsernamePasswordSigninState extends State<SignInPage> {
     }
   }
 
-   Future<void> signInWithGoogle() async {
-    UserCredential? userCredential = await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle();
+  Future<void> signInWithGoogle() async {
+    UserCredential? userCredential =
+        await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle();
 
-    if (userCredential != null && mounted) {
-      context.go("/choose"); 
+    DocumentSnapshot docInfo = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(userCredential!.user!.uid)
+        .get();
+
+    print(docInfo.data());
+
+    if (docInfo.exists) {
+      context.go("/choose");
     }
-  }
+    if (userCredential != null && mounted) {
+      Timestamp timestamp = Timestamp.now();
+      int year = timestamp.toDate().year;
 
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userCredential.user!.uid)
+        .set({
+      'username': userCredential.user?.displayName?.split(" ")[0].trim(),
+      'email': userCredential.user?.email,
+      'progress': {
+        'th': {
+          'level': 1,
+          'stage': 1,
+        },
+        'es': {
+          'level': 1,
+          'stage': 1,
+        }
+      },
+      'created_at': year.toString(),
+      'selectedReason': '',
+      'languageLevel': '',
+      'language': 'es',
+      'exp': 0,
+    });
+    context.go("/choose");
+  }
+  }
 
   @override
   Widget build(BuildContext context) {
