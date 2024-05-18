@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AppProvider extends ChangeNotifier {
@@ -38,6 +38,9 @@ class AppProvider extends ChangeNotifier {
   String _languageLevel = "";
   String get languageLevel => _languageLevel;
 
+  String _imageProfile = "";
+  String get imageProfile => _imageProfile;
+  
   AppProvider() {
     init();
   }
@@ -67,12 +70,18 @@ class AppProvider extends ChangeNotifier {
           .collection('users')
           .doc(userId)
           .get();
+
+      if (kDebugMode) {
+        print("Hello");
+        print(userData.data());
+      }
       _username = userData['username'];
       _email = userData['email'];
       _createdAt = userData['created_at'];
       _exp = userData['exp'];
       _selectedReason = userData['selectedReason'];
       _languageLevel = userData['languageLevel'];
+      _imageProfile = userData['profileImageUrl'];
       // print(userData['username']);
 
       // print(userData['selectedReason']);
@@ -90,7 +99,9 @@ class AppProvider extends ChangeNotifier {
       }
       notifyListeners();
     } catch (error) {
-      print('Error fetching user info: $error');
+      if (kDebugMode) {
+        print('Error fetching user info: $error');
+      }
     }
   }
 
@@ -101,7 +112,9 @@ class AppProvider extends ChangeNotifier {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } catch (error) {
-      print('Error signing in: $error');
+      if (kDebugMode) {
+        print('Error signing in: $error');
+      }
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -114,7 +127,9 @@ class AppProvider extends ChangeNotifier {
       notifyListeners();
       await FirebaseAuth.instance.signOut();
     } catch (error) {
-      print('Error signing out: $error');
+      if (kDebugMode) {
+        print('Error signing out: $error');
+      }
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -135,6 +150,11 @@ class AppProvider extends ChangeNotifier {
 
   void updateUsername(String newName) {
     _username = newName;
+    notifyListeners();
+  }
+
+  void updateProfilePath(String newPath) {
+    _imageProfile = newPath;
     notifyListeners();
   }
 

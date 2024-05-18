@@ -22,7 +22,6 @@ class _ChangePassPageState extends State<ChangePassPage> {
       TextEditingController();
 
   final _auth = FirebaseAuth.instance;
-  String _currentPassword = '';
   String _newPassword = '';
 
   @override
@@ -56,8 +55,11 @@ class _ChangePassPageState extends State<ChangePassPage> {
             password: oldPasswordController.text,
           );
           await user.updatePassword(_newPassword);
-          showSnackBar(context, 'Password updated successfully');
-          context.go("/");
+
+          if (mounted) {
+            showSnackBar(context, 'Password updated successfully');
+            context.go("/");
+          }
         } else {
           showSnackBar(context, 'User not found');
         }
@@ -108,7 +110,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: Icon(Icons.key, color: AppColors.grey),
+                            prefixIcon: const Icon(Icons.key, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -119,7 +121,6 @@ class _ChangePassPageState extends State<ChangePassPage> {
                           obscureText: true,
                           onChanged: (value) {
                             setState(() {
-                              _currentPassword = value;
                             });
                           },
                         ),
@@ -134,7 +135,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: Icon(Icons.key, color: AppColors.grey),
+                            prefixIcon: const Icon(Icons.key, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -163,7 +164,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: Icon(Icons.key, color: AppColors.grey),
+                            prefixIcon: const Icon(Icons.key, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {

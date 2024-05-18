@@ -69,7 +69,7 @@ class _EndGamePageState extends State<EndGamePage> {
                       ),
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 5, bottom: 10),
+                        margin: const EdgeInsets.only(top: 5, bottom: 10),
                         width: 100,
                         height: 100,
                         alignment: Alignment.center,
@@ -109,7 +109,7 @@ class _EndGamePageState extends State<EndGamePage> {
                       ),
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 5, bottom: 10),
+                        margin: const EdgeInsets.only(top: 5, bottom: 10),
                         width: 100,
                         height: 100,
                         alignment: Alignment.center,

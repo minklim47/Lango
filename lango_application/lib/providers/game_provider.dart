@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:lango_application/providers/app_provider.dart';
 
 class Word {
@@ -47,8 +47,8 @@ class GameProvider extends ChangeNotifier {
 
   int _point = 0;
   int get point => _point;
-  String _start = "";
-  String _end = "";
+  // String _start = "";
+  // String _end = "";
 
   int get length => _questions.length;
   List<Word> get words => _words;
@@ -72,8 +72,10 @@ class GameProvider extends ChangeNotifier {
           .get();
       int start = range["start"];
       int end = range["end"];
-      print(start);
-      print(end);
+      if (kDebugMode) {
+        print(start);
+        print(end);
+      }
       if (range.exists) {
         QuerySnapshot newWordList = await FirebaseFirestore.instance
             .collection("vocab")
@@ -104,7 +106,9 @@ class GameProvider extends ChangeNotifier {
             temp = Random().nextInt(3);
           }
         }
-        print(questions);
+        if (kDebugMode) {
+          print(questions);
+        }
         if (stage == "12") {
           for (int i = 0; i < 5; i++) {
             _matchingPair.add(choiceWords[i]);
@@ -114,7 +118,9 @@ class GameProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -178,7 +184,9 @@ class GameProvider extends ChangeNotifier {
       appProvider.fetchUserInfo(appProvider.userId);
       notifyListeners();
     } catch (e) {
-      print('Failed to add data to subcollection: $e');
+      if (kDebugMode) {
+        print('Failed to add data to subcollection: $e');
+      } 
     }
   }
 

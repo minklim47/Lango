@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/screens/about/about_page.dart';
@@ -30,7 +28,7 @@ final GoRouter router = GoRouter(
             path: "getstart",
             builder: (context, state) => const GetStartPage()),
         GoRoute(
-            path: "signin", builder: (context, state) => const SingInPage()),
+            path: "signin", builder: (context, state) => const SignInPage()),
         GoRoute(
             path: "signup", builder: (context, state) => const SignUpPage()),
         GoRoute(

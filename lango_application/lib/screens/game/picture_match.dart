@@ -1,4 +1,5 @@
 import 'package:confetti/confetti.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/providers/game_provider.dart';
@@ -50,14 +51,18 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
     try {
       final gameProvider = Provider.of<GameProvider>(context, listen: false);
       await gameProvider.initData(widget._stage, widget._level);
-      print("Current game");
-      print(widget._currentGame);
+      if (kDebugMode) {
+        print("Current game");
+        print(widget._currentGame);
+      }
       setState(() {
         _question = gameProvider.questions[int.parse(widget._currentGame)];
         _totalQuestion = widget._stage == "12" ? 7 : 6;
       });
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

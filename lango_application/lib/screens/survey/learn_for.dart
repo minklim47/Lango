@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/providers/app_provider.dart';
@@ -158,7 +159,9 @@ class _LearnforPageState extends State<LearnforPage> {
                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text(
                                 "Please select a level before continuing.")));
-                        print("Please make a selection before continuing.");
+                        if (kDebugMode) {
+                          print("Please make a selection before continuing.");
+                        }
                       }
                     },
                     style: ButtonStyle(
