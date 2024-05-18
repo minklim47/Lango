@@ -15,6 +15,10 @@ class PairMatchPage extends StatefulWidget {
 
 class _PairMatchPageState extends State<PairMatchPage> {
   late List<Word> wordList;
+  late List<String> engWords;
+  late List<String> otherWords;
+  int first = -1;
+  int second = -1;
 
   @override
   void initState() {
