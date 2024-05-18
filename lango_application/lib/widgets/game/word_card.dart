@@ -10,6 +10,9 @@ class WordCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (cardState == CardState.clear) {
+      return const SizedBox();
+    }
     return Padding(
         padding: const EdgeInsets.all(8),
         child: Container(

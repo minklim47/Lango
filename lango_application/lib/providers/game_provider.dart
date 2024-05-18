@@ -53,6 +53,7 @@ class GameProvider extends ChangeNotifier {
   int get length => _questions.length;
   List<Word> get words => _words;
   List<Word> get newWords => _newWords;
+  List<Word> get matchingPair => _matchingPair;
   List<Question> get questions => _questions;
   final AppProvider appProvider;
 
@@ -110,9 +111,12 @@ class GameProvider extends ChangeNotifier {
           print(questions);
         }
         if (stage == "12") {
-          for (int i = 0; i < 5; i++) {
-            _matchingPair.add(choiceWords[i]);
-          }
+          _matchingPair.add(choiceWords[0]);
+          _matchingPair.add(choiceWords[1]);
+          _words.shuffle();
+          _matchingPair.add(_words[0]);
+          _matchingPair.add(_words[1]);
+          _matchingPair.add(_words[2]);
         }
       }
 
@@ -186,7 +190,7 @@ class GameProvider extends ChangeNotifier {
     } catch (e) {
       if (kDebugMode) {
         print('Failed to add data to subcollection: $e');
-      } 
+      }
     }
   }
 
