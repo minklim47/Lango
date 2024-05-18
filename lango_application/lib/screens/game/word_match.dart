@@ -186,6 +186,7 @@ class _WordMatchPageState extends State<WordMatchPage> {
                       await Provider.of<GameProvider>(context, listen: false)
                           .completeStage(int.parse(widget._level),
                               int.parse(widget._stage));
+                      // ignore: use_build_context_synchronously
                       context
                           .go('/game/${widget._level}/${widget._stage}/0/end');
                     }

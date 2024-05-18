@@ -6,18 +6,14 @@ import 'package:lango_application/widgets/wrapper.dart';
 import 'package:provider/provider.dart';
 
 class EndGamePage extends StatefulWidget {
-  final String _level;
   final String _stage;
-  final String _currentGame;
 
   const EndGamePage(
       {super.key,
       required String level,
       required String stage,
       required String game})
-      : _level = level,
-        _stage = stage,
-        _currentGame = game;
+      : _stage = stage;
   @override
   State<EndGamePage> createState() => _EndGamePageState();
 }
