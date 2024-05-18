@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/providers/app_provider.dart';
@@ -86,7 +87,9 @@ class AboutPage extends StatelessWidget {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (value.selectedReason == "") {
-                                    print(value.selectedReason);
+                                    if (kDebugMode) {
+                                      print(value.selectedReason);
+                                    }
                                     GoRouter.of(context).go('/learn');
                                   } else if (value.languageLevel == "") {
                                     GoRouter.of(context).go('/level');
@@ -105,8 +108,8 @@ class AboutPage extends StatelessWidget {
                                 ),
                                 child: value.languageLevel == "" ||
                                         value.languageLevel == ""
-                                    ? Text("Enter Survey")
-                                    : Text("Survey Completed"),
+                                    ? const Text("Enter Survey")
+                                    : const Text("Survey Completed"),
                               ),
                             );
 

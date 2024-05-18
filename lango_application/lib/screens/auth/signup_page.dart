@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 // import 'package:lango_application/screens/auth/signin_page.dart';
@@ -73,6 +74,59 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
     }
   }
 
+  Future<void> signInWithGoogle() async {
+    UserCredential? userCredential =
+        await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle();
+
+    if (userCredential != null) {
+      DocumentSnapshot docInfo = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userCredential.user!.uid)
+          .get();
+
+      if (kDebugMode) {
+        print(docInfo.data());
+      }
+
+      // Guard the use of BuildContext with a mounted check
+      if (mounted) {
+        if (docInfo.exists) {
+          context.go("/");
+        } else {
+          Timestamp timestamp = Timestamp.now();
+          int year = timestamp.toDate().year;
+
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .set({
+            'username': userCredential.user?.displayName?.split(" ")[0].trim(),
+            'email': userCredential.user?.email,
+            'progress': {
+              'th': {
+                'level': 1,
+                'stage': 1,
+              },
+              'es': {
+                'level': 1,
+                'stage': 1,
+              }
+            },
+            'created_at': year.toString(),
+            'selectedReason': '',
+            'languageLevel': '',
+            'language': 'es',
+            'exp': 0,
+          });
+
+          if (mounted) {
+            context.go("/choose");
+          }
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -90,8 +144,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                   key: _formKey,
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -283,10 +336,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
                             ],
                           ),
                           child: IconButton(
-                            onPressed: () {
-                              FirebaseAuthMethods(FirebaseAuth.instance)
-                                  .signInWithGoogle(context);
-                            },
+                            onPressed: signInWithGoogle,
                             iconSize: 40,
                             icon: Image.asset('assets/icons/google.png'),
                           ),

@@ -1,4 +1,5 @@
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lango_application/theme/color_theme.dart';
 
@@ -16,10 +17,10 @@ class PictureCard extends StatefulWidget {
       this.cardState = CardState.normal});
 
   @override
-  _PictureCardState createState() => _PictureCardState();
+  PictureCardState createState() => PictureCardState();
 }
 
-class _PictureCardState extends State<PictureCard> {
+class PictureCardState extends State<PictureCard> {
   String? imageUrl;
   bool isLoading = true;
 
@@ -46,7 +47,6 @@ class _PictureCardState extends State<PictureCard> {
     }
 
     try {
-      String fileName = widget.image;
       Reference ref = FirebaseStorage.instance
           .ref()
           .child("game")
@@ -58,7 +58,9 @@ class _PictureCardState extends State<PictureCard> {
         isLoading = false;
       });
     } catch (e) {
-      print('Error fetching image URL: $e');
+      if (kDebugMode) {
+        print('Error fetching image URL: $e');
+      }
       setState(() {
         isLoading = false;
       });

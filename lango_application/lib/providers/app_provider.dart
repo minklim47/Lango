@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AppProvider extends ChangeNotifier {
@@ -38,18 +38,21 @@ class AppProvider extends ChangeNotifier {
   String _languageLevel = "";
   String get languageLevel => _languageLevel;
 
+  String _imageProfile = "";
+  String get imageProfile => _imageProfile;
+  
   AppProvider() {
-    _init();
+    init();
   }
 
-  Future<void> _init() async {
+  Future<void> init() async {
     FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       if (user != null) {
         _user = user;
         _isLoading = true;
         notifyListeners();
         _userId = user.uid;
-        await _fetchUserInfo(user.uid);
+        await fetchUserInfo(user.uid);
         _isLoading = false;
         notifyListeners();
       } else {
@@ -61,18 +64,24 @@ class AppProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> _fetchUserInfo(String userId) async {
+  Future<void> fetchUserInfo(String userId) async {
     try {
       DocumentSnapshot userData = await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
           .get();
+
+      if (kDebugMode) {
+        print("Hello");
+        print(userData.data());
+      }
       _username = userData['username'];
       _email = userData['email'];
       _createdAt = userData['created_at'];
       _exp = userData['exp'];
       _selectedReason = userData['selectedReason'];
       _languageLevel = userData['languageLevel'];
+      _imageProfile = userData['profileImageUrl'];
       // print(userData['username']);
 
       // print(userData['selectedReason']);
@@ -88,8 +97,11 @@ class AppProvider extends ChangeNotifier {
           // print(languageProgress);
         }
       }
+      notifyListeners();
     } catch (error) {
-      print('Error fetching user info: $error');
+      if (kDebugMode) {
+        print('Error fetching user info: $error');
+      }
     }
   }
 
@@ -100,7 +112,9 @@ class AppProvider extends ChangeNotifier {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } catch (error) {
-      print('Error signing in: $error');
+      if (kDebugMode) {
+        print('Error signing in: $error');
+      }
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -113,7 +127,9 @@ class AppProvider extends ChangeNotifier {
       notifyListeners();
       await FirebaseAuth.instance.signOut();
     } catch (error) {
-      print('Error signing out: $error');
+      if (kDebugMode) {
+        print('Error signing out: $error');
+      }
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -127,13 +143,18 @@ class AppProvider extends ChangeNotifier {
         .collection('users')
         .doc(userId)
         .update({'language': newLanguage});
-    await _fetchUserInfo(userId);
+    await fetchUserInfo(userId);
     _isLoading = false;
     notifyListeners();
   }
 
   void updateUsername(String newName) {
     _username = newName;
+    notifyListeners();
+  }
+
+  void updateProfilePath(String newPath) {
+    _imageProfile = newPath;
     notifyListeners();
   }
 

@@ -1,4 +1,5 @@
 import 'package:confetti/confetti.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/providers/game_provider.dart';
@@ -51,14 +52,18 @@ class _WordMatchPageState extends State<WordMatchPage> {
     try {
       final gameProvider = Provider.of<GameProvider>(context, listen: false);
       await gameProvider.initData(widget._stage, widget._level);
-      print("Current game");
-      print(widget._currentGame);
+      if (kDebugMode) {
+        print("Current game");
+        print(widget._currentGame);
+      }
       setState(() {
         _question = gameProvider.questions[int.parse(widget._currentGame)];
         _totalQuestion = widget._stage == "12" ? 7 : 6;
       });
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -68,20 +73,20 @@ class _WordMatchPageState extends State<WordMatchPage> {
     super.dispose();
   }
 
-  void handleCardTap(int index) {
+  Future<void> handleCardTap(int index) async {
     if (_selectCardIndex == -1) {
       setState(() {
         _selectCardIndex = index;
       });
       if (_selectCardIndex == _question.answerIndex) {
         _confettiController.play();
+        Provider.of<GameProvider>(context, listen: false).addPoint(10);
         setState(() {
           _progress++;
         });
       }
     }
   }
-
 
   void reloadQuestion() {
     fetchQuestion();
@@ -97,7 +102,6 @@ class _WordMatchPageState extends State<WordMatchPage> {
     }
     return CardState.normal;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +170,7 @@ class _WordMatchPageState extends State<WordMatchPage> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_selectCardIndex == -1) {
                     return;
                   }
@@ -174,9 +178,17 @@ class _WordMatchPageState extends State<WordMatchPage> {
                   setState(() {
                     _selectCardIndex = -1;
                   });
-                  if (widget._currentGame == "2") {
-                    context.go(
-                        '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/picture');
+                  if (widget._currentGame == "5") {
+                    if (widget._stage == "12") {
+                      context.go(
+                          '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/pair');
+                    } else {
+                      await Provider.of<GameProvider>(context, listen: false)
+                          .completeStage(int.parse(widget._level),
+                              int.parse(widget._stage));
+                      context
+                          .go('/game/${widget._level}/${widget._stage}/0/end');
+                    }
                   } else {
                     context.go(
                         '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/word');

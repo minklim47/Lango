@@ -22,6 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +34,10 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20),
           child: Row(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 35,
-                backgroundImage: AssetImage('assets/icons/avatar_spain.png'),
+                backgroundImage: NetworkImage(
+                    Provider.of<AppProvider>(context).imageProfile),
               ),
               Expanded(
                   child: Padding(
@@ -104,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         title: 'Account Created Since',
                         value: value.createdAt,
                       ),
-                      StatBox(
+                      const StatBox(
                         title: 'Longest Streaks',
                         value: '130',
                         foot: "days",
@@ -114,13 +116,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         value: value.exp.toString(),
                         foot: "xp",
                       ),
-                      StatBox(
+                      const StatBox(
                         title: 'Language Learn',
                         value: '3',
                       ),
                     ],
                   )));
-          ;
         }),
         const SizedBox(height: 20),
         SizedBox(
@@ -128,102 +129,113 @@ class _ProfilePageState extends State<ProfilePage> {
             child: ElevatedButton(
               onPressed: () async {
                 showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: const Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "See you soon!",
-                              style: TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "See you soon!",
+                            style: TextStyle(
+                              fontFamily: "Inter",
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
-                            SizedBox(height: 8),
-                            Text(
-                              "Are you sure you want to sign out?",
-                              style: TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 16,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ],
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        backgroundColor: AppColors.cream,
-                        actions: <Widget>[
-                          Align(
-                            alignment: Alignment.center,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        side: BorderSide(color: Color(0xFF5F5F5F)),
-                                      ),
-                                    ),
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                                    child: Text(
-                                      'Cancel',
-                                      style: TextStyle(
-                                        fontFamily: "Inter",
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                TextButton(
-                                  onPressed: () async {
-                                    await FirebaseAuth.instance.signOut();
-                                    Provider.of<AppProvider>(context, listen: false).signOut();
-                                    GoRouter.of(context).go('/');
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(Color(0xFFFEE440)),
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-                                    child: Text(
-                                      'Sign out',
-                                      style: TextStyle(
-                                        fontFamily: "Inter",
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "Are you sure you want to sign out?",
+                            style: TextStyle(
+                              fontFamily: "Inter",
+                              fontSize: 16,
+                              color: Colors.black54,
                             ),
                           ),
                         ],
-                      );
-                    },
-                  );
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      backgroundColor: AppColors.cream,
+                      actions: <Widget>[
+                        Align(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      side:
+                                          const BorderSide(color: Color(0xFF5F5F5F)),
+                                    ),
+                                  ),
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 20),
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                      fontFamily: "Inter",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              
+                              TextButton(
+                                onPressed: () async {
+                                  await FirebaseAuth.instance.signOut();
+                                  // ignore: use_build_context_synchronously
+                                  Provider.of<AppProvider>(context,
+                                          listen: false)
+                                      .signOut();
+                                  // ignore: use_build_context_synchronously
+                                  GoRouter.of(context).go('/');
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      const Color(0xFFFEE440)),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 20),
+                                  child: Text(
+                                    'Sign out',
+                                    style: TextStyle(
+                                      fontFamily: "Inter",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               style: CustomTheme.customTheme.outlinedButtonTheme.style,
               child: const Text("LOGOUT"),

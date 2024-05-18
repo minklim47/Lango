@@ -1,4 +1,5 @@
 import 'package:confetti/confetti.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/providers/game_provider.dart';
@@ -50,14 +51,18 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
     try {
       final gameProvider = Provider.of<GameProvider>(context, listen: false);
       await gameProvider.initData(widget._stage, widget._level);
-      print("Current game");
-      print(widget._currentGame);
+      if (kDebugMode) {
+        print("Current game");
+        print(widget._currentGame);
+      }
       setState(() {
         _question = gameProvider.questions[int.parse(widget._currentGame)];
         _totalQuestion = widget._stage == "12" ? 7 : 6;
       });
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -74,6 +79,7 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
       });
       if (_selectCardIndex == _question.answerIndex) {
         _confettiController.play();
+        Provider.of<GameProvider>(context, listen: false).addPoint(10);
         setState(() {
           _progress++;
         });
@@ -208,7 +214,7 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
               child: IgnorePointer(
                 ignoring: _selectCardIndex == -1,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_selectCardIndex == -1) {
                       return;
                     }
@@ -216,18 +222,14 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
                     setState(() {
                       _selectCardIndex = -1;
                     });
-                    if (widget._currentGame == "5") {
-                      if (widget._stage == "12") {
-                        context.go(
-                            '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/pair');
-                      } else {
-                        // context.go(
-                        //     '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/pair');
-                      }
+                    if (widget._currentGame == "2") {
+                      context.go(
+                          '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/word');
                     } else {
                       context.go(
                           '/game/${widget._level}/${widget._stage}/${(int.parse(widget._currentGame) + 1).toString()}/picture');
                     }
+
                     reloadQuestion();
                   },
                   style: ButtonStyle(

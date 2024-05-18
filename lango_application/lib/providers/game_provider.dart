@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:lango_application/providers/app_provider.dart';
 
 class Word {
@@ -42,9 +42,13 @@ class GameProvider extends ChangeNotifier {
   final List<Word> _newWords = [];
   final List<Question> _questions = [];
   final List<Word> _matchingPair = [];
-  int _totalPoint = 0;
-  String _start = "";
-  String _end = "";
+  final int _totalPoint = 0;
+  int get totalPoint => _totalPoint;
+
+  int _point = 0;
+  int get point => _point;
+  // String _start = "";
+  // String _end = "";
 
   int get length => _questions.length;
   List<Word> get words => _words;
@@ -68,8 +72,10 @@ class GameProvider extends ChangeNotifier {
           .get();
       int start = range["start"];
       int end = range["end"];
-      print(start);
-      print(end);
+      if (kDebugMode) {
+        print(start);
+        print(end);
+      }
       if (range.exists) {
         QuerySnapshot newWordList = await FirebaseFirestore.instance
             .collection("vocab")
@@ -100,7 +106,9 @@ class GameProvider extends ChangeNotifier {
             temp = Random().nextInt(3);
           }
         }
-        print(questions);
+        if (kDebugMode) {
+          print(questions);
+        }
         if (stage == "12") {
           for (int i = 0; i < 5; i++) {
             _matchingPair.add(choiceWords[i]);
@@ -110,12 +118,14 @@ class GameProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
-  void addPoint(int point) {
-    _totalPoint += point;
+  void addPoint(int newPoint) {
+    _point += newPoint;
     notifyListeners();
   }
 
@@ -125,5 +135,63 @@ class GameProvider extends ChangeNotifier {
     ls[index1] = ls[index2];
     ls[index2] = temp;
     return ls;
+  }
+
+  Future<void> updateProgress(int level, int stage) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(appProvider.userId)
+        .set({
+      'progress': {
+        '${appProvider.language}': {
+          'level': stage < 12
+              ? level
+              : stage == 12 && level < 3
+                  ? level + 1
+                  : level,
+          'stage': stage < 12
+              ? stage + 1
+              : stage == 12 && level < 3
+                  ? 1
+                  : stage,
+        }
+      },
+    }, SetOptions(merge: true));
+
+    notifyListeners();
+  }
+
+  Future<void> completeStage(int level, int stage) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(appProvider.userId)
+          .set({
+        'exp': appProvider.exp + (_point * 10),
+      }, SetOptions(merge: true));
+      if (_point == 60) {
+        //   await FirebaseFirestore.instance
+        //       .collection('users')
+        //       .doc(appProvider.userId)
+        //       .collection('complete')
+        //       .doc('${appProvider.language}level${level}stage$stage')
+        //       .set({});
+        // }
+        await updateProgress(level, stage);
+      }
+      notifyListeners();
+
+      appProvider.fetchUserInfo(appProvider.userId);
+      notifyListeners();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Failed to add data to subcollection: $e');
+      } 
+    }
+  }
+
+  void resetScore() {
+    _point = 0;
+    notifyListeners();
   }
 }

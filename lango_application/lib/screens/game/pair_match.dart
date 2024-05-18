@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/providers/game_provider.dart';
@@ -34,9 +35,11 @@ class _PairMatchPageState extends State<PairMatchPage> {
 
   void fetchWord() async {
     try {
-      final gameProvider = Provider.of<GameProvider>(context, listen: false);
+      Provider.of<GameProvider>(context, listen: false);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
