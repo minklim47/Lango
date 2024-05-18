@@ -57,7 +57,7 @@ class _GamePageState extends State<GamePage> {
                             Provider.of<GameProvider>(context, listen: false)
                                 .questions[0];
                         if (kDebugMode) {
-                          print(question.answerIndex);
+                          // print(question.answerIndex);
                         }
                         // ignore: use_build_context_synchronously
                         context.go(

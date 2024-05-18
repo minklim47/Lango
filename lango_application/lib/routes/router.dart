@@ -78,7 +78,11 @@ final GoRouter router = GoRouter(
             ),
             GoRoute(
               path: "pair",
-              builder: (context, state) => const PairMatchPage(),
+              builder: (context, state) => PairMatchPage(
+                level: state.pathParameters['level']!,
+                stage: state.pathParameters['stage']!,
+                game: state.pathParameters['page']!,
+              ),
             ),
             GoRoute(
               path: "end",

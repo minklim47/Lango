@@ -1,45 +1,163 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lango_application/providers/game_provider.dart';
+import 'package:lango_application/theme/color_theme.dart';
+import 'package:lango_application/widgets/game/picture_card.dart';
 import 'package:lango_application/widgets/game/word_card.dart';
 import 'package:lango_application/widgets/progress_bar.dart';
 import 'package:lango_application/widgets/wrapper.dart';
 import 'package:provider/provider.dart';
 
 class PairMatchPage extends StatefulWidget {
-  const PairMatchPage({super.key});
+  final String _level;
+  final String _stage;
+  final String _currentGame;
+  const PairMatchPage(
+      {super.key,
+      required String level,
+      required String stage,
+      required String game})
+      : _level = level,
+        _stage = stage,
+        _currentGame = game;
 
   @override
   State<PairMatchPage> createState() => _PairMatchPageState();
 }
 
 class _PairMatchPageState extends State<PairMatchPage> {
-  late List<Word> wordList;
-  late List<String> engWords;
-  late List<String> otherWords;
-  int first = -1;
-  int second = -1;
+  late List<Word> _wordList;
+  late List<String> _engWords;
+  late List<String> _otherWords;
+  late ConfettiController _confettiController;
+  List<int> _clear = [];
+  double progress = 6;
+  int _first = -1;
+  int _second = -1;
 
   @override
   void initState() {
     super.initState();
-    wordList = [
+    _confettiController =
+        ConfettiController(duration: const Duration(seconds: 10));
+    _wordList = [
       Word(eng: "", other: ""),
       Word(eng: "", other: ""),
       Word(eng: "", other: ""),
       Word(eng: "", other: ""),
       Word(eng: "", other: "")
     ];
+    _engWords = ["", "", "", "", ""];
+    _otherWords = ["", "", "", "", ""];
+    fetchWord();
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
   }
 
   void fetchWord() async {
     try {
-      Provider.of<GameProvider>(context, listen: false);
+      final gameProvider = Provider.of<GameProvider>(context, listen: false);
+      await gameProvider.initData(widget._stage, widget._level);
+      if (kDebugMode) {
+        print("Current game");
+        print(widget._currentGame);
+      }
+      setState(() {
+        _wordList = gameProvider.matchingPair;
+        _wordList.shuffle();
+        for (int i = 0; i < 5; i++) {
+          _otherWords[i] = _wordList[i].other;
+        }
+        _wordList.shuffle();
+        for (int i = 0; i < 5; i++) {
+          _engWords[i] = _wordList[i].eng;
+        }
+      });
+      print("Word list");
+      print(_wordList);
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
+    }
+  }
+
+  int findIndexByString(String word, String type) {
+    for (int i = 0; i < _wordList.length; i++) {
+      if ((type == "eng" && _wordList[i].eng == word) ||
+          (type != "eng" && _wordList[i].other == word)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  CardState cardStateCheck(int index) {
+    if (_clear.contains(index)) {
+      return CardState.clear;
+    }
+    if (_first == index) {
+      return CardState.correct;
+    } else if (_second == index) {
+      if (index.isOdd) {
+        int value = findIndexByString(_otherWords[index ~/ 2], "other");
+        if (_wordList[value].eng == _engWords[_first ~/ 2]) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            setState(() {
+              _clear.add(index);
+              _clear.add(_first);
+              _first = -1;
+              _second = -1;
+              if (_clear.length == 10) {
+                _confettiController.play();
+                progress = 7;
+              }
+            });
+          });
+          return CardState.correct;
+        } else {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            setState(() {
+              _first = -1;
+              _second = -1;
+            });
+          });
+          return CardState.wrong;
+        }
+      } else {
+        int value = findIndexByString(_engWords[index ~/ 2], "eng");
+        if (_wordList[value].other == _otherWords[_first ~/ 2]) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            setState(() {
+              _clear.add(index);
+              _clear.add(_first);
+              _first = -1;
+              _second = -1;
+              if (_clear.length == 10) {
+                _confettiController.play();
+                progress = 7;
+              }
+            });
+          });
+          return CardState.correct;
+        } else {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            setState(() {
+              _first = -1;
+              _second = -1;
+            });
+          });
+          return CardState.wrong;
+        }
+      }
+    } else {
+      return CardState.normal;
     }
   }
 
@@ -49,11 +167,26 @@ class _PairMatchPageState extends State<PairMatchPage> {
       body: Wrapper(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Align(
+          alignment: Alignment.center,
+          child: ConfettiWidget(
+            confettiController: _confettiController,
+            blastDirectionality: BlastDirectionality.explosive,
+            shouldLoop: true,
+            colors: const [
+              Colors.green,
+              Colors.blue,
+              Colors.pink,
+              Colors.orange,
+              Colors.purple
+            ],
+          ),
+        ),
         Row(children: [
-          const Expanded(
+          Expanded(
               child: ProgressBar(
-            max: 100,
-            current: 10,
+            max: 7,
+            current: progress,
             height: 20,
           )),
           IconButton(
@@ -75,17 +208,55 @@ class _PairMatchPageState extends State<PairMatchPage> {
             childAspectRatio: 3,
             children: List.generate(
               10,
-              (index) => const WordCard(word: "Test"),
+              (index) => GestureDetector(
+                  onTap: () {
+                    if (_clear.contains(index)) {
+                      return;
+                    }
+                    if (_first == -1) {
+                      setState(() {
+                        _first = index;
+                      });
+                    } else {
+                      if (1 == 2) {
+                        setState(() {
+                          _second = index;
+                        });
+                      } else {
+                        setState(() {
+                          _second = index;
+                        });
+                      }
+                    }
+                  },
+                  child: WordCard(
+                    cardState: cardStateCheck(index),
+                    word: index.isEven
+                        ? _engWords[index ~/ 2]
+                        : _otherWords[index ~/ 2],
+                  )),
             ),
           ),
         ),
+        if (MediaQuery.of(context).size.height > 500)
+          SizedBox(height: MediaQuery.of(context).size.height / 10),
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => context.go("/game/pair"),
-                child: const Text("SAVE CHANGES"),
+                onPressed: () {
+                  if (_clear.length < 10) {
+                    return;
+                  }
+                  context.go("/");
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    _clear.length < 10 ? Colors.grey : AppColors.yellow,
+                  ),
+                ),
+                child: const Text("CONTINUE"),
               ),
             ))
       ])),

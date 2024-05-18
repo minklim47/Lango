@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lango_application/theme/color_theme.dart';
 
-enum CardState { normal, correct, wrong }
+enum CardState { normal, correct, wrong, clear }
 
 class PictureCard extends StatefulWidget {
   final String word;
