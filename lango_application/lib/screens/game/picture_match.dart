@@ -74,6 +74,7 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
       });
       if (_selectCardIndex == _question.answerIndex) {
         _confettiController.play();
+        Provider.of<GameProvider>(context, listen: false).addPoint(10);
         setState(() {
           _progress++;
         });

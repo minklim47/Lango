@@ -82,6 +82,7 @@ flutter:
     - assets/icons/avatar_spain.png
   #   - images/a_dot_ham.jpeg
     - assets/images/QRcode.png
+    - assets/images/game/lose_endgame.png
     
     - assets/images/language/th.png
     - assets/images/language/es.png

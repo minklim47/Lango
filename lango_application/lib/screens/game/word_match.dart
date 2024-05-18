@@ -181,10 +181,8 @@ class _WordMatchPageState extends State<WordMatchPage> {
                       await Provider.of<GameProvider>(context, listen: false)
                           .completeStage(int.parse(widget._level),
                               int.parse(widget._stage));
-                      await Provider.of<GameProvider>(context, listen: false)
-                          .updateProgress(int.parse(widget._level),
-                              int.parse(widget._stage));
-                      context.go('/game/${widget._level}/${widget._stage}/end');
+                      context
+                          .go('/game/${widget._level}/${widget._stage}/0/end');
                     }
                   } else {
                     context.go(

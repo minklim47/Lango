@@ -151,6 +151,7 @@ class GameProvider extends ChangeNotifier {
         }
       },
     }, SetOptions(merge: true));
+
     notifyListeners();
   }
 
@@ -159,20 +160,30 @@ class GameProvider extends ChangeNotifier {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(appProvider.userId)
-          .collection('complete')
-          .doc('${appProvider.language}level${level}stage$stage')
           .set({
-        'language': appProvider.language,
-        'level': level,
-        'stage': stage,
-        'timestamp': Timestamp.now(),
-        'passed': _point >= _totalPoint ? true : false,
-        'exp': _point,
-      });
+        'exp': appProvider.exp + (_point * 10),
+      }, SetOptions(merge: true));
+      if (_point == 60) {
+        //   await FirebaseFirestore.instance
+        //       .collection('users')
+        //       .doc(appProvider.userId)
+        //       .collection('complete')
+        //       .doc('${appProvider.language}level${level}stage$stage')
+        //       .set({});
+        // }
+        await updateProgress(level, stage);
+      }
+      notifyListeners();
+
       appProvider.fetchUserInfo(appProvider.userId);
       notifyListeners();
     } catch (e) {
       print('Failed to add data to subcollection: $e');
     }
+  }
+
+  void resetScore() {
+    _point = 0;
+    notifyListeners();
   }
 }
