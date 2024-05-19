@@ -32,7 +32,7 @@ class _PairMatchPageState extends State<PairMatchPage> {
   late List<String> _engWords;
   late List<String> _otherWords;
   late ConfettiController _confettiController;
-  List<int> _clear = [];
+  final List<int> _clear = [];
   double progress = 6;
   int _first = -1;
   int _second = -1;
@@ -79,8 +79,10 @@ class _PairMatchPageState extends State<PairMatchPage> {
           _engWords[i] = _wordList[i].eng;
         }
       });
-      print("Word list");
-      print(_wordList);
+      if (kDebugMode) {
+        print("Word list");
+        print(_wordList);
+      }
     } catch (e) {
       if (kDebugMode) {
         print(e);

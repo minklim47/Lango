@@ -52,10 +52,6 @@ class _GamePageState extends State<GamePage> {
                         await Provider.of<GameProvider>(context, listen: false)
                             .initData(widget.stage, widget.level);
                       
-                        var question =
-                            // ignore: use_build_context_synchronously
-                            Provider.of<GameProvider>(context, listen: false)
-                                .questions[0];
                         if (kDebugMode) {
                           // print(question.answerIndex);
                         }

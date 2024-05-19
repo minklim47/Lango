@@ -110,7 +110,7 @@ class GameProvider extends ChangeNotifier {
         if (kDebugMode) {
           print(questions);
         }
-        if (stage == "12") {
+        if (stage == "12" && _matchingPair.isEmpty) {
           _matchingPair.add(choiceWords[0]);
           _matchingPair.add(choiceWords[1]);
           _words.shuffle();
@@ -118,6 +118,7 @@ class GameProvider extends ChangeNotifier {
           _matchingPair.add(_words[1]);
           _matchingPair.add(_words[2]);
         }
+        print("length: ${matchingPair.length}");
       }
 
       notifyListeners();
