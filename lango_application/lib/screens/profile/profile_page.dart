@@ -22,7 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,19 +105,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         title: 'Account Created Since',
                         value: value.createdAt,
                       ),
-                      const StatBox(
-                        title: 'Longest Streaks',
-                        value: '130',
-                        foot: "days",
+                      StatBox(
+                        title: 'Stage cleared',
+                        value: value.totalStage.toString(),
+                        foot: "stages",
                       ),
                       StatBox(
                         title: 'Experience Points',
                         value: value.exp.toString(),
                         foot: "xp",
                       ),
-                      const StatBox(
+                      StatBox(
                         title: 'Language Learn',
-                        value: '3',
+                        value: value.totalLanguage.toString(),
                       ),
                     ],
                   )));
@@ -174,8 +173,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      side:
-                                          const BorderSide(color: Color(0xFF5F5F5F)),
+                                      side: const BorderSide(
+                                          color: Color(0xFF5F5F5F)),
                                     ),
                                   ),
                                 ),
@@ -194,7 +193,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               const SizedBox(width: 10),
-                              
                               TextButton(
                                 onPressed: () async {
                                   await FirebaseAuth.instance.signOut();
