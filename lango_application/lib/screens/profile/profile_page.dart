@@ -90,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         Consumer<AppProvider>(builder: (context, value, _) {
           final stagesCleared =
-              value.currentStage + ((value.currentLevel - 1) * 12);
+              value.currentStage + ((value.currentLevel - 1) * 12) -1;
           return Expanded(
               child: ConstrainedBox(
                   constraints: const BoxConstraints(
