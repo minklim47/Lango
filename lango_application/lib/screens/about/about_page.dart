@@ -77,15 +77,15 @@ class AboutPage extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 20),
                           child: const Text("Survey"),
                         ),
-                        backgroundColor: AppColors.cream,
+                        backgroundColor:
+                            AppColors.cream, // Set the background color here
                         collapsedBackgroundColor: AppColors.cream,
                         children: [
-                          // ListTile(title: Text("insert survey here")),
                           Consumer<AppProvider>(builder: (context, value, _) {
                             return Padding(
                               padding: const EdgeInsets.all(20.0),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              child: GestureDetector(
+                                onTap: () {
                                   if (value.selectedReason == "") {
                                     if (kDebugMode) {
                                       print(value.selectedReason);
@@ -97,23 +97,36 @@ class AboutPage extends StatelessWidget {
                                     return;
                                   }
                                 },
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                    value.selectedReason != "" &&
-                                            value.languageLevel != ""
-                                        ? Colors.grey
-                                        : AppColors.yellow,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.cream,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                        color: AppColors.darkGrey, width: 1),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                      horizontal:
+                                          20), // Padding for text and icon inside the box
+                                  child: const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Enter Survey",
+                                        style: TextStyle(
+                                          color: AppColors.black,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward, // Arrow icon
+                                        color: AppColors.black,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                child: value.languageLevel == "" ||
-                                        value.languageLevel == ""
-                                    ? const Text("Enter Survey")
-                                    : const Text("Survey Completed"),
                               ),
                             );
-
-                            // Text("Enter Survey"));
                           }),
                         ],
                       ),
