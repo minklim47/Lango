@@ -58,7 +58,7 @@ class AboutPage extends StatelessWidget {
                         children: [
                           ListTile(
                             title: Image.asset(
-                              'assets/images/QRcode.png',
+                              'assets/images/qrcode.png',
                               width: 200,
                               height: 200,
                             ),
