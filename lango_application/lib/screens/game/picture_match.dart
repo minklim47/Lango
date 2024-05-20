@@ -30,6 +30,7 @@ class PictureMatchPage extends StatefulWidget {
 class _PictureMatchPageState extends State<PictureMatchPage> {
   int _selectCardIndex = -1;
   late int _progress = int.parse(widget._currentGame);
+  // ignore: unused_field
   late int _totalQuestion = 1;
   late Question _question;
   late ConfettiController _confettiController;

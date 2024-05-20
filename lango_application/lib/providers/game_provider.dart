@@ -118,7 +118,6 @@ class GameProvider extends ChangeNotifier {
           _matchingPair.add(_words[1]);
           _matchingPair.add(_words[2]);
         }
-        print("length: ${matchingPair.length}");
       }
 
       notifyListeners();
@@ -131,7 +130,6 @@ class GameProvider extends ChangeNotifier {
 
   void addPoint(int newPoint) {
     _point += newPoint;
-    print("point: $_point");
     notifyListeners();
   }
 
@@ -144,7 +142,6 @@ class GameProvider extends ChangeNotifier {
   }
 
   Future<void> updateProgress(int level, int stage) async {
-    print("level: $level, stage: $stage");
     await FirebaseFirestore.instance
         .collection('users')
         .doc(appProvider.userId)
