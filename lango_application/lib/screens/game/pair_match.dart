@@ -109,7 +109,7 @@ class _PairMatchPageState extends State<PairMatchPage> {
     } else if (_second == index) {
       if (index.isOdd) {
         int value = findIndexByString(_otherWords[index ~/ 2], "other");
-        if (_wordList[value].eng == _engWords[_first ~/ 2]) {
+        if (_wordList[value].eng == _engWords[_first ~/ 2] && _first.isEven) {
           Future.delayed(const Duration(milliseconds: 500), () {
             setState(() {
               _clear.add(index);
@@ -135,7 +135,7 @@ class _PairMatchPageState extends State<PairMatchPage> {
         }
       } else {
         int value = findIndexByString(_engWords[index ~/ 2], "eng");
-        if (_wordList[value].other == _otherWords[_first ~/ 2]) {
+        if (_wordList[value].other == _otherWords[_first ~/ 2] && _first.isOdd) {
           Future.delayed(const Duration(milliseconds: 500), () {
             setState(() {
               _clear.add(index);
