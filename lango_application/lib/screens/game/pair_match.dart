@@ -193,7 +193,11 @@ class _PairMatchPageState extends State<PairMatchPage> {
             height: 20,
           )),
           IconButton(
-              onPressed: () => {context.go("/")},
+              onPressed: () async => {
+                    Provider.of<GameProvider>(context, listen: false)
+                        .resetScore(),
+                    context.go("/")
+                  },
               icon: const Icon(Icons.close)),
         ]),
         Padding(
@@ -270,4 +274,3 @@ class _PairMatchPageState extends State<PairMatchPage> {
     );
   }
 }
-

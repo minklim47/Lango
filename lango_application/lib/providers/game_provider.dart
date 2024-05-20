@@ -131,6 +131,7 @@ class GameProvider extends ChangeNotifier {
 
   void addPoint(int newPoint) {
     _point += newPoint;
+    print("point: $_point");
     notifyListeners();
   }
 
@@ -143,6 +144,7 @@ class GameProvider extends ChangeNotifier {
   }
 
   Future<void> updateProgress(int level, int stage) async {
+    print("level: $level, stage: $stage");
     await FirebaseFirestore.instance
         .collection('users')
         .doc(appProvider.userId)
@@ -174,15 +176,15 @@ class GameProvider extends ChangeNotifier {
           .set({
         'exp': appProvider.exp + (_point * 10),
       }, SetOptions(merge: true));
-      if (_point == 60) {
-        //   await FirebaseFirestore.instance
-        //       .collection('users')
-        //       .doc(appProvider.userId)
-        //       .collection('complete')
-        //       .doc('${appProvider.language}level${level}stage$stage')
-        //       .set({});
-        // }
-        await updateProgress(level, stage);
+      //
+      if (stage == 12) {
+        if (_point == 70) {
+          await updateProgress(level, stage);
+        }
+      } else {
+        if (_point == 60) {
+          await updateProgress(level, stage);
+        }
       }
       notifyListeners();
 

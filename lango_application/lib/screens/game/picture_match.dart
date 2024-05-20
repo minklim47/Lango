@@ -133,7 +133,11 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
             height: 20,
           )),
           IconButton(
-              onPressed: () => {context.go("/")},
+              onPressed: () => {
+                    Provider.of<GameProvider>(context, listen: false)
+                        .resetScore(),
+                    context.go("/"),
+                  },
               icon: const Icon(Icons.close)),
         ]),
         Padding(

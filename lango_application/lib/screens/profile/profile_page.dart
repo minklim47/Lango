@@ -109,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       StatBox(
                         title: 'Current Language',
-                        value: value.currentStage.toString(),
+                        value: value.language == "es" ? "Español": "Thai",
                       ),
                       StatBox(
                         title: 'Experience Points',

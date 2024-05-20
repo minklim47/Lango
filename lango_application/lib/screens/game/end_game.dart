@@ -77,7 +77,6 @@ class _EndGamePageState extends State<EndGamePage> {
                           builder: (context, value, _) {
                             int requiredPoints =
                                 widget._stage == "12" ? 70 : 60;
-
                             return Text(
                               '${(value.point / requiredPoints * 100).toInt()}%',
                               style: Theme.of(context).textTheme.headlineLarge,
