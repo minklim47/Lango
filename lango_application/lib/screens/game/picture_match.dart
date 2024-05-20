@@ -80,10 +80,10 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
       if (_selectCardIndex == _question.answerIndex) {
         _confettiController.play();
         Provider.of<GameProvider>(context, listen: false).addPoint(10);
-        setState(() {
-          _progress++;
-        });
       }
+      setState(() {
+        _progress++;
+      });
     }
   }
 
@@ -128,12 +128,16 @@ class _PictureMatchPageState extends State<PictureMatchPage> {
         Row(children: [
           Expanded(
               child: ProgressBar(
-            max: _totalQuestion.toDouble(),
+            max: widget._stage == "12" ? 7 : 6,
             current: _progress.toDouble(),
             height: 20,
           )),
           IconButton(
-              onPressed: () => {context.go("/")},
+              onPressed: () => {
+                    Provider.of<GameProvider>(context, listen: false)
+                        .resetScore(),
+                    context.go("/"),
+                  },
               icon: const Icon(Icons.close)),
         ]),
         Padding(
