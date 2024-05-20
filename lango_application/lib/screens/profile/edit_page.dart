@@ -84,10 +84,13 @@ class EditProfilePageState extends State<EditProfilePage> {
           .child('profile_images')
           .child('${FirebaseAuth.instance.currentUser!.uid}.png');
 
+      UploadTask uploadTask;
       if (kIsWeb) {
-      } else {}
-      // await uploadTask;
-
+        uploadTask = storageRef.putData(_webImage!);
+      } else {
+        uploadTask = storageRef.putFile(_image!);
+      }
+      
       final downloadUrl = await storageRef.getDownloadURL();
       setState(() {
         _profileImageUrl = downloadUrl;
@@ -100,9 +103,12 @@ class EditProfilePageState extends State<EditProfilePage> {
         await users.doc(FirebaseAuth.instance.currentUser!.uid).update({
           'profileImageUrl': _profileImageUrl,
         });
-      }     
+      }
       if (mounted) {
         showSnackBar(context, "Profile Picture Updated");
+        print("Lek Kod SUIT SUI $_profileImageUrl");
+        print(
+            "Lek Kod SUIT SUI SUI ${Provider.of<AppProvider>(context, listen: false).imageProfile}");
       }
     } catch (e) {
       if (mounted) {
@@ -156,25 +162,14 @@ class EditProfilePageState extends State<EditProfilePage> {
             child: Stack(
               alignment: const Alignment(2, 1.2),
               children: [
-                // CircleAvatar(
-                //   radius: 40,
-                //   backgroundImage: _profileImageUrl.isNotEmpty
-                //       ? NetworkImage(_profileImageUrl)
-                //       : null,
-                //   child: _profileImageUrl.isEmpty
-                //       ? const Icon(Icons.person, size: 40)
-                //       : null,
-                // ),
                 CircleAvatar(
                   radius: 40,
                   backgroundImage: NetworkImage(
                       Provider.of<AppProvider>(context).imageProfile),
-                  child:
-                      Provider.of<AppProvider>(context).imageProfile.isNotEmpty
-                          ? const Icon(Icons.person, size: 40)
-                          : null,
+                  child: Provider.of<AppProvider>(context).imageProfile.isEmpty
+                      ? const Icon(Icons.person, size: 40)
+                      : null,
                 ),
-
                 IconButton(
                   onPressed: _pickImage,
                   icon: const Icon(Icons.edit),
@@ -218,7 +213,8 @@ class EditProfilePageState extends State<EditProfilePage> {
                           ),
                           fillColor: AppColors.white,
                           filled: true,
-                          prefixIcon: const Icon(Icons.person, color: AppColors.grey),
+                          prefixIcon:
+                              const Icon(Icons.person, color: AppColors.grey),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {

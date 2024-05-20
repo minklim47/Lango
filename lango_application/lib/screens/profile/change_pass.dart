@@ -35,26 +35,16 @@ class _ChangePassPageState extends State<ChangePassPage> {
   void _updatePassword() async {
     if (_formKey.currentState!.validate()) {
       try {
-        //       AuthCredential credential = EmailAuthProvider.credential(
-        //           email: _auth.currentUser!.email!, password: _currentPassword);
-        //       await _auth.currentUser!.reauthenticateWithCredential(credential);
-
-        //       await _auth.currentUser!.updatePassword(_newPassword);
-
-        //       showSnackBar(context, 'Password updated successfully');
-        //       context.go("/");
-        //     } catch (e) {
-        //       showSnackBar(context, 'Failed to update password: $e');
-        //     }
-        //   }
-        // }
-        final user = _auth.currentUser;
+        final user = FirebaseAuth.instance.currentUser;
         if (user != null) {
-          await _auth.signInWithEmailAndPassword(
+          final credential = EmailAuthProvider.credential(
             email: user.email!,
             password: oldPasswordController.text,
           );
-          await user.updatePassword(_newPassword);
+
+          await user.reauthenticateWithCredential(credential);
+
+          await user.updatePassword(newPasswordController.text);
 
           if (mounted) {
             showSnackBar(context, 'Password updated successfully');
@@ -64,8 +54,15 @@ class _ChangePassPageState extends State<ChangePassPage> {
           showSnackBar(context, 'User not found');
         }
       } catch (e) {
-        // ignore: use_build_context_synchronously
-        showSnackBar(context, 'Failed to update password: $e');
+        if (e is FirebaseAuthException) {
+          if (e.code == 'invalid-credential') {
+            showSnackBar(context, 'Incorrect current password');
+          } else {
+            showSnackBar(context, 'Failed to update password: ${e.message}');
+          }
+        } else {
+          showSnackBar(context, 'An unexpected error occurred: $e');
+        }
       }
     }
   }
@@ -110,7 +107,8 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: const Icon(Icons.key, color: AppColors.grey),
+                            prefixIcon:
+                                const Icon(Icons.key, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -120,8 +118,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                           },
                           obscureText: true,
                           onChanged: (value) {
-                            setState(() {
-                            });
+                            setState(() {});
                           },
                         ),
                         const SizedBox(height: 20),
@@ -135,7 +132,8 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: const Icon(Icons.key, color: AppColors.grey),
+                            prefixIcon:
+                                const Icon(Icons.key, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -164,7 +162,8 @@ class _ChangePassPageState extends State<ChangePassPage> {
                             ),
                             fillColor: AppColors.white,
                             filled: true,
-                            prefixIcon: const Icon(Icons.key, color: AppColors.grey),
+                            prefixIcon:
+                                const Icon(Icons.key, color: AppColors.grey),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
