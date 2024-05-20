@@ -84,13 +84,14 @@ class EditProfilePageState extends State<EditProfilePage> {
           .child('profile_images')
           .child('${FirebaseAuth.instance.currentUser!.uid}.png');
 
+      // ignore: unused_local_variable
       UploadTask uploadTask;
       if (kIsWeb) {
         uploadTask = storageRef.putData(_webImage!);
       } else {
         uploadTask = storageRef.putFile(_image!);
       }
-      
+
       final downloadUrl = await storageRef.getDownloadURL();
       setState(() {
         _profileImageUrl = downloadUrl;
@@ -106,9 +107,6 @@ class EditProfilePageState extends State<EditProfilePage> {
       }
       if (mounted) {
         showSnackBar(context, "Profile Picture Updated");
-        print("Lek Kod SUIT SUI $_profileImageUrl");
-        print(
-            "Lek Kod SUIT SUI SUI ${Provider.of<AppProvider>(context, listen: false).imageProfile}");
       }
     } catch (e) {
       if (mounted) {
