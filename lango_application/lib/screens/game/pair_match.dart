@@ -118,6 +118,7 @@ class _PairMatchPageState extends State<PairMatchPage> {
               _second = -1;
               if (_clear.length == 10) {
                 _confettiController.play();
+                Provider.of<GameProvider>(context, listen: false).addPoint(10);
                 progress = 7;
               }
             });
@@ -247,11 +248,15 @@ class _PairMatchPageState extends State<PairMatchPage> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_clear.length < 10) {
                     return;
+                  } else {
+                    await Provider.of<GameProvider>(context, listen: false)
+                        .completeStage(
+                            int.parse(widget._level), int.parse(widget._stage));
+                    context.go('/game/${widget._level}/${widget._stage}/0/end');
                   }
-                  context.go("/");
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
@@ -266,6 +271,3 @@ class _PairMatchPageState extends State<PairMatchPage> {
   }
 }
 
-// void main() {
-//   runApp(const MaterialApp(home: PairMatchPage()));
-// }

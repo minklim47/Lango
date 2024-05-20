@@ -89,6 +89,8 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         Consumer<AppProvider>(builder: (context, value, _) {
+          final stagesCleared =
+              value.currentStage + ((value.currentLevel - 1) * 12);
           return Expanded(
               child: ConstrainedBox(
                   constraints: const BoxConstraints(
@@ -106,9 +108,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         value: value.createdAt,
                       ),
                       StatBox(
-                        title: 'Stage cleared',
-                        value: value.totalStage.toString(),
-                        foot: "stages",
+                        title: 'Current Language',
+                        value: value.currentStage.toString(),
                       ),
                       StatBox(
                         title: 'Experience Points',
@@ -116,8 +117,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         foot: "xp",
                       ),
                       StatBox(
-                        title: 'Language Learn',
-                        value: value.totalLanguage.toString(),
+                        title: 'Stage cleared',
+                        value: stagesCleared.toString(),
+                        foot: "stages",
                       ),
                     ],
                   )));
