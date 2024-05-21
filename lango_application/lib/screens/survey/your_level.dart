@@ -83,7 +83,7 @@ class _YourlevelPageState extends State<YourlevelPage> {
                           onTap: () => handleCardTap(1),
                           child: LevelBox(
                             title: 'Intermediate',
-                            image: 'intermediate',
+                            image: 'inteme',
                             langState: _selectCardIndex == 1
                                 ? LangState.click
                                 : LangState.normal,

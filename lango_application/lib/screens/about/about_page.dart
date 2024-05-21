@@ -86,16 +86,9 @@ class AboutPage extends StatelessWidget {
                               padding: const EdgeInsets.all(20.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  if (value.selectedReason == "") {
-                                    if (kDebugMode) {
-                                      print(value.selectedReason);
-                                    }
+                                  
                                     GoRouter.of(context).go('/learn');
-                                  } else if (value.languageLevel == "") {
-                                    GoRouter.of(context).go('/level');
-                                  } else {
-                                    return;
-                                  }
+                                  
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
