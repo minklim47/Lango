@@ -76,7 +76,7 @@ class _EmailPasswordSignupState extends State<SignUpPage> {
 
   Future<void> signInWithGoogle() async {
     UserCredential? userCredential =
-        await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle();
+        await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle(context);
 
     if (userCredential != null) {
       DocumentSnapshot docInfo = await FirebaseFirestore.instance

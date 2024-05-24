@@ -264,7 +264,7 @@ class _PairMatchPageState extends State<PairMatchPage> {
                   }
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                     _clear.length < 10 ? Colors.grey : AppColors.yellow,
                   ),
                 ),

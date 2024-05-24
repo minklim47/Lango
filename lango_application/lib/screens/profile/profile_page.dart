@@ -171,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Navigator.of(context).pop();
                                 },
                                 style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -206,9 +206,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   GoRouter.of(context).go('/');
                                 },
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
+                                  backgroundColor: WidgetStateProperty.all(
                                       const Color(0xFFFEE440)),
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),

@@ -1,6 +1,3 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:js';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +75,7 @@ class FirebaseAuthMethods {
   }
 
   // GOOGLE SIGN IN
-  Future<UserCredential?> signInWithGoogle() async {
+  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
     try {
       if (kIsWeb) {
         GoogleAuthProvider googleProvider = GoogleAuthProvider();
@@ -102,7 +99,7 @@ class FirebaseAuthMethods {
       }
     } on FirebaseAuthException catch (e) {
       // ignore: use_build_context_synchronously
-      showSnackBar(context as BuildContext, e.message!); // Displaying the error message
+      showSnackBar(context, e.message!); // Displaying the error message
     }
     return null;
   }

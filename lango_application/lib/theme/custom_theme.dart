@@ -14,37 +14,37 @@ class CustomTheme {
     primaryColor: AppColors.yellow,
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(
+      backgroundColor: WidgetStateProperty.all<Color>(
         AppColors.yellow,
       ),
-      foregroundColor: MaterialStateProperty.all<Color>(
+      foregroundColor: WidgetStateProperty.all<Color>(
         AppColors.white,
       ),
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      textStyle: MaterialStateProperty.all<TextStyle>(
+      textStyle: WidgetStateProperty.all<TextStyle>(
         const TextStyle(
           fontWeight: FontWeight.w800,
           fontSize: 18,
           color: AppColors.white,
         ),
       ),
-      fixedSize: MaterialStateProperty.all<Size>(
+      fixedSize: WidgetStateProperty.all<Size>(
         const Size.fromHeight(50),
       ),
       elevation:
-          MaterialStateProperty.all<double>(0), // Remove the elevation here
+          WidgetStateProperty.all<double>(0), // Remove the elevation here
     )),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(AppColors.white),
-        foregroundColor: MaterialStateProperty.all<Color>(
+        backgroundColor: WidgetStateProperty.all<Color>(AppColors.white),
+        foregroundColor: WidgetStateProperty.all<Color>(
           AppColors.darkGrey,
         ),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
             side: const BorderSide(
@@ -54,16 +54,16 @@ class CustomTheme {
             ),
           ),
         ),
-        textStyle: MaterialStateProperty.all<TextStyle>(
+        textStyle: WidgetStateProperty.all<TextStyle>(
           const TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 18,
             color: AppColors.darkGrey,
           ),
         ),
-        fixedSize: MaterialStateProperty.all<Size>(const Size.fromHeight(50)),
+        fixedSize: WidgetStateProperty.all<Size>(const Size.fromHeight(50)),
         elevation:
-            MaterialStateProperty.all<double>(0), // Remove the elevation here
+            WidgetStateProperty.all<double>(0), // Remove the elevation here
       ),
     ),
     textTheme: const TextTheme(

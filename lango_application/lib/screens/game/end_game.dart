@@ -142,7 +142,7 @@ class _EndGamePageState extends State<EndGamePage> {
                   context.go('/');
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                     AppColors.yellow,
                   ),
                 ),
